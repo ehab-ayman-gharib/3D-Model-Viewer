@@ -2,15 +2,15 @@
 
 import dynamic from 'next/dynamic';
 
-const CameraKitWrapper = dynamic(
-  () => import('../../components/CameraKitWrapper').then((mod) => mod.CameraKitWrapper),
+const Ultimate3DViewer = dynamic(
+  () => import('../../components/Ultimate3DViewer').then((mod) => mod.default),
   { ssr: false }
 );
 
 export default function ViewerPage() {
     return (
         <main className="w-screen h-screen overflow-hidden bg-black">
-            <CameraKitWrapper />
+            <Ultimate3DViewer />
         </main>
     );
 }
