@@ -577,20 +577,31 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
 
                             <div className="w-full space-y-5">
                                 {/* Copy Link Input */}
-                                <div className="relative group">
+                                <div className="relative group w-full flex items-center">
                                     <input
                                         type="text"
                                         readOnly
                                         value={viewerUrl}
-                                        className="w-full bg-purple-950/40 border border-purple-900/40 text-purple-200 rounded-xl py-3.5 px-4 text-sm font-medium pr-14 focus:outline-none focus:border-purple-500 transition-all shadow-sm group-hover:border-purple-800"
+                                        className="w-full bg-purple-950/40 border border-purple-900/40 text-purple-200 rounded-xl py-3.5 pl-4 pr-24 text-sm font-medium focus:outline-none focus:border-purple-500 transition-all shadow-sm group-hover:border-purple-800"
                                     />
-                                    <button
-                                        onClick={handleCopy}
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-purple-900/40 rounded-lg transition-colors text-purple-400 hover:text-purple-200"
-                                        title="Copy to clipboard"
-                                    >
-                                        <Copy className="w-5 h-5" />
-                                    </button>
+                                    <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+                                        <button
+                                            onClick={handleCopy}
+                                            className="p-1.5 hover:bg-purple-900/40 rounded-lg transition-colors text-purple-400 hover:text-purple-200"
+                                            title="Copy to clipboard"
+                                        >
+                                            <Copy className="w-5 h-5" />
+                                        </button>
+                                        <a
+                                            href={viewerUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-1.5 hover:bg-purple-900/40 rounded-lg transition-colors text-purple-400 hover:text-purple-200"
+                                            title="Open Interactive Viewer"
+                                        >
+                                            <ExternalLink className="w-5 h-5" />
+                                        </a>
+                                    </div>
                                 </div>
 
                                 {copied && (
@@ -599,10 +610,10 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                     </p>
                                 )}
 
-                                {/* Native AR Launchers (Uses local RAM on iOS, fallbacks to Cloudflare R2 on Android) */}
-                                <NativeARButtons glbUrl={`/api/models/${modelId}.glb`} localFileUrl={localFileUrl} title="Z-Plane WebAR" />
-
                                 <div className="flex flex-col gap-3 pt-2">
+                                    {/* Native AR Launchers (Uses local RAM on iOS, fallbacks to Cloudflare R2 on Android) */}
+                                    <NativeARButtons glbUrl={`/api/models/${modelId}.glb`} localFileUrl={localFileUrl} title="Z-Plane WebAR" />
+
                                     {/* Launch WebAR (8th Wall) directly on this page from local RAM! */}
                                     <button
                                         onClick={() => setIs8thWallActive(true)}
@@ -611,17 +622,6 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                         <Compass className="w-5 h-5 text-purple-200" />
                                         Launch WebAR (8th Wall)
                                     </button>
-
-                                    {/* Open Interactive Viewer / Share Page */}
-                                    <a
-                                        href={viewerUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-2 bg-purple-950/30 hover:bg-[#1b1236]/80 border border-purple-900/40 text-purple-300 hover:text-purple-100 font-semibold py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.99] text-sm"
-                                    >
-                                        <ExternalLink className="w-5 h-5 text-purple-400" />
-                                        Open Interactive Viewer
-                                    </a>
 
                                     {/* Upload Another Model */}
                                     <button

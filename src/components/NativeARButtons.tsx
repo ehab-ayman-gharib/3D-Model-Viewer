@@ -157,7 +157,7 @@ export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: Na
         /* Android Scene Viewer Button */
         <a
           href={androidLink}
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white border border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button text-sm py-3.5 px-5 rounded-xl transition-all active:scale-[0.98] shadow-lg"
+          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white border border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button font-semibold text-sm py-3.5 rounded-xl transition-all active:scale-[0.98] shadow-lg"
         >
           <Zap className="w-4 h-4 text-purple-200 animate-pulse" />
           <span>Launch Native AR (Scene Viewer)</span>
@@ -170,7 +170,7 @@ export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: Na
           rel="ar"
           download={deviceOS === 'desktop' ? `${title.replace(/\s+/g, '_')}.usdz` : undefined}
           onClick={handleiOSClick}
-          className={`relative w-full flex items-center justify-center gap-2 font-semibold text-sm py-3.5 px-5 rounded-xl border transition-all active:scale-[0.98] ${
+          className={`relative w-full flex items-center justify-center gap-2 font-semibold text-sm py-3.5 rounded-xl border transition-all active:scale-[0.98] ${
             isConverting
               ? 'bg-[#180d2d]/40 border-purple-900/30 text-purple-500 cursor-not-allowed'
               : 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button shadow-lg'

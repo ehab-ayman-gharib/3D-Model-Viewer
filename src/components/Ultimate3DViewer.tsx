@@ -285,6 +285,7 @@ export default function Ultimate3DViewer() {
   const modelRef = useRef<THREE.Group | null>(null);
   const wrapperRef = useRef<THREE.Group | null>(null);
   const reticleRef = useRef<THREE.Mesh | null>(null);
+  const basePositionRef = useRef<[number, number, number]>([0, -1.0, -2.5]);
 
   // Sync React slider adjustments directly with the live Three.js scene instances
   useEffect(() => {
@@ -292,7 +293,8 @@ export default function Ultimate3DViewer() {
     if (wrapper) {
       wrapper.rotation.y = (rotation * Math.PI) / 180;
       wrapper.scale.setScalar(scaleMultiplier);
-      wrapper.position.set(positionOffset[0], -1.0 + heightOffset, -2.5 + positionOffset[1]);
+      const [bx, by, bz] = basePositionRef.current;
+      wrapper.position.set(bx + positionOffset[0], by + heightOffset, bz + positionOffset[1]);
     }
   }, [rotation, scaleMultiplier, heightOffset, positionOffset]);
 
@@ -301,7 +303,17 @@ export default function Ultimate3DViewer() {
     const wrapper = wrapperRef.current;
     const reticle = reticleRef.current;
     if (wrapper) wrapper.visible = placed;
-    if (reticle) reticle.visible = !placed;
+    if (reticle) {
+      // If we just placed it, capture the reticle's exact current physical location
+      if (placed && reticle.visible) {
+        basePositionRef.current = [reticle.position.x, reticle.position.y, reticle.position.z];
+        if (wrapper) {
+          wrapper.position.copy(reticle.position);
+          wrapper.quaternion.copy(reticle.quaternion);
+        }
+      }
+      reticle.visible = !placed;
+    }
   }, [placed]);
 
   const startNativeAR = async () => {
@@ -415,6 +427,52 @@ export default function Ultimate3DViewer() {
               }, { passive: false });
 
               resolve();
+            },
+            onUpdate: () => {
+              try {
+                const reticle = reticleRef.current;
+                if (!reticle || !reticle.visible) return;
+
+                let hitFound = false;
+
+                // Try 8th Wall native SLAM hitTest first
+                try {
+                  if (typeof XR8.XrController.hitTest === 'function') {
+                    const hitResults = XR8.XrController.hitTest(0.5, 0.5, ['FEATURE_POINT', 'ESTIMATED_SURFACE', 'DETECTED_SURFACE']);
+                    if (hitResults && hitResults.length > 0) {
+                      const hit = hitResults[0];
+                      reticle.position.set(hit.position.x, hit.position.y, hit.position.z);
+                      reticle.quaternion.set(hit.rotation.x, hit.rotation.y, hit.rotation.z, hit.rotation.w);
+                      hitFound = true;
+                    }
+                  }
+                } catch (err) {
+                  console.warn('XR8 hitTest failed, falling back to basic raycast', err);
+                }
+
+                // Fallback to standard Three.js raycasting against y=0 plane if hitTest fails or isn't available
+                if (!hitFound) {
+                  const { camera } = XR8.Threejs.xrScene();
+                  const raycaster = new THREE.Raycaster();
+                  raycaster.setFromCamera(new THREE.Vector2(0, 0), camera);
+                  const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+                  const target = new THREE.Vector3();
+                  raycaster.ray.intersectPlane(groundPlane, target);
+                  if (target) {
+                    reticle.position.copy(target);
+                    // Point reticle slightly up to look natural
+                    reticle.rotation.x = -Math.PI / 2; 
+                  }
+                }
+
+                // Align the wrapper to the reticle
+                if (wrapperRef.current) {
+                  wrapperRef.current.position.copy(reticle.position);
+                  wrapperRef.current.quaternion.copy(reticle.quaternion);
+                }
+              } catch (e) {
+                console.error('[8thwall-native] onUpdate error:', e);
+              }
             }
           });
 
@@ -502,7 +560,7 @@ export default function Ultimate3DViewer() {
   }
 
   // 8th Wall SLAM rendering flow (Always mount at root, control visibility via container class)
-  return (
+return (
     <div 
       className="relative w-screen h-screen bg-transparent overflow-hidden select-none"
       onTouchStart={handleTouchStart}
@@ -512,7 +570,8 @@ export default function Ultimate3DViewer() {
       {/* 8th Wall WebAR Canvas (Only mount when active to prevent layout shifts and hidden camera feedback) */}
       {is8thWallActive && (
         <div className="fixed inset-0 z-[100] w-screen h-screen opacity-100 pointer-events-auto bg-transparent overflow-hidden select-none">
-          <canvas id="camerafeed" className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
+          {/* We must style the canvas to fill the screen natively, but NEVER use object-cover, as that stretches the WebGL buffer out of sync with the physical tracking space! */}
+          <canvas id="camerafeed" className="absolute top-0 left-0 w-full h-full pointer-events-none block" />
           <ARUIOverlay
             onExit={() => {
               setIs8thWallActive(false);
