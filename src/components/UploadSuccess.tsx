@@ -228,8 +228,16 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
 
     useEffect(() => {
         // Use localFileUrl if available to load instantly from memory, otherwise fall back to R2 CDN
+        const vUrl = `${window.location.origin}/viewer?modelID=${modelId}`;
         setModelUrl(localFileUrl || `/api/models/${modelId}.glb`);
-        setViewerUrl(`${window.location.origin}/viewer?modelID=${modelId}`);
+        setViewerUrl(vUrl);
+        
+        // Sync browser address bar so 8th Wall's Desktop QR code generator and native browser sharing use the correct link
+        window.history.replaceState(null, '', vUrl);
+        
+        return () => {
+            window.history.replaceState(null, '', '/');
+        };
     }, [modelId, localFileUrl]);
 
     const handleCopy = async () => {
@@ -275,6 +283,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
 
         const onXrLoaded = () => {
           try {
+            // CRITICAL FIX: 8th Wall XR8.Threejs requires window.THREE to be globally defined
             (window as any).THREE = THREE;
             const XR8 = (window as any).XR8;
             const XRExtras = (window as any).XRExtras;
@@ -284,14 +293,13 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
 
             console.log('[8thwall-native] Configuring SLAM Modules...');
 
-            // Register camera pipeline modules (pure Three.js version)
+            // Register camera pipeline modules exactly as the working template does
             const modules = [
               XR8.GlTextureRenderer.pipelineModule(), // Camera feed renderer
               XR8.Threejs.pipelineModule(),           // Natively created Three.js scene
               XR8.XrController.pipelineModule(),      // Gyro/SLAM tracker
             ];
 
-            // Align with official 8th Wall XRExtras helper modules if loaded
             if (LandingPage && LandingPage.pipelineModule) {
               modules.push(LandingPage.pipelineModule());
             }
@@ -305,23 +313,22 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
               modules.push(XRExtras.RuntimeError.pipelineModule());
             }
 
-            XR8.addCameraPipelineModules(modules);
-
-            // Configure XrController to support world tracking
-            XR8.XrController.configure({ disableWorldTracking: false });
-
-            // Add our custom content module
-            XR8.addCameraPipelineModule({
-              name: 'slam-renderer-init',
+            // Add our custom scene initialization module (matches threejs-scene-init.js)
+            modules.push({
+              name: 'zplane-webar-init',
               onStart: ({ canvas }: { canvas: HTMLCanvasElement }) => {
-                const { scene, camera } = XR8.Threejs.xrScene();
+                const { scene, camera, renderer } = XR8.Threejs.xrScene();
 
-                // Lights
+                // Enable shadows
+                renderer.shadowMap.enabled = true;
+
+                // Add lights
                 const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
                 scene.add(ambientLight);
 
                 const dirLight = new THREE.DirectionalLight(0xffffff, 1.5);
-                dirLight.position.set(5, 10, 5);
+                dirLight.position.set(5, 10, 7);
+                dirLight.castShadow = true;
                 scene.add(dirLight);
 
                 // 1. Create Placement Reticle (ring)
@@ -334,7 +341,16 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                 scene.add(reticle);
                 reticleRef.current = reticle;
 
-                // 2. Create Wrapper group for placed model
+                // 2. Add a plane that can receive shadows
+                const planeGeometry = new THREE.PlaneGeometry(2000, 2000);
+                planeGeometry.rotateX(-Math.PI / 2);
+                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+                const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+                plane.receiveShadow = true;
+                plane.position.y = -1.0;
+                scene.add(plane);
+
+                // 3. Create Wrapper group for placed model
                 const wrapper = new THREE.Group();
                 wrapper.name = 'model-wrapper';
                 wrapper.position.set(0, -1.0, -2.5);
@@ -342,7 +358,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                 scene.add(wrapper);
                 wrapperRef.current = wrapper;
 
-                // 3. Load Model using GLTFLoader natively
+                // 4. Load Model
                 const loader = new GLTFLoader();
                 loader.load(modelUrl, (gltf) => {
                   const model = gltf.scene;
@@ -360,28 +376,48 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                   box.getCenter(center);
                   model.position.set(-center.x * scaleFactor, -box.min.y * scaleFactor, -center.z * scaleFactor);
 
+                  model.traverse((child) => {
+                    if ((child as THREE.Mesh).isMesh) {
+                      child.castShadow = true;
+                      child.receiveShadow = true;
+                    }
+                  });
+
                   wrapper.add(model);
                   modelRef.current = model;
-                  console.log('[8thwall-native] GLTF Loaded & Grounded successfully.');
+                  console.log('[8thwall-native] GLTF Loaded successfully.');
                 }, undefined, (err) => {
                   console.error('[8thwall-native] GLTF Load failed:', err);
                 });
 
-                // Recenter camera/projection Matrix
+                // Set the initial camera position relative to the scene
                 camera.position.set(0, 2, 2);
+
+                // Sync the xr controller's 6DoF position and camera paremeters with our scene
                 XR8.XrController.updateCameraProjectionMatrix({
                   origin: camera.position,
                   facing: camera.quaternion
                 });
 
-                // Prevent pinch-zooming / scroll gestures natively on screen
+                // Prevent scroll/pinch gestures on canvas
                 canvas.addEventListener('touchmove', (event) => {
                   event.preventDefault();
                 }, { passive: false });
 
+                // Recenter content when the canvas is tapped
+                canvas.addEventListener('touchstart', (e) => {
+                  if (e.touches.length === 1) XR8.XrController.recenter();
+                }, true);
+
                 resolve();
               }
             });
+
+            // Initialize all modules at once
+            XR8.addCameraPipelineModules(modules);
+
+            // Configure XrController to support world tracking
+            XR8.XrController.configure({ disableWorldTracking: false });
 
             // Run XR session
             const canvasElement = document.getElementById('camerafeed') as HTMLCanvasElement;
@@ -395,23 +431,65 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
         if ((window as any).XR8) {
           onXrLoaded();
         } else {
-          window.addEventListener('xrloaded', onXrLoaded, { once: true });
+          window.addEventListener('xrloaded', onXrLoaded);
         }
       });
     };
 
-    // Clean up native 8th Wall session on exit
+    // Clean up native 8th Wall session and all injected DOM elements on exit
     const stopNativeAR = () => {
-      if (typeof window !== 'undefined' && (window as any).XR8) {
-        const XR8 = (window as any).XR8;
-        try {
-          XR8.stop();
-          XR8.removeCameraPipelineModule('slam-renderer-init');
-        } catch (e) {
-          console.log('Error cleaning up native 8th Wall:', e);
+      if (typeof window !== 'undefined') {
+        if ((window as any).XR8) {
+          const XR8 = (window as any).XR8;
+          try {
+            XR8.stop();
+            XR8.removeCameraPipelineModule('slam-renderer-init');
+          } catch (e) {
+            console.log('Error cleaning up native 8th Wall:', e);
+          }
         }
+
+        // Remove all dynamically injected XRExtras & 8th Wall DOM elements to prevent layout shifts/scroll growth
+        const idsToRemove = [
+          'xrextras-loading',
+          'xrextras-loading-container',
+          'xrextras-loading-overlay',
+          'xrextras-runtime-error',
+          'landing-page',
+          'landing-page-container',
+          'camerafeed'
+        ];
+        idsToRemove.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.remove();
+        });
+
+        // Query and remove any residual absolute positioning classes/overlays
+        const selectors = [
+          '.xr-portal',
+          '.xrextras-show-portrait',
+          '#xrextras-show-portrait',
+          'body > div[style*="z-index"]',
+        ];
+        selectors.forEach(selector => {
+          document.querySelectorAll(selector).forEach(el => el.remove());
+        });
+
+        // Reset inline overrides on document body/html applied by XRExtras/8thwall
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+        document.body.style.height = '';
+        document.documentElement.style.overflow = '';
       }
     };
+
+    // Ensure we clean up on component unmount
+    useEffect(() => {
+      return () => {
+        stopNativeAR();
+      };
+    }, []);
 
     return (
         <div 
@@ -422,9 +500,9 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
         >
             {/* 8th Wall WebAR Canvas (Only mount when active to prevent layout shifts and scroll bugs) */}
             {is8thWallActive && (
-                <div className="fixed inset-0 z-[100] w-screen h-screen opacity-100 pointer-events-auto bg-[#070211] overflow-hidden select-none">
+                <div className="fixed inset-0 z-[100] w-screen h-screen opacity-100 pointer-events-auto overflow-hidden select-none bg-black">
                     {arError && (
-                        <div className="absolute inset-0 z-[110] flex items-center justify-center bg-slate-950 p-6 text-white text-center">
+                        <div className="absolute inset-0 z-[110] flex items-center justify-center bg-slate-950/90 p-6 text-white text-center">
                             <div className="max-w-md w-full p-8 bg-slate-900 border border-red-500/30 rounded-2xl shadow-2xl space-y-4">
                                 <AlertTriangle className="w-12 h-12 text-red-500 mx-auto" />
                                 <h2 className="text-xl font-bold text-red-400">AR Setup Error</h2>
@@ -442,7 +520,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                             </div>
                         </div>
                     )}
-                    <canvas id="camerafeed" />
+                    <canvas id="camerafeed" className="absolute top-0 left-0 w-full h-full object-cover z-0 block" />
                     <ARUIOverlay
                         onExit={() => {
                           setIs8thWallActive(false);
@@ -469,7 +547,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                 Live Preview
                             </div>
                             {modelUrl && (
-                                <div className="flex-1 w-full relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900/60 shadow-inner">
+                                <div className="flex-1 w-full min-h-[350px] relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-950 to-slate-900/60 shadow-inner">
                                     <R3FViewer url={modelUrl} />
                                 </div>
                             )}
@@ -528,7 +606,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                     {/* Launch WebAR (8th Wall) directly on this page from local RAM! */}
                                     <button
                                         onClick={() => setIs8thWallActive(true)}
-                                        className="w-full flex items-center justify-center gap-2 font-semibold py-3.5 rounded-xl transition-all border border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button text-white shadow-lg cursor-pointer"
+                                        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white font-semibold py-3.5 rounded-xl transition-all active:scale-[0.98] border border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button shadow-lg cursor-pointer text-sm"
                                     >
                                         <Compass className="w-5 h-5 text-purple-200" />
                                         Launch WebAR (8th Wall)
@@ -539,7 +617,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                         href={viewerUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-full flex items-center justify-center gap-2 bg-purple-950/30 hover:bg-[#1b1236]/80 border border-purple-900/40 text-purple-300 hover:text-purple-100 font-semibold py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.99]"
+                                        className="w-full flex items-center justify-center gap-2 bg-purple-950/30 hover:bg-[#1b1236]/80 border border-purple-900/40 text-purple-300 hover:text-purple-100 font-semibold py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.99] text-sm"
                                     >
                                         <ExternalLink className="w-5 h-5 text-purple-400" />
                                         Open Interactive Viewer
@@ -548,7 +626,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                     {/* Upload Another Model */}
                                     <button
                                         onClick={onReset}
-                                        className="w-full flex items-center justify-center gap-2 bg-purple-950/30 hover:bg-purple-900/20 border border-purple-900/40 text-purple-300 hover:text-purple-100 font-semibold py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.99]"
+                                        className="w-full flex items-center justify-center gap-2 bg-purple-950/30 hover:bg-purple-900/20 border border-purple-900/40 text-purple-300 hover:text-purple-100 font-semibold py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.99] text-sm"
                                     >
                                         <RefreshCw className="w-4 h-4" />
                                         Upload Another Model

@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script src="/xr.js" strategy="beforeInteractive" data-preload-chunks="slam" />
+        <Script src="/external/xr/xr.js" strategy="beforeInteractive" {...{ 'data-preload-chunks': 'slam' }} />
         <Script src="https://cdn.jsdelivr.net/npm/@8thwall/xrextras@1/dist/xrextras.js" strategy="beforeInteractive" />
         <Script src="https://cdn.jsdelivr.net/npm/@8thwall/landing-page@1/dist/landing-page.js" strategy="beforeInteractive" />
       </head>

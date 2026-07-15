@@ -73,30 +73,33 @@ function ARUIOverlay({
   const [isStarting, setIsStarting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleStart = async () => {
+  const handleStart = () => {
     setIsStarting(true);
     setError(null);
     try {
-      // Request iOS Motion & Orientation permission (required for WebAR SLAM gyro tracking)
+      // Start AR immediately to preserve synchronous user gesture context in iOS Safari!
+      // If we await DeviceMotionEvent or anything else, iOS Safari blocks the camera request.
+      
+      // Request motion optionally in background if needed (8th Wall often auto-requests it now)
       if (
         typeof window !== 'undefined' &&
         (window as any).DeviceMotionEvent &&
         typeof (window as any).DeviceMotionEvent.requestPermission === 'function'
       ) {
-        console.log('Requesting iOS device motion permission...');
-        const permissionState = await (window as any).DeviceMotionEvent.requestPermission();
-        if (permissionState !== 'granted') {
-          setError('Motion and orientation permission is required for WebAR tracking.');
-          setIsStarting(false);
-          return;
-        }
+        console.log('Requesting iOS device motion permission in background...');
+        (window as any).DeviceMotionEvent.requestPermission().catch(() => {});
       }
 
-      await startNativeAR();
-      setHasStarted(true);
+      startNativeAR().then(() => {
+        setHasStarted(true);
+        setIsStarting(false);
+      }).catch((err: any) => {
+        setError(`Failed to start camera: ${err?.message || String(err)}`);
+        setIsStarting(false);
+      });
+      
     } catch (err: any) {
       setError(`Failed to start camera: ${err?.message || String(err)}`);
-    } finally {
       setIsStarting(false);
     }
   };
@@ -501,15 +504,15 @@ export default function Ultimate3DViewer() {
   // 8th Wall SLAM rendering flow (Always mount at root, control visibility via container class)
   return (
     <div 
-      className="relative w-screen h-screen bg-[#070211] overflow-hidden select-none"
+      className="relative w-screen h-screen bg-transparent overflow-hidden select-none"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       {/* 8th Wall WebAR Canvas (Only mount when active to prevent layout shifts and hidden camera feedback) */}
       {is8thWallActive && (
-        <div className="fixed inset-0 z-[100] w-screen h-screen opacity-100 pointer-events-auto bg-[#070211] overflow-hidden select-none">
-          <canvas id="camerafeed" />
+        <div className="fixed inset-0 z-[100] w-screen h-screen opacity-100 pointer-events-auto bg-transparent overflow-hidden select-none">
+          <canvas id="camerafeed" className="absolute inset-0 w-full h-full object-cover pointer-events-none" />
           <ARUIOverlay
             onExit={() => {
               setIs8thWallActive(false);

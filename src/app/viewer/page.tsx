@@ -9,7 +9,7 @@ const Ultimate3DViewer = dynamic(
 
 export default function ViewerPage() {
     return (
-        <main className="w-screen h-screen overflow-hidden bg-black">
+        <main className="w-screen h-screen overflow-hidden bg-transparent">
             <Ultimate3DViewer />
         </main>
     );

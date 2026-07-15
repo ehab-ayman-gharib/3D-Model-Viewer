@@ -21,9 +21,9 @@ interface R3FViewerProps {
 
 export default function R3FViewer({ url }: R3FViewerProps) {
   return (
-    <div className="w-full h-full relative bg-gradient-to-br from-slate-950 to-slate-900/60 border border-slate-800/80 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
+    <div className="absolute inset-0 bg-gradient-to-br from-slate-950 to-slate-900/60 border border-slate-800/80 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
       <Suspense fallback={<ParticleLoader text="Loading 3D Model..." />}>
-        <Canvas camera={{ position: [0, 0, 4], fov: 45 }} className="w-full h-full">
+        <Canvas camera={{ position: [0, 0, 4], fov: 45 }} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}>
           <Stage intensity={0.6} environment="city" adjustCamera>
             <ModelMesh url={url} />
           </Stage>

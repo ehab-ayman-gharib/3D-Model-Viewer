@@ -9,23 +9,28 @@
     "lint": "eslint",
     "worker:build": "opennextjs-cloudflare build",
     "worker:deploy": "npm run worker:build && wrangler deploy",
-    "worker:dev": "opennextjs-cloudflare build && opennextjs-cloudflare preview"
+    "worker:dev": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "postinstall": "shx mkdir -p public/external/xr && shx cp -R node_modules/@8thwall/engine-binary/dist/* public/external/xr/"
   },
   "dependencies": {
+    "@8thwall/engine-binary": "^1.0.0",
+    "@8thwall/landing-page": "^1.0.0",
+    "@8thwall/xrextras": "^1.0.0",
     "@j1ngzoue/8thwall-react-three-fiber": "^0.1.21",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "lucide-react": "^0.575.0",
-    "next": "16.1.6",
+    "next": "^15.1.12",
     "qrcode.react": "^4.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "shx": "^0.4.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.185.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20260207.0",
-    "@opennextjs/cloudflare": "^1.16.3",
+    "@cloudflare/workers-types": "^5.20260715.1",
+    "@opennextjs/cloudflare": "^1.18.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -36,6 +41,6 @@
     "postcss": "^8.5.10",
     "tailwindcss": "^3.4.19",
     "typescript": "^5",
-    "wrangler": "^4.63.0"
+    "wrangler": "^4.111.0"
   }
 }

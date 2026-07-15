@@ -1,16 +1,16 @@
 # Graph Report - 3D-Model-Viewer  (2026-07-14)
 
 ## Corpus Check
-- 29 files · ~40,103 words
+- 29 files · ~39,600 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3624 nodes · 4742 edges · 211 communities (100 shown, 111 thin omitted)
+- 3623 nodes · 4742 edges · 219 communities (107 shown, 112 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 18 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `fff68759`
+- Built from commit: `0bcf5745`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -146,16 +146,18 @@
 - [[_COMMUNITY_Community 138|Community 138]]
 - [[_COMMUNITY_Community 139|Community 139]]
 - [[_COMMUNITY_Community 141|Community 141]]
+- [[_COMMUNITY_Community 142|Community 142]]
 - [[_COMMUNITY_Community 157|Community 157]]
 - [[_COMMUNITY_Community 158|Community 158]]
 - [[_COMMUNITY_Community 159|Community 159]]
 - [[_COMMUNITY_Community 160|Community 160]]
+- [[_COMMUNITY_Community 161|Community 161]]
 - [[_COMMUNITY_Community 170|Community 170]]
+- [[_COMMUNITY_Community 173|Community 173]]
 - [[_COMMUNITY_Community 174|Community 174]]
 - [[_COMMUNITY_Community 199|Community 199]]
 - [[_COMMUNITY_Community 200|Community 200]]
 - [[_COMMUNITY_Community 201|Community 201]]
-- [[_COMMUNITY_Community 205|Community 205]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `_()` - 149 edges
@@ -172,23 +174,23 @@
 ## Surprising Connections (you probably didn't know these)
 - `Z()` --calls--> `cI`  [INFERRED]
   public/xr-face.js → public/xr-tracking.js
-- `CA()` --calls--> `LI()`  [INFERRED]
-  public/xr-face.js → public/xr-tracking.js
 - `HI()` --calls--> `cI`  [INFERRED]
   public/xr-face.js → public/xr-tracking.js
 - `HI()` --calls--> `yI`  [INFERRED]
   public/xr-face.js → public/xr-tracking.js
 - `mC()` --calls--> `hC`  [INFERRED]
   public/xr-tracking.js → public/xr.js
+- `bC()` --calls--> `DC`  [INFERRED]
+  public/xr-tracking.js → public/xr.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (211 total, 111 thin omitted)
+## Communities (219 total, 112 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.02
-Nodes (18): _(), dI(), EI(), FA(), HI(), JA(), LA(), mA() (+10 more)
+Nodes (14): _(), dI(), FA(), HI(), JA(), mA(), nA(), OA() (+6 more)
 
 ### Community 6 - "Community 6"
 Cohesion: 0.06
@@ -199,40 +201,40 @@ Cohesion: 0.05
 Nodes (18): doReadv(), doWritev(), _fd_read(), _fd_write(), getWasmTableEntry(), invoke_i(), invoke_iii(), invoke_iiii() (+10 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.07
-Nodes (23): _(), Ag(), fg(), Ge(), gg(), He(), Je(), LA() (+15 more)
+Cohesion: 0.06
+Nodes (36): _(), Ag(), B(), BA(), bI(), dA(), F(), FA() (+28 more)
+
+### Community 13 - "Community 13"
+Cohesion: 0.05
+Nodes (3): CA(), eI(), LI()
 
 ### Community 23 - "Community 23"
 Cohesion: 0.05
 Nodes (36): dependencies, @j1ngzoue/8thwall-react-three-fiber, lucide-react, next, qrcode.react, react, react-dom, @react-three/drei (+28 more)
 
 ### Community 28 - "Community 28"
-Cohesion: 0.06
-Nodes (4): q(), t(), U(), y()
+Cohesion: 0.10
+Nodes (3): q(), U(), y()
 
 ### Community 29 - "Community 29"
-Cohesion: 0.06
-Nodes (4): D(), DA(), G(), i()
+Cohesion: 0.11
+Nodes (3): D(), DA(), i()
 
 ### Community 34 - "Community 34"
 Cohesion: 0.05
-Nodes (6): B(), D(), E(), eA, i(), TC()
+Nodes (5): B(), D(), E(), i(), TC()
 
 ### Community 37 - "Community 37"
 Cohesion: 0.08
 Nodes (3): EA(), gI(), y()
 
 ### Community 38 - "Community 38"
-Cohesion: 0.18
-Nodes (34): A(), AA(), B(), BA(), c(), D(), E(), eA() (+26 more)
-
-### Community 40 - "Community 40"
-Cohesion: 0.07
-Nodes (4): BA(), J(), kA(), R()
+Cohesion: 0.22
+Nodes (28): A(), AA(), c(), D(), E(), eA(), G(), gA() (+20 more)
 
 ### Community 54 - "Community 54"
-Cohesion: 0.08
-Nodes (9): NativeARButtons(), NativeARButtonsProps, ParticleLoaderProps, ModelMeshProps, R3FViewerProps, ModelMeshProps, R3FViewer, UploadSuccess() (+1 more)
+Cohesion: 0.09
+Nodes (10): NativeARButtons(), NativeARButtonsProps, ParticleLoaderProps, ParticleText(), ModelMeshProps, R3FViewerProps, ModelMeshProps, R3FViewer (+2 more)
 
 ### Community 56 - "Community 56"
 Cohesion: 0.07
@@ -241,6 +243,10 @@ Nodes (3): qI, sC, VI
 ### Community 65 - "Community 65"
 Cohesion: 0.14
 Nodes (23): B(), C(), __embind_register_bool(), __embind_register_emval(), __embind_register_float(), __embind_register_integer(), __embind_register_memory_view(), __embind_register_std_wstring() (+15 more)
+
+### Community 70 - "Community 70"
+Cohesion: 0.05
+Nodes (3): BI(), G(), QI()
 
 ### Community 75 - "Community 75"
 Cohesion: 0.10
@@ -270,6 +276,10 @@ Nodes (15): 1. Environment Preparation (Windows Users), 2. Install Dependencies,
 Cohesion: 0.14
 Nodes (4): Ae, TC, xC(), yC
 
+### Community 105 - "Community 105"
+Cohesion: 0.09
+Nodes (6): A(), EI(), G(), LA(), oI(), wI()
+
 ### Community 106 - "Community 106"
 Cohesion: 0.14
 Nodes (14): abort(), checkIncomingModuleAPI(), checkUnflushedContent(), demangle(), demangleAll(), getValue(), ignoredModuleProp(), isExportedByForceFilesystem() (+6 more)
@@ -277,10 +287,6 @@ Nodes (14): abort(), checkIncomingModuleAPI(), checkUnflushedContent(), demangle
 ### Community 109 - "Community 109"
 Cohesion: 0.18
 Nodes (12): craftInvokerFunction(), createNamedFunction(), __embind_finalize_value_object(), __embind_register_function(), extendError(), heap32VectorToArray(), makeLegalFunctionName(), new_() (+4 more)
-
-### Community 116 - "Community 116"
-Cohesion: 0.12
-Nodes (8): bI(), dA(), FA(), hA(), JA(), kA(), MA(), yA()
 
 ### Community 117 - "Community 117"
 Cohesion: 0.24
@@ -309,21 +315,21 @@ Nodes (4): emscripten_realloc_buffer(), _emscripten_resize_heap(), getHeapMax(),
 ## Knowledge Gaps
 - **82 isolated node(s):** `CloudflareEnv`, `eslintConfig`, `nextConfig`, `name`, `version` (+77 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **111 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **112 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `_()` connect `Community 8` to `Community 129`, `Community 1`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 9`, `Community 13`, `Community 14`, `Community 15`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 27`, `Community 28`, `Community 32`, `Community 33`, `Community 34`, `Community 35`, `Community 36`, `Community 39`, `Community 40`, `Community 41`, `Community 42`, `Community 170`, `Community 44`, `Community 45`, `Community 48`, `Community 49`, `Community 57`, `Community 58`, `Community 61`, `Community 62`, `Community 63`, `Community 69`, `Community 70`, `Community 71`, `Community 73`, `Community 205`, `Community 79`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 86`, `Community 87`, `Community 89`, `Community 92`, `Community 93`, `Community 94`, `Community 97`, `Community 98`, `Community 99`, `Community 100`, `Community 107`, `Community 108`, `Community 110`, `Community 111`, `Community 112`, `Community 113`, `Community 114`, `Community 121`, `Community 122`, `Community 124`, `Community 127`?**
-  _High betweenness centrality (0.652) - this node is a cross-community bridge._
-- **Why does `_()` connect `Community 0` to `Community 2`, `Community 12`, `Community 24`, `Community 25`, `Community 29`, `Community 30`, `Community 31`, `Community 37`, `Community 46`, `Community 47`, `Community 52`, `Community 59`, `Community 60`, `Community 64`, `Community 66`, `Community 67`, `Community 68`, `Community 74`, `Community 77`, `Community 78`, `Community 91`, `Community 102`, `Community 105`?**
+- **Why does `_()` connect `Community 8` to `Community 129`, `Community 1`, `Community 4`, `Community 5`, `Community 6`, `Community 7`, `Community 9`, `Community 13`, `Community 14`, `Community 142`, `Community 15`, `Community 17`, `Community 18`, `Community 19`, `Community 20`, `Community 21`, `Community 22`, `Community 27`, `Community 28`, `Community 32`, `Community 33`, `Community 34`, `Community 35`, `Community 161`, `Community 36`, `Community 39`, `Community 40`, `Community 41`, `Community 42`, `Community 170`, `Community 44`, `Community 173`, `Community 45`, `Community 48`, `Community 49`, `Community 57`, `Community 58`, `Community 61`, `Community 62`, `Community 63`, `Community 69`, `Community 70`, `Community 71`, `Community 73`, `Community 79`, `Community 80`, `Community 81`, `Community 82`, `Community 83`, `Community 86`, `Community 87`, `Community 89`, `Community 92`, `Community 93`, `Community 94`, `Community 97`, `Community 98`, `Community 99`, `Community 100`, `Community 107`, `Community 108`, `Community 110`, `Community 111`, `Community 112`, `Community 113`, `Community 114`, `Community 121`, `Community 122`, `Community 124`, `Community 127`?**
+  _High betweenness centrality (0.653) - this node is a cross-community bridge._
+- **Why does `_()` connect `Community 0` to `Community 2`, `Community 12`, `Community 13`, `Community 24`, `Community 25`, `Community 29`, `Community 30`, `Community 31`, `Community 37`, `Community 46`, `Community 47`, `Community 52`, `Community 59`, `Community 60`, `Community 64`, `Community 66`, `Community 67`, `Community 68`, `Community 74`, `Community 77`, `Community 78`, `Community 91`, `Community 102`, `Community 105`?**
   _High betweenness centrality (0.248) - this node is a cross-community bridge._
 - **Why does `_()` connect `Community 11` to `Community 3`, `Community 141`, `Community 16`, `Community 26`, `Community 38`, `Community 43`, `Community 174`, `Community 50`, `Community 51`, `Community 53`, `Community 55`, `Community 56`, `Community 72`, `Community 76`, `Community 84`, `Community 85`, `Community 89`, `Community 90`, `Community 97`, `Community 100`, `Community 101`, `Community 103`, `Community 104`, `Community 115`, `Community 116`, `Community 118`, `Community 120`, `Community 125`?**
   _High betweenness centrality (0.241) - this node is a cross-community bridge._
 - **What connects `CloudflareEnv`, `eslintConfig`, `nextConfig` to the rest of the system?**
   _82 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.022964899178491413 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.023434343434343436 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**
   _Cohesion score 0.024691358024691357 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
