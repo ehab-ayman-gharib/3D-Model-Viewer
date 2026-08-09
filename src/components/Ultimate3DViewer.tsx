@@ -104,66 +104,45 @@ function ARUIOverlay({
     }
   };
 
+  useEffect(() => {
+    handleStart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (!hasStarted) {
     return (
-      <div className="absolute inset-0 z-50 flex flex-col justify-between p-6 bg-slate-950/90 text-white select-none">
-        {/* Header */}
-        <div className="flex items-center gap-3">
+      <div className="fixed inset-0 h-[100dvh] z-[1000] flex flex-col justify-between p-6 pointer-events-none">
+        {/* Header - Back Button */}
+        <div className="flex items-center gap-3 pointer-events-auto">
           <button
             onClick={onExit}
-            className="p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+            className="p-3 bg-black/40 hover:bg-black/60 rounded-full backdrop-blur-md transition-colors cursor-pointer shadow-lg"
           >
-            <ArrowLeft className="w-5 h-5 text-purple-400" />
+            <ArrowLeft className="w-5 h-5 text-white" />
           </button>
-          <div>
-            <h1 className="text-sm font-bold uppercase tracking-wider">WebAR SLAM Viewer</h1>
-            <p className="text-[10px] text-slate-400">8th Wall World Tracking</p>
-          </div>
         </div>
 
-        {/* Center / Body */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center max-w-sm mx-auto space-y-4">
-          <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shadow-inner">
-            <Camera className="w-8 h-8 text-purple-400" />
-          </div>
-          <h2 className="text-xl font-extrabold tracking-tight">Camera Permission Required</h2>
-          <p className="text-sm text-slate-400 leading-relaxed">
-            This AR experience uses 8th Wall SLAM to place the 3D model in your physical room. Please allow camera access when prompted.
-          </p>
-          {error && (
-            <div className="p-3 bg-red-950/40 border border-red-500/20 text-red-300 text-xs rounded-xl flex items-center gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0" />
-              <span>{error}</span>
+        {/* Error State */}
+        {error && (
+          <div className="flex-1 flex flex-col items-center justify-center text-center max-w-sm mx-auto space-y-4 pointer-events-auto">
+            <div className="p-4 bg-red-950/90 backdrop-blur-md border border-red-500/50 text-red-100 text-sm rounded-2xl flex flex-col items-center gap-3 shadow-2xl">
+              <AlertTriangle className="w-8 h-8 text-red-400" />
+              <p className="font-medium">{error}</p>
+              <button
+                onClick={handleStart}
+                className="mt-2 px-6 py-2 bg-red-600 hover:bg-red-500 rounded-xl font-semibold transition-colors"
+              >
+                Retry
+              </button>
             </div>
-          )}
-        </div>
-
-        {/* Footer Action */}
-        <div className="w-full pb-6">
-          <button
-            onClick={handleStart}
-            disabled={isStarting}
-            className="w-full py-4 px-6 bg-purple-600 hover:bg-purple-500 disabled:bg-slate-800 disabled:text-slate-500 font-semibold text-sm rounded-2xl active:scale-[0.98] transition-all shadow-[0_4px_20px_rgba(147,51,234,0.4)] flex items-center justify-center gap-2"
-          >
-            {isStarting ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Starting Camera...</span>
-              </>
-            ) : (
-              <>
-                <Compass className="w-4 h-4" />
-                <span>Start WebAR Session</span>
-              </>
-            )}
-          </button>
-        </div>
+          </div>
+        )}
       </div>
     );
   }
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-40 flex flex-col justify-between p-4 md:p-6 select-none">
+    <div className="absolute inset-0 pointer-events-none z-40 flex flex-col justify-between p-4 pb-32 md:p-6 select-none">
       {/* Top Bar: Exit & Relocate */}
       <div className="flex justify-between items-center pointer-events-auto">
         <button
@@ -187,33 +166,33 @@ function ARUIOverlay({
 
       {/* Surface Tracking HUD */}
       {!placed && (
-        <div className="w-full flex justify-center pb-8">
-          <div className="bg-black/75 text-white text-[11px] font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full border border-white/10 shadow-lg backdrop-blur-md flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-purple-500 animate-ping shrink-0" />
-            <span>Scanning Floor... Align reticle & tap Place Model</span>
+        <div className="absolute top-20 left-0 w-full flex justify-center pointer-events-none z-0">
+          <div className="text-white/90 text-[11px] font-bold tracking-widest uppercase flex items-center gap-2 drop-shadow-md">
+            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse shrink-0 drop-shadow-md" />
+            <span style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>Scanning Floor... Align reticle</span>
           </div>
         </div>
       )}
 
-      {/* Control Panel (Glassmorphic) */}
-      <div className="w-full max-w-sm mx-auto pointer-events-auto bg-black/75 border border-white/10 rounded-2xl p-5 shadow-2xl backdrop-blur-md text-center">
+      {/* Control Panel */}
+      <div className="w-full max-w-sm mx-auto pointer-events-auto flex flex-col items-center text-center">
         {!placed ? (
-          <div className="space-y-3">
-            <p className="text-xs text-slate-300">
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-[11px] font-medium text-white/90 drop-shadow-md" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
               Find a flat surface, align the target ring, and tap place.
             </p>
             <button
               onClick={() => setPlaced(true)}
-              className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-650 text-white font-bold text-sm rounded-xl active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] flex items-center justify-center gap-2 cursor-pointer"
+              className="px-10 py-3.5 bg-white/95 hover:bg-white text-slate-900 font-bold text-[13px] rounded-full active:scale-[0.98] transition-all shadow-[0_4px_20px_rgba(0,0,0,0.4)] flex items-center justify-center gap-2 cursor-pointer backdrop-blur-md"
             >
               📍 Place Model
             </button>
           </div>
         ) : (
-          <div className="space-y-1">
-            <p className="text-xs font-semibold text-white">✨ Model Placed Successfully</p>
-            <p className="text-[11px] text-slate-400">
-              Drag left/right to rotate • Drag screen to slide position
+          <div className="bg-black/60 border border-white/10 rounded-full px-5 py-2.5 backdrop-blur-md shadow-lg flex flex-col items-center gap-1">
+            <p className="text-xs font-semibold text-white">✨ Model Placed</p>
+            <p className="text-[10px] text-slate-300">
+              1-Finger: Slide • 2-Finger: Pinch to Scale / Twist to Rotate
             </p>
           </div>
         )}
@@ -246,37 +225,80 @@ export default function Ultimate3DViewer() {
   // Model Placement & Control States for SLAM
   const [placed, setPlaced] = useState(false);
   const [rotation, setRotation] = useState(0); // rotation in degrees
-  const [scaleMultiplier] = useState(1.0);
+  const [scaleMultiplier, setScaleMultiplier] = useState(1.0);
   const [heightOffset] = useState(0);
   const [positionOffset, setPositionOffset] = useState<[number, number]>([0, 0]);
 
   // Touch gesture state
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
+  const [initialPinchDist, setInitialPinchDist] = useState<number | null>(null);
+  const [initialTwistAngle, setInitialTwistAngle] = useState<number | null>(null);
+  const [baseScale, setBaseScale] = useState(1.0);
+  const [baseRotation, setBaseRotation] = useState(0);
+
+  const getPinchDistance = (touches: React.TouchList) => {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  const getTwistAngle = (touches: React.TouchList) => {
+    return Math.atan2(
+      touches[1].clientY - touches[0].clientY,
+      touches[1].clientX - touches[0].clientX
+    ) * (180 / Math.PI);
+  };
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (!placed || e.touches.length !== 1) return;
-    setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+    if (!placed) return;
+    if (e.touches.length === 1) {
+      setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+      setInitialPinchDist(null);
+      setInitialTwistAngle(null);
+    } else if (e.touches.length === 2) {
+      setTouchStart(null);
+      setInitialPinchDist(getPinchDistance(e.touches));
+      setInitialTwistAngle(getTwistAngle(e.touches));
+      setBaseScale(scaleMultiplier);
+      setBaseRotation(rotation);
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!placed || !touchStart || e.touches.length !== 1) return;
-    const dx = e.touches[0].clientX - touchStart.x;
-    const dy = e.touches[0].clientY - touchStart.y;
+    if (!placed) return;
+    
+    if (e.touches.length === 1 && touchStart) {
+      const dx = e.touches[0].clientX - touchStart.x;
+      const dy = e.touches[0].clientY - touchStart.y;
 
-    // Rotate model by dragging horizontally
-    setRotation(prev => (prev + dx * 0.45) % 360);
+      // Single finger: just move the model (slide)
+      setPositionOffset(prev => [
+        prev[0] + dx * 0.006,
+        prev[1] + dy * 0.006
+      ]);
+      setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+    } 
+    else if (e.touches.length === 2 && initialPinchDist !== null && initialTwistAngle !== null) {
+      // Two fingers: Pinch to Scale + Twist to Rotate
+      const currentDist = getPinchDistance(e.touches);
+      const currentAngle = getTwistAngle(e.touches);
 
-    // Move model dynamically along floor plane relative to touch sliding
-    setPositionOffset(prev => [
-      prev[0] + dx * 0.006,
-      prev[1] + dy * 0.006
-    ]);
+      // Scale
+      const scaleFactor = currentDist / initialPinchDist;
+      let newScale = baseScale * scaleFactor;
+      newScale = Math.max(0.1, Math.min(newScale, 10)); // limit scaling between 0.1x and 10x
+      setScaleMultiplier(newScale);
 
-    setTouchStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+      // Rotate
+      const angleDiff = currentAngle - initialTwistAngle;
+      setRotation(baseRotation + angleDiff);
+    }
   };
 
   const handleTouchEnd = () => {
     setTouchStart(null);
+    setInitialPinchDist(null);
+    setInitialTwistAngle(null);
   };
 
   const glbUrl = `/api/models/${modelId}.glb`;
@@ -284,7 +306,7 @@ export default function Ultimate3DViewer() {
   // --- NATIVE 8TH WALL SLAM INTEGRATION ---
   const modelRef = useRef<THREE.Group | null>(null);
   const wrapperRef = useRef<THREE.Group | null>(null);
-  const reticleRef = useRef<THREE.Mesh | null>(null);
+  const reticleRef = useRef<THREE.Group | THREE.Mesh | null>(null);
   const basePositionRef = useRef<[number, number, number]>([0, -1.0, -2.5]);
 
   // Sync React slider adjustments directly with the live Three.js scene instances
@@ -372,14 +394,16 @@ export default function Ultimate3DViewer() {
               scene.add(dirLight);
 
               // 1. Create Placement Reticle (ring)
-              const reticle = new THREE.Mesh(
+              const reticleGroup = new THREE.Group();
+              const reticleMesh = new THREE.Mesh(
                 new THREE.RingGeometry(0.3, 0.35, 32),
                 new THREE.MeshBasicMaterial({ color: 0xa855f7, side: THREE.DoubleSide, transparent: true, opacity: 0.8 })
               );
-              reticle.rotation.x = -Math.PI / 2;
-              reticle.position.set(0, -1.0, -2.5); // Default spot in front of camera
-              scene.add(reticle);
-              reticleRef.current = reticle;
+              reticleMesh.rotation.x = -Math.PI / 2; // Flat on floor
+              reticleGroup.add(reticleMesh);
+              reticleGroup.position.set(0, -1.0, -2.5); // Default spot in front of camera
+              scene.add(reticleGroup);
+              reticleRef.current = reticleGroup;
 
               // 2. Create Wrapper group for placed model
               const wrapper = new THREE.Group();
@@ -460,8 +484,8 @@ export default function Ultimate3DViewer() {
                   raycaster.ray.intersectPlane(groundPlane, target);
                   if (target) {
                     reticle.position.copy(target);
-                    // Point reticle slightly up to look natural
-                    reticle.rotation.x = -Math.PI / 2; 
+                    // Group resets its own rotation, the mesh inside is rotated
+                    reticle.quaternion.identity();
                   }
                 }
 
@@ -599,7 +623,7 @@ return (
           {/* Main Container */}
           <div className="flex-1 flex flex-col lg:flex-row z-10 w-full h-full">
             {/* Left Side: interactive 3D WebGL Canvas */}
-            <div className="flex-1 lg:w-3/5 p-4 lg:p-6 flex flex-col relative h-[50vh] lg:h-full">
+            <div className="flex-1 lg:w-3/5 p-4 lg:p-6 flex flex-col relative h-[60vh] lg:h-full">
               <div className="flex-1 relative rounded-[2rem] overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex items-center justify-center">
                 <Suspense fallback={<ParticleLoader text="Loading 3D Scene..." />}>
                   <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} className="w-full h-full">
@@ -620,13 +644,10 @@ return (
             </div>
 
             {/* Right Side: View Info & AR Launch Buttons */}
-            <div className="lg:w-2/5 p-6 lg:p-10 flex flex-col justify-between bg-slate-950/60 backdrop-blur-xl border-t lg:border-t-0 lg:border-l border-slate-900 h-[50vh] lg:h-full overflow-y-auto">
+            <div className="lg:w-2/5 p-6 lg:p-10 flex flex-col justify-between bg-slate-950/60 backdrop-blur-xl border-t lg:border-t-0 lg:border-l border-slate-900 h-[40vh] lg:h-full overflow-y-auto">
               {/* Header */}
               <div className="space-y-2 mt-2">
                 <h1 className="text-3xl font-extrabold tracking-tight text-white">AR Model Viewer</h1>
-                <p className="text-slate-400 text-sm leading-relaxed">
-                  Interact with the 3D model above using swipe and pinch gestures. Launch native AR features on your mobile device or start an offline 8th Wall SLAM experience.
-                </p>
               </div>
 
               {/* Action Center */}
@@ -646,18 +667,23 @@ return (
                     In-Browser WebAR
                   </div>
                   <button
-                    onClick={() => setIs8thWallActive(true)}
+                    onClick={() => {
+                      // Request device motion permission on iOS synchronously with the user tap
+                      if (
+                        typeof window !== 'undefined' &&
+                        (window as any).DeviceMotionEvent &&
+                        typeof (window as any).DeviceMotionEvent.requestPermission === 'function'
+                      ) {
+                        (window as any).DeviceMotionEvent.requestPermission().catch(() => {});
+                      }
+                      setIs8thWallActive(true);
+                    }}
                     className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm rounded-xl transition-all shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_25px_rgba(37,99,235,0.55)] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Compass className="w-5 h-5" />
                     Launch WebAR (8th Wall Engine)
                   </button>
                 </div>
-              </div>
-
-              {/* Footer Info */}
-              <div className="text-center text-[10px] text-slate-600 py-2">
-                <span>Powered by Next.js & React Three Fiber & Niantic 8th Wall</span>
               </div>
             </div>
           </div>
