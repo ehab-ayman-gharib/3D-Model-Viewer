@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "next.config.ts": {
-    "mtime": 1784044425.4178648,
-    "ast_hash": "0940960cefcae0afd10e6020f6e7bbc3",
+    "mtime": 1784115380.860925,
+    "ast_hash": "4c26502feb176cb5460dc6476842b8b2",
     "semantic_hash": ""
   },
   "open-next.config.ts": {
@@ -20,8 +20,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1783934812.220138,
-    "ast_hash": "7c0bbaaf2f7ee1062e87cdd218988dc9",
+    "mtime": 1787042399.102379,
+    "ast_hash": "075b66f8064252f8fffce82ff758f21c",
     "semantic_hash": ""
   },
   "postcss.config.js": {
@@ -39,21 +39,6 @@
     "ast_hash": "9023c15ed2ada5f34584a10e7c733ba1",
     "semantic_hash": ""
   },
-  "public/xr-face.js": {
-    "mtime": 1783424519.5567088,
-    "ast_hash": "cde9708f3a294374037dd9b004f97c6e",
-    "semantic_hash": ""
-  },
-  "public/xr-tracking.js": {
-    "mtime": 1783424519.7082329,
-    "ast_hash": "809d0dda31a8579d0e054090df167034",
-    "semantic_hash": ""
-  },
-  "public/xr.js": {
-    "mtime": 1783424519.75653,
-    "ast_hash": "5cb7ed2e67535010f44dd9c708039d33",
-    "semantic_hash": ""
-  },
   "src/app/api/models/[key]/route.ts": {
     "mtime": 1784044425.418389,
     "ast_hash": "706a45738b02a18e5eddc18735c56b1c",
@@ -65,8 +50,8 @@
     "semantic_hash": ""
   },
   "src/app/layout.tsx": {
-    "mtime": 1783981050.5581207,
-    "ast_hash": "e9c7d453ddea0b322a6423de489e44e0",
+    "mtime": 1784112209.1350172,
+    "ast_hash": "88dd9e79e3a4c3f4a8d9f014eef4bc6f",
     "semantic_hash": ""
   },
   "src/app/page.tsx": {
@@ -75,13 +60,13 @@
     "semantic_hash": ""
   },
   "src/app/viewer/page.tsx": {
-    "mtime": 1783934916.6309187,
-    "ast_hash": "6a8b0f79e76a29799f3a7945e205cae5",
+    "mtime": 1784116031.6501834,
+    "ast_hash": "f4179eea8d3b4e104ca07ef6885e8bd2",
     "semantic_hash": ""
   },
   "src/components/NativeARButtons.tsx": {
-    "mtime": 1783975165.7016106,
-    "ast_hash": "680c9b8383ee816ac4f7731af0b2a4cc",
+    "mtime": 1784123721.1175108,
+    "ast_hash": "8fc8767d0a6b604faa7236c1969c63ba",
     "semantic_hash": ""
   },
   "src/components/ParticleLoader.tsx": {
@@ -90,18 +75,18 @@
     "semantic_hash": ""
   },
   "src/components/R3FViewer.tsx": {
-    "mtime": 1783958031.735612,
-    "ast_hash": "804bf731c098a9d77e88d6cdee76d960",
+    "mtime": 1784045304.0411975,
+    "ast_hash": "41fd922b81646d53fe3b6dfd935e1ebf",
     "semantic_hash": ""
   },
   "src/components/Ultimate3DViewer.tsx": {
-    "mtime": 1784040899.819943,
-    "ast_hash": "fba029bd592c7484076940322b7dbc8d",
+    "mtime": 1787042391.2158792,
+    "ast_hash": "ebee9db829cc86fa949916f3c48bd82b",
     "semantic_hash": ""
   },
   "src/components/UploadSuccess.tsx": {
-    "mtime": 1784043481.786582,
-    "ast_hash": "ed333705929ef19499b63ac1f23c367d",
+    "mtime": 1787042385.821859,
+    "ast_hash": "b2bfd7ba52d2b0a408d1aedbc1ed2a5c",
     "semantic_hash": ""
   },
   "src/types.d.ts": {
@@ -115,8 +100,8 @@
     "semantic_hash": ""
   },
   "tsconfig.json": {
-    "mtime": 1783929211.9440072,
-    "ast_hash": "0a2f4ed9289b65cd3feb4fb4ab3a4fcd",
+    "mtime": 1784115366.7294397,
+    "ast_hash": "d37b9cf9c03ef64c07a92a78d1227924",
     "semantic_hash": ""
   },
   ".agent/workflows/cloudflare-nextjs-r2.md": {
@@ -182,6 +167,41 @@
   "src/components/ParticleText.tsx": {
     "mtime": 1784042968.4613347,
     "ast_hash": "c7ffa960631626d1befdd1481da2c740",
+    "semantic_hash": ""
+  },
+  "opennext.config.ts": {
+    "mtime": 1784114600.9300997,
+    "ast_hash": "0bef908b0bcf8f95ae49ed8ebf45cef7",
+    "semantic_hash": ""
+  },
+  "public/external/xr/resources/media-worker.js": {
+    "mtime": 1784113671.3839245,
+    "ast_hash": "f0ce9895a5ccadb68081b10919fa5e97",
+    "semantic_hash": ""
+  },
+  "public/external/xr/resources/semantics-worker.js": {
+    "mtime": 1784113671.3909237,
+    "ast_hash": "7504c69467c12346d1051d6ca7633885",
+    "semantic_hash": ""
+  },
+  "public/external/xr/xr-face.js": {
+    "mtime": 1784113671.3979235,
+    "ast_hash": "c314225c25ce69150e417c1ed5cd6443",
+    "semantic_hash": ""
+  },
+  "public/external/xr/xr-slam.js": {
+    "mtime": 1784113671.402925,
+    "ast_hash": "900e019a6a512cb50f5c594cf6927338",
+    "semantic_hash": ""
+  },
+  "public/external/xr/xr.js": {
+    "mtime": 1784113671.4039264,
+    "ast_hash": "3f030d397ba2d7810826a6d9965193de",
+    "semantic_hash": ""
+  },
+  "public/external/xr/resources/powered-by.svg": {
+    "mtime": 1784113671.3849263,
+    "ast_hash": "d31a73c3a2a8d36a9a9704c95250bd90",
     "semantic_hash": ""
   }
 }

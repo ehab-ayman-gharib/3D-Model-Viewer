@@ -4,7 +4,6 @@
 import React, { useState, Suspense, useMemo, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Stage, OrbitControls, useGLTF } from '@react-three/drei';
-import { checkBrowserCompatibility } from '@j1ngzoue/8thwall-react-three-fiber';
 import { NativeARButtons } from './NativeARButtons';
 import ParticleLoader from './ParticleLoader';
 import { 
@@ -12,6 +11,30 @@ import {
 } from 'lucide-react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+
+function checkBrowserCompatibility(): { compatible: boolean; issues: string[] } {
+  const issues: string[] = [];
+  if (typeof window === 'undefined') return { compatible: true, issues: [] };
+
+  try {
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) {
+      issues.push('WebGL is disabled or not supported by your browser.');
+    }
+  } catch {
+    issues.push('Unable to initialize WebGL context.');
+  }
+
+  if (typeof navigator !== 'undefined' && (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)) {
+    issues.push('Camera access API (getUserMedia) is not supported or requires HTTPS.');
+  }
+
+  return {
+    compatible: issues.length === 0,
+    issues,
+  };
+}
 
 interface ModelMeshProps {
   url: string;

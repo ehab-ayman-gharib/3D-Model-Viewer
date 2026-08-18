@@ -6,7 +6,6 @@ import { QRCodeSVG } from 'qrcode.react';
 import { useState, useEffect, Suspense, useMemo, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { NativeARButtons } from './NativeARButtons';
-import { checkBrowserCompatibility } from '@j1ngzoue/8thwall-react-three-fiber';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 

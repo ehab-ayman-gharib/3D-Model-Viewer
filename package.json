@@ -16,7 +16,6 @@
     "@8thwall/engine-binary": "^1.0.0",
     "@8thwall/landing-page": "^1.0.0",
     "@8thwall/xrextras": "^1.0.0",
-    "@j1ngzoue/8thwall-react-three-fiber": "^0.1.21",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "lucide-react": "^0.575.0",
