@@ -1,16 +1,16 @@
 # Graph Report - 3D-Model-Viewer  (2026-08-24)
 
 ## Corpus Check
-- 34 files · ~56,825 words
+- 34 files · ~57,140 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4038 nodes · 5365 edges · 237 communities (116 shown, 121 thin omitted)
+- 4038 nodes · 5365 edges · 236 communities (115 shown, 121 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e3d31f1c`
+- Built from commit: `76a1e30e`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -167,7 +167,6 @@
 - [[_COMMUNITY_Community 159|Community 159]]
 - [[_COMMUNITY_Community 160|Community 160]]
 - [[_COMMUNITY_Community 161|Community 161]]
-- [[_COMMUNITY_Community 184|Community 184]]
 - [[_COMMUNITY_Community 186|Community 186]]
 - [[_COMMUNITY_Community 192|Community 192]]
 - [[_COMMUNITY_Community 193|Community 193]]
@@ -205,7 +204,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (237 total, 121 thin omitted)
+## Communities (236 total, 121 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.02
@@ -253,15 +252,15 @@ Nodes (4): B(), D(), E(), gQ()
 
 ### Community 54 - "Community 54"
 Cohesion: 0.08
-Nodes (12): NativeARButtons(), NativeARButtonsProps, ParticleLoaderProps, ParticleText(), ModelMeshProps, R3FViewerProps, ModelMeshProps, R3FViewer (+4 more)
+Nodes (12): NativeARButtons(), NativeARButtonsProps, ParticleLoaderProps, ParticleText(), ModelContainerProps, R3FViewerProps, ModelMeshProps, R3FViewer (+4 more)
 
 ### Community 61 - "Community 61"
 Cohesion: 0.14
 Nodes (13): 1. Architecture Overview, 1. `package.json` Dependencies, 2. Dependencies & Build Configuration, 3. Preloading SLAM Chunks in Root Layout, 4. Canvas & Device Compatibility, 5. Full Implementation: SLAM & Dynamic GLB Loading from URL, 6. Touch Gestures (Pinch-to-Scale, Twist-to-Rotate, 1-Finger Slide), 7. Critical Gotchas & Best Practices (+5 more)
 
 ### Community 64 - "Community 64"
-Cohesion: 0.16
-Nodes (15): __addDays(), __arraySum(), __embind_register_std_string(), intArrayFromString(), __isLeapYear(), jseval(), lengthBytesUTF8(), postMediaError() (+7 more)
+Cohesion: 0.10
+Nodes (23): __addDays(), __arraySum(), checkUnflushedContent(), demangle(), demangleAll(), __embind_register_std_string(), intArrayFromString(), isExportedByForceFilesystem() (+15 more)
 
 ### Community 65 - "Community 65"
 Cohesion: 0.14
@@ -366,10 +365,6 @@ Nodes (4): emscripten_realloc_buffer(), _emscripten_resize_heap(), getHeapMax(),
 ### Community 161 - "Community 161"
 Cohesion: 0.50
 Nodes (4): emscripten_realloc_buffer(), _emscripten_resize_heap(), getHeapMax(), updateGlobalBufferAndViews()
-
-### Community 184 - "Community 184"
-Cohesion: 0.25
-Nodes (8): checkUnflushedContent(), demangle(), demangleAll(), isExportedByForceFilesystem(), missingLibrarySymbol(), unexportedRuntimeSymbol(), UTF8ArrayToString(), warnOnce()
 
 ## Knowledge Gaps
 - **97 isolated node(s):** `CloudflareEnv`, `eslintConfig`, `nextConfig`, `config`, `name` (+92 more)

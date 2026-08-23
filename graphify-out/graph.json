@@ -580,7 +580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_isexportedbyforcefilesystem",
-      "community": 184,
+      "community": 64,
       "norm_label": "isexportedbyforcefilesystem()"
     },
     {
@@ -590,7 +590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_missinglibrarysymbol",
-      "community": 184,
+      "community": 64,
       "norm_label": "missinglibrarysymbol()"
     },
     {
@@ -600,7 +600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_unexportedruntimesymbol",
-      "community": 184,
+      "community": 64,
       "norm_label": "unexportedruntimesymbol()"
     },
     {
@@ -620,7 +620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_utf8arraytostring",
-      "community": 184,
+      "community": 64,
       "norm_label": "utf8arraytostring()"
     },
     {
@@ -950,7 +950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_warnonce",
-      "community": 184,
+      "community": 64,
       "norm_label": "warnonce()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_demangle",
-      "community": 184,
+      "community": 64,
       "norm_label": "demangle()"
     },
     {
@@ -1090,7 +1090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_demangleall",
-      "community": 184,
+      "community": 64,
       "norm_label": "demangleall()"
     },
     {
@@ -2120,7 +2120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_checkunflushedcontent",
-      "community": 184,
+      "community": 64,
       "norm_label": "checkunflushedcontent()"
     },
     {
@@ -4260,7 +4260,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_face_n_disownlowerright",
-      "community": 187,
+      "community": 184,
       "norm_label": ".disownlowerright()"
     },
     {
@@ -4270,7 +4270,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_face_n_getlowerright",
-      "community": 187,
+      "community": 184,
       "norm_label": ".getlowerright()"
     },
     {
@@ -23080,7 +23080,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ai_disownframepoints",
-      "community": 34,
+      "community": 187,
       "norm_label": ".disownframepoints()"
     },
     {
@@ -23090,7 +23090,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ai_getframepoints",
-      "community": 34,
+      "community": 187,
       "norm_label": ".getframepoints()"
     },
     {
@@ -23260,7 +23260,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ai_disownxrdevicepose",
-      "community": 195,
+      "community": 34,
       "norm_label": ".disownxrdevicepose()"
     },
     {
@@ -23270,7 +23270,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ai_getxrdevicepose",
-      "community": 195,
+      "community": 34,
       "norm_label": ".getxrdevicepose()"
     },
     {
@@ -39584,30 +39584,30 @@
       "norm_label": "r3fviewer.tsx"
     },
     {
-      "label": "ModelMeshProps",
+      "label": "ModelContainerProps",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L8",
+      "source_location": "L11",
       "_origin": "ast",
-      "id": "components_r3fviewer_modelmeshprops",
+      "id": "components_r3fviewer_modelcontainerprops",
       "community": 54,
-      "norm_label": "modelmeshprops"
+      "norm_label": "modelcontainerprops"
     },
     {
-      "label": "ModelMesh()",
+      "label": "ModelContainer()",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L12",
+      "source_location": "L15",
       "_origin": "ast",
-      "id": "components_r3fviewer_modelmesh",
+      "id": "components_r3fviewer_modelcontainer",
       "community": 54,
-      "norm_label": "modelmesh()"
+      "norm_label": "modelcontainer()"
     },
     {
       "label": "R3FViewerProps",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L18",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "components_r3fviewer_r3fviewerprops",
       "community": 54,
@@ -39617,7 +39617,7 @@
       "label": "R3FViewer()",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L22",
+      "source_location": "L83",
       "_origin": "ast",
       "id": "components_r3fviewer_r3fviewer",
       "community": 54,
@@ -39627,7 +39627,7 @@
       "label": "preloadModel()",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L45",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "components_r3fviewer_preloadmodel",
       "community": 54,
@@ -39647,7 +39647,7 @@
       "label": "checkBrowserCompatibility()",
       "file_type": "code",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "components_ultimate3dviewer_checkbrowsercompatibility",
       "community": 54,
@@ -39657,27 +39657,27 @@
       "label": "ModelMeshProps",
       "file_type": "code",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "components_ultimate3dviewer_modelmeshprops",
       "community": 54,
       "norm_label": "modelmeshprops"
     },
     {
-      "label": "ModelMesh()",
+      "label": "ModelContainer()",
       "file_type": "code",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L47",
+      "source_location": "L45",
       "_origin": "ast",
-      "id": "components_ultimate3dviewer_modelmesh",
+      "id": "components_ultimate3dviewer_modelcontainer",
       "community": 54,
-      "norm_label": "modelmesh()"
+      "norm_label": "modelcontainer()"
     },
     {
       "label": "ARUIOverlay()",
       "file_type": "code",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L84",
+      "source_location": "L110",
       "_origin": "ast",
       "id": "components_ultimate3dviewer_aruioverlay",
       "community": 54,
@@ -39687,7 +39687,7 @@
       "label": "Ultimate3DViewer()",
       "file_type": "code",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L227",
+      "source_location": "L253",
       "_origin": "ast",
       "id": "components_ultimate3dviewer_ultimate3dviewer",
       "community": 54,
@@ -94691,21 +94691,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L12",
+      "source_location": "L13",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "components_r3fviewer",
-      "target": "components_r3fviewer_modelmesh"
+      "target": "components_r3fviewer_modelcontainer"
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "components_r3fviewer",
-      "target": "components_r3fviewer_modelmeshprops"
+      "target": "components_r3fviewer_modelcontainerprops"
     },
     {
       "relation": "contains",
@@ -94761,11 +94761,11 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L18",
+      "source_location": "L44",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "components_ultimate3dviewer",
-      "target": "components_ultimate3dviewer_modelmesh"
+      "target": "components_ultimate3dviewer_modelcontainer"
     },
     {
       "relation": "contains",
@@ -94834,9 +94834,9 @@
       "source_file": "src/components/UploadSuccess.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_uploadsuccess",
-      "target": "utils_turntablerecorder",
-      "confidence_score": 1.0
+      "target": "utils_turntablerecorder"
     },
     {
       "relation": "imports",
@@ -94845,9 +94845,9 @@
       "source_file": "src/components/UploadSuccess.tsx",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "components_uploadsuccess",
-      "target": "utils_turntablerecorder_exportturntablevideo",
-      "confidence_score": 1.0
+      "target": "utils_turntablerecorder_exportturntablevideo"
     },
     {
       "relation": "contains",
@@ -94865,9 +94865,9 @@
       "source_file": "src/utils/turntableRecorder.ts",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_turntablerecorder",
-      "target": "utils_turntablerecorder_exportturntablevideo",
-      "confidence_score": 1.0
+      "target": "utils_turntablerecorder_exportturntablevideo"
     },
     {
       "relation": "contains",
@@ -94875,9 +94875,9 @@
       "source_file": "src/utils/turntableRecorder.ts",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "utils_turntablerecorder",
-      "target": "utils_turntablerecorder_turntableexportoptions",
-      "confidence_score": 1.0
+      "target": "utils_turntablerecorder_turntableexportoptions"
     },
     {
       "relation": "contains",
@@ -95401,5 +95401,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "e3d31f1c92bd399f9e3442909a0b9f5950a5282c"
+  "built_at_commit": "76a1e30ebbb21a0cdde6340f72f81dad5585104f"
 }

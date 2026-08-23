@@ -2,14 +2,15 @@
 'use client';
 
 import React, { useState, Suspense, useMemo, useEffect, useRef } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { Stage, OrbitControls, useGLTF } from '@react-three/drei';
+import { Canvas, useThree } from '@react-three/fiber';
+import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
 import { NativeARButtons } from './NativeARButtons';
 import ParticleLoader from './ParticleLoader';
 import { 
   Loader2, Camera, Compass, AlertTriangle, ArrowLeft, RefreshCw 
 } from 'lucide-react';
 import * as THREE from 'three';
+import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 function checkBrowserCompatibility(): { compatible: boolean; issues: string[] } {
@@ -38,45 +39,70 @@ function checkBrowserCompatibility(): { compatible: boolean; issues: string[] } 
 
 interface ModelMeshProps {
   url: string;
-  position?: [number, number, number];
-  scale?: number;
-  rotationY?: number;
 }
 
-// Model mesh component with automatic scaling, floor-grounding, and custom rotation (used in R3F Preview Canvas)
-function ModelMesh({ url, position = [0, 0, 0], scale = 1, rotationY = 0 }: ModelMeshProps) {
+// Model container component with synchronous centering and aspect-aware dynamic camera positioning
+function ModelContainer({ url }: ModelMeshProps) {
   const { scene } = useGLTF(url);
-  
-  // Clone the scene to avoid cache sharing issues with R3FViewer
-  const clonedScene = useMemo(() => scene.clone(), [scene]);
+  const { camera, size: viewportSize } = useThree();
+  const controlsRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (!clonedScene) return;
+  const { centeredScene, cameraDist } = useMemo(() => {
+    // Use SkeletonUtils to correctly clone skinned meshes, bones, and skeletons
+    const clone = SkeletonUtils.clone(scene);
+    clone.updateMatrixWorld(true);
 
-    // Compute bounding box
-    const box = new THREE.Box3().setFromObject(clonedScene);
+    const box = new THREE.Box3().setFromObject(clone);
     const size = new THREE.Vector3();
     box.getSize(size);
     const center = new THREE.Vector3();
     box.getCenter(center);
 
-    // Target a bounding size of 1.0 meter * custom scale factor in the real world
-    const maxDim = Math.max(size.x, size.y, size.z);
-    const targetSize = 1.0 * scale; 
-    const scaleFactor = targetSize / (maxDim || 1);
+    // Center model at origin
+    clone.position.set(-center.x, -center.y, -center.z);
 
-    // Apply scaling
-    clonedScene.scale.setScalar(scaleFactor);
+    const group = new THREE.Group();
+    group.add(clone);
 
-    // Align center on XZ and floor bottom on Y (y=0 is the floor plane relative to its group positioning)
-    clonedScene.position.set(-center.x * scaleFactor, -box.min.y * scaleFactor, -center.z * scaleFactor);
+    // Calculate aspect-aware dynamic camera distance
+    const maxDim = Math.max(size.x, size.y, size.z) || 1;
+    const fovRad = (40 * Math.PI) / 180;
+    const aspect = viewportSize.width / (viewportSize.height || 1);
 
-  }, [clonedScene, scale]);
+    const fitHeightDist = (size.y / 2) / Math.tan(fovRad / 2);
+    const fitWidthDist = (size.x / 2) / (Math.tan(fovRad / 2) * (aspect || 1));
+    const dist = Math.max(fitHeightDist, fitWidthDist, (maxDim / 2) / Math.tan(fovRad / 2)) * 1.45;
+
+    return { centeredScene: group, cameraDist: dist };
+  }, [scene, viewportSize.width, viewportSize.height]);
+
+  useEffect(() => {
+    if (camera && cameraDist) {
+      camera.position.set(0, 0, cameraDist);
+      camera.lookAt(0, 0, 0);
+      camera.updateProjectionMatrix();
+
+      if (controlsRef.current) {
+        controlsRef.current.target.set(0, 0, 0);
+        controlsRef.current.update();
+      }
+    }
+  }, [camera, cameraDist]);
 
   return (
-    <group position={position} rotation={[0, rotationY, 0]}>
-      <primitive object={clonedScene} />
-    </group>
+    <>
+      <primitive object={centeredScene} />
+      <OrbitControls
+        ref={controlsRef}
+        makeDefault
+        target={[0, 0, 0]}
+        enableZoom={true}
+        minDistance={cameraDist * 0.25}
+        maxDistance={cameraDist * 4.0}
+        enableDamping={true}
+        dampingFactor={0.06}
+      />
+    </>
   );
 }
 
@@ -659,18 +685,16 @@ return (
             <div className={`flex-1 p-4 lg:p-6 flex flex-col relative ${isMobile ? 'h-[60vh] lg:h-full lg:w-3/5' : 'w-full h-full'}`}>
               <div className="flex-1 relative rounded-[2rem] overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex items-center justify-center">
                 <Suspense fallback={<ParticleLoader text="Loading 3D Scene..." />}>
-                  <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} className="w-full h-full">
-                    <Stage intensity={0.7} environment="city" adjustCamera>
-                      <ModelMesh url={glbUrl} />
-                    </Stage>
-                    <OrbitControls
-                      makeDefault
-                      enableZoom={true}
-                      minDistance={1.2}
-                      maxDistance={12}
-                      enableDamping={true}
-                      dampingFactor={0.06}
-                    />
+                  <Canvas camera={{ position: [0, 0, 5], fov: 40 }} className="w-full h-full">
+                    {/* Studio Lighting Setup */}
+                    <ambientLight intensity={1.2} />
+                    <directionalLight position={[5, 8, 5]} intensity={2.0} />
+                    <directionalLight position={[-5, 4, -4]} intensity={1.0} color="#a5b4fc" />
+                    <directionalLight position={[0, 6, -6]} intensity={1.5} color="#d8b4fe" />
+                    <hemisphereLight args={['#e9d5ff', '#1e1035', 0.8]} />
+                    <Environment preset="city" environmentIntensity={0.6} />
+
+                    <ModelContainer url={glbUrl} />
                   </Canvas>
                 </Suspense>
               </div>
