@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { CheckCircle2, Copy, ExternalLink, RefreshCw, ArrowLeft, Camera, Compass, AlertTriangle, Loader2 } from 'lucide-react';
+import { CheckCircle2, Copy, ExternalLink, RefreshCw, ArrowLeft, Camera, Compass, AlertTriangle, Loader2, Video } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useState, useEffect, Suspense, useMemo, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { NativeARButtons } from './NativeARButtons';
+import { exportTurntableVideo } from '../utils/turntableRecorder';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -248,6 +249,9 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
         };
     }, [modelId, localFileUrl]);
 
+    const [isExportingTurntable, setIsExportingTurntable] = useState(false);
+    const [turntableProgress, setTurntableProgress] = useState(0);
+
     const handleCopy = async () => {
         try {
             await navigator.clipboard.writeText(viewerUrl);
@@ -255,6 +259,26 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
             console.error('Failed to copy', err);
+        }
+    };
+
+    const handleExportTurntable = async () => {
+        if (isExportingTurntable) return;
+        setIsExportingTurntable(true);
+        setTurntableProgress(0);
+        try {
+            const sourceUrl = localFileUrl || `/api/models/${modelId}.glb`;
+            await exportTurntableVideo({
+                modelUrl: sourceUrl,
+                filename: `model_${modelId}`,
+                onProgress: (p) => setTurntableProgress(p),
+            });
+        } catch (err) {
+            console.error('Failed to export turntable video:', err);
+            alert('Could not generate turntable video. Please try again.');
+        } finally {
+            setIsExportingTurntable(false);
+            setTurntableProgress(0);
         }
     };
 
@@ -637,6 +661,29 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                             </button>
                                         </>
                                     )}
+
+                                    {/* Export 360° Turntable Video */}
+                                    <button
+                                        onClick={handleExportTurntable}
+                                        disabled={isExportingTurntable}
+                                        className={`w-full flex items-center justify-center gap-2 font-semibold py-3.5 rounded-xl transition-all active:scale-[0.98] border shadow-lg text-sm ${
+                                            isExportingTurntable
+                                                ? 'bg-purple-950/60 border-purple-800/40 text-purple-300 cursor-wait'
+                                                : 'bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white border-purple-400/30 hover:-translate-y-0.5 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.25)]'
+                                        }`}
+                                    >
+                                        {isExportingTurntable ? (
+                                            <>
+                                                <Loader2 className="w-4 h-4 animate-spin text-purple-300" />
+                                                <span>Rendering 360° Video ({turntableProgress}%)...</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Video className="w-4 h-4 text-purple-200" />
+                                                <span>Download 360° Turntable Video</span>
+                                            </>
+                                        )}
+                                    </button>
 
                                     {/* Upload Another Model */}
                                     <button

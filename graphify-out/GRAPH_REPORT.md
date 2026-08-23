@@ -1,16 +1,16 @@
-# Graph Report - 3D-Model-Viewer  (2026-08-23)
+# Graph Report - 3D-Model-Viewer  (2026-08-24)
 
 ## Corpus Check
-- 33 files · ~56,022 words
+- 34 files · ~56,825 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4035 nodes · 5361 edges · 227 communities (116 shown, 111 thin omitted)
+- 4038 nodes · 5365 edges · 237 communities (116 shown, 121 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6c60694b`
+- Built from commit: `e3d31f1c`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -148,14 +148,17 @@
 - [[_COMMUNITY_Community 131|Community 131]]
 - [[_COMMUNITY_Community 132|Community 132]]
 - [[_COMMUNITY_Community 133|Community 133]]
+- [[_COMMUNITY_Community 134|Community 134]]
 - [[_COMMUNITY_Community 135|Community 135]]
 - [[_COMMUNITY_Community 137|Community 137]]
 - [[_COMMUNITY_Community 138|Community 138]]
 - [[_COMMUNITY_Community 139|Community 139]]
 - [[_COMMUNITY_Community 143|Community 143]]
+- [[_COMMUNITY_Community 144|Community 144]]
 - [[_COMMUNITY_Community 145|Community 145]]
 - [[_COMMUNITY_Community 146|Community 146]]
 - [[_COMMUNITY_Community 149|Community 149]]
+- [[_COMMUNITY_Community 151|Community 151]]
 - [[_COMMUNITY_Community 152|Community 152]]
 - [[_COMMUNITY_Community 153|Community 153]]
 - [[_COMMUNITY_Community 155|Community 155]]
@@ -164,10 +167,16 @@
 - [[_COMMUNITY_Community 159|Community 159]]
 - [[_COMMUNITY_Community 160|Community 160]]
 - [[_COMMUNITY_Community 161|Community 161]]
+- [[_COMMUNITY_Community 184|Community 184]]
 - [[_COMMUNITY_Community 186|Community 186]]
+- [[_COMMUNITY_Community 192|Community 192]]
+- [[_COMMUNITY_Community 193|Community 193]]
 - [[_COMMUNITY_Community 199|Community 199]]
 - [[_COMMUNITY_Community 200|Community 200]]
 - [[_COMMUNITY_Community 201|Community 201]]
+- [[_COMMUNITY_Community 231|Community 231]]
+- [[_COMMUNITY_Community 232|Community 232]]
+- [[_COMMUNITY_Community 233|Community 233]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `_()` - 146 edges
@@ -196,7 +205,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (227 total, 111 thin omitted)
+## Communities (237 total, 121 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.02
@@ -244,15 +253,15 @@ Nodes (4): B(), D(), E(), gQ()
 
 ### Community 54 - "Community 54"
 Cohesion: 0.08
-Nodes (10): NativeARButtons(), NativeARButtonsProps, ParticleLoaderProps, ParticleText(), ModelMeshProps, R3FViewerProps, ModelMeshProps, R3FViewer (+2 more)
+Nodes (12): NativeARButtons(), NativeARButtonsProps, ParticleLoaderProps, ParticleText(), ModelMeshProps, R3FViewerProps, ModelMeshProps, R3FViewer (+4 more)
 
 ### Community 61 - "Community 61"
 Cohesion: 0.14
 Nodes (13): 1. Architecture Overview, 1. `package.json` Dependencies, 2. Dependencies & Build Configuration, 3. Preloading SLAM Chunks in Root Layout, 4. Canvas & Device Compatibility, 5. Full Implementation: SLAM & Dynamic GLB Loading from URL, 6. Touch Gestures (Pinch-to-Scale, Twist-to-Rotate, 1-Finger Slide), 7. Critical Gotchas & Best Practices (+5 more)
 
 ### Community 64 - "Community 64"
-Cohesion: 0.10
-Nodes (23): __addDays(), __arraySum(), checkUnflushedContent(), demangle(), demangleAll(), __embind_register_std_string(), intArrayFromString(), isExportedByForceFilesystem() (+15 more)
+Cohesion: 0.16
+Nodes (15): __addDays(), __arraySum(), __embind_register_std_string(), intArrayFromString(), __isLeapYear(), jseval(), lengthBytesUTF8(), postMediaError() (+7 more)
 
 ### Community 65 - "Community 65"
 Cohesion: 0.14
@@ -266,6 +275,10 @@ Nodes (5): BA(), MA(), P(), PA(), x()
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
+### Community 77 - "Community 77"
+Cohesion: 0.06
+Nodes (5): OC, c(), L(), q(), R()
+
 ### Community 81 - "Community 81"
 Cohesion: 0.12
 Nodes (19): alignMemory(), assert(), convertI32PairToI53Checked(), createExportWrapper(), dynCall(), dynCallLegacy(), ExceptionInfo(), _fd_seek() (+11 more)
@@ -278,10 +291,6 @@ Nodes (18): alignMemory(), assert(), convertI32PairToI53Checked(), createExportW
 Cohesion: 0.12
 Nodes (4): CA(), h(), L(), M()
 
-### Community 94 - "Community 94"
-Cohesion: 0.05
-Nodes (5): jI, mI, nA, uI, wI()
-
 ### Community 95 - "Community 95"
 Cohesion: 0.15
 Nodes (16): __addDays(), __arraySum(), __embind_register_std_string(), intArrayFromString(), __isLeapYear(), jseval(), lengthBytesUTF8(), postMediaError() (+8 more)
@@ -290,17 +299,9 @@ Nodes (16): __addDays(), __arraySum(), __embind_register_std_string(), intArrayF
 Cohesion: 0.12
 Nodes (15): 1. Environment Preparation (Windows Users), 2. Install Dependencies, 3. Configure Cloudflare (`wrangler.toml`), 4. Configure Next.js (`next.config.ts`), 5. Create the API Route, 6. Update `package.json` Scripts, 7. Build and Deploy, 📝 Beginner Notes & Pitfalls (+7 more)
 
-### Community 97 - "Community 97"
-Cohesion: 0.05
-Nodes (5): OC, BI(), c(), R(), s()
-
 ### Community 98 - "Community 98"
 Cohesion: 0.18
 Nodes (17): __embind_register_bool(), __embind_register_emval(), __embind_register_float(), __embind_register_integer(), __embind_register_memory_view(), __embind_register_value_object(), __embind_register_value_object_field(), __embind_register_void() (+9 more)
-
-### Community 106 - "Community 106"
-Cohesion: 0.07
-Nodes (3): BA(), QI(), Z()
 
 ### Community 108 - "Community 108"
 Cohesion: 0.16
@@ -366,22 +367,26 @@ Nodes (4): emscripten_realloc_buffer(), _emscripten_resize_heap(), getHeapMax(),
 Cohesion: 0.50
 Nodes (4): emscripten_realloc_buffer(), _emscripten_resize_heap(), getHeapMax(), updateGlobalBufferAndViews()
 
+### Community 184 - "Community 184"
+Cohesion: 0.25
+Nodes (8): checkUnflushedContent(), demangle(), demangleAll(), isExportedByForceFilesystem(), missingLibrarySymbol(), unexportedRuntimeSymbol(), UTF8ArrayToString(), warnOnce()
+
 ## Knowledge Gaps
-- **96 isolated node(s):** `CloudflareEnv`, `eslintConfig`, `nextConfig`, `config`, `name` (+91 more)
+- **97 isolated node(s):** `CloudflareEnv`, `eslintConfig`, `nextConfig`, `config`, `name` (+92 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **111 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **121 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `_()` connect `Community 9` to `Community 2`, `Community 4`, `Community 5`, `Community 8`, `Community 10`, `Community 139`, `Community 14`, `Community 15`, `Community 16`, `Community 17`, `Community 146`, `Community 18`, `Community 143`, `Community 21`, `Community 22`, `Community 19`, `Community 25`, `Community 154`, `Community 26`, `Community 27`, `Community 29`, `Community 34`, `Community 35`, `Community 37`, `Community 38`, `Community 40`, `Community 41`, `Community 47`, `Community 48`, `Community 49`, `Community 50`, `Community 52`, `Community 55`, `Community 58`, `Community 62`, `Community 63`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 73`, `Community 74`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 80`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 93`, `Community 94`, `Community 97`, `Community 103`, `Community 104`, `Community 105`, `Community 106`, `Community 109`, `Community 115`, `Community 116`, `Community 117`, `Community 119`, `Community 120`, `Community 122`, `Community 123`?**
-  _High betweenness centrality (0.610) - this node is a cross-community bridge._
-- **Why does `_()` connect `Community 14` to `Community 130`, `Community 131`, `Community 3`, `Community 133`, `Community 13`, `Community 145`, `Community 20`, `Community 149`, `Community 31`, `Community 32`, `Community 46`, `Community 51`, `Community 53`, `Community 56`, `Community 59`, `Community 82`, `Community 91`, `Community 92`, `Community 97`, `Community 99`, `Community 102`, `Community 107`, `Community 109`, `Community 111`, `Community 113`, `Community 114`, `Community 115`, `Community 127`?**
-  _High betweenness centrality (0.240) - this node is a cross-community bridge._
+- **Why does `_()` connect `Community 9` to `Community 2`, `Community 4`, `Community 5`, `Community 134`, `Community 8`, `Community 10`, `Community 139`, `Community 14`, `Community 15`, `Community 144`, `Community 16`, `Community 146`, `Community 18`, `Community 17`, `Community 21`, `Community 22`, `Community 151`, `Community 143`, `Community 25`, `Community 154`, `Community 26`, `Community 27`, `Community 29`, `Community 34`, `Community 35`, `Community 37`, `Community 38`, `Community 40`, `Community 41`, `Community 47`, `Community 48`, `Community 49`, `Community 50`, `Community 52`, `Community 55`, `Community 58`, `Community 62`, `Community 63`, `Community 192`, `Community 193`, `Community 66`, `Community 67`, `Community 68`, `Community 69`, `Community 70`, `Community 71`, `Community 73`, `Community 74`, `Community 76`, `Community 77`, `Community 78`, `Community 79`, `Community 80`, `Community 84`, `Community 85`, `Community 86`, `Community 87`, `Community 93`, `Community 94`, `Community 19`, `Community 97`, `Community 103`, `Community 104`, `Community 105`, `Community 231`, `Community 106`, `Community 232`, `Community 109`, `Community 233`, `Community 115`, `Community 116`, `Community 117`, `Community 119`, `Community 120`, `Community 122`, `Community 123`?**
+  _High betweenness centrality (0.603) - this node is a cross-community bridge._
+- **Why does `_()` connect `Community 14` to `Community 130`, `Community 131`, `Community 3`, `Community 133`, `Community 13`, `Community 145`, `Community 20`, `Community 149`, `Community 31`, `Community 32`, `Community 46`, `Community 51`, `Community 53`, `Community 56`, `Community 59`, `Community 77`, `Community 82`, `Community 91`, `Community 92`, `Community 99`, `Community 102`, `Community 107`, `Community 109`, `Community 111`, `Community 113`, `Community 114`, `Community 115`, `Community 127`?**
+  _High betweenness centrality (0.238) - this node is a cross-community bridge._
 - **Why does `_()` connect `Community 0` to `Community 1`, `Community 7`, `Community 137`, `Community 24`, `Community 30`, `Community 33`, `Community 36`, `Community 39`, `Community 42`, `Community 170`, `Community 44`, `Community 43`, `Community 45`, `Community 57`, `Community 60`, `Community 72`, `Community 76`, `Community 83`, `Community 84`, `Community 89`, `Community 90`, `Community 100`, `Community 101`, `Community 112`, `Community 126`?**
-  _High betweenness centrality (0.230) - this node is a cross-community bridge._
+  _High betweenness centrality (0.224) - this node is a cross-community bridge._
 - **What connects `CloudflareEnv`, `eslintConfig`, `nextConfig` to the rest of the system?**
-  _96 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _97 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.0234106529209622 - nodes in this community are weakly interconnected._
 - **Should `Community 1` be split into smaller, more focused modules?**

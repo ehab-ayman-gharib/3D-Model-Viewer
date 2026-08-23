@@ -580,7 +580,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_isexportedbyforcefilesystem",
-      "community": 64,
+      "community": 184,
       "norm_label": "isexportedbyforcefilesystem()"
     },
     {
@@ -590,7 +590,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_missinglibrarysymbol",
-      "community": 64,
+      "community": 184,
       "norm_label": "missinglibrarysymbol()"
     },
     {
@@ -600,7 +600,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_unexportedruntimesymbol",
-      "community": 64,
+      "community": 184,
       "norm_label": "unexportedruntimesymbol()"
     },
     {
@@ -620,7 +620,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_utf8arraytostring",
-      "community": 64,
+      "community": 184,
       "norm_label": "utf8arraytostring()"
     },
     {
@@ -950,7 +950,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_warnonce",
-      "community": 64,
+      "community": 184,
       "norm_label": "warnonce()"
     },
     {
@@ -1080,7 +1080,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_demangle",
-      "community": 64,
+      "community": 184,
       "norm_label": "demangle()"
     },
     {
@@ -1090,7 +1090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_demangleall",
-      "community": 64,
+      "community": 184,
       "norm_label": "demangleall()"
     },
     {
@@ -2120,7 +2120,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "public_external_xr_resources_media_worker_js_resources_media_worker_checkunflushedcontent",
-      "community": 64,
+      "community": 184,
       "norm_label": "checkunflushedcontent()"
     },
     {
@@ -10280,7 +10280,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_r",
-      "community": 97,
+      "community": 77,
       "norm_label": "r()"
     },
     {
@@ -10340,7 +10340,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_q",
-      "community": 78,
+      "community": 77,
       "norm_label": "q()"
     },
     {
@@ -10350,7 +10350,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_c",
-      "community": 97,
+      "community": 77,
       "norm_label": "c()"
     },
     {
@@ -10460,7 +10460,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba",
-      "community": 106,
+      "community": 144,
       "norm_label": "ba()"
     },
     {
@@ -10490,7 +10490,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_oa",
-      "community": 77,
+      "community": 231,
       "norm_label": "oa()"
     },
     {
@@ -10520,7 +10520,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma",
-      "community": 15,
+      "community": 134,
       "norm_label": "ma()"
     },
     {
@@ -10610,7 +10610,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ta",
-      "community": 93,
+      "community": 232,
       "norm_label": "ta()"
     },
     {
@@ -10660,7 +10660,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi",
-      "community": 97,
+      "community": 151,
       "norm_label": "bi()"
     },
     {
@@ -10860,7 +10860,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_i_tostring",
-      "community": 25,
+      "community": 93,
       "norm_label": ".tostring()"
     },
     {
@@ -12880,7 +12880,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_h_disownnormal",
-      "community": 134,
+      "community": 22,
       "norm_label": ".disownnormal()"
     },
     {
@@ -12890,7 +12890,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_h_getnormal",
-      "community": 134,
+      "community": 22,
       "norm_label": ".getnormal()"
     },
     {
@@ -13250,7 +13250,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_r_adoptmatrix44f",
-      "community": 97,
+      "community": 77,
       "norm_label": ".adoptmatrix44f()"
     },
     {
@@ -13260,7 +13260,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_r_disownmatrix44f",
-      "community": 78,
+      "community": 77,
       "norm_label": ".disownmatrix44f()"
     },
     {
@@ -13270,7 +13270,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_r_getmatrix44f",
-      "community": 97,
+      "community": 77,
       "norm_label": ".getmatrix44f()"
     },
     {
@@ -13280,7 +13280,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_r_hasmatrix44f",
-      "community": 97,
+      "community": 77,
       "norm_label": ".hasmatrix44f()"
     },
     {
@@ -13290,7 +13290,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_r_initmatrix44f",
-      "community": 97,
+      "community": 77,
       "norm_label": ".initmatrix44f()"
     },
     {
@@ -13300,7 +13300,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_r_setmatrix44f",
-      "community": 97,
+      "community": 77,
       "norm_label": ".setmatrix44f()"
     },
     {
@@ -13310,7 +13310,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_r_tostring",
-      "community": 97,
+      "community": 77,
       "norm_label": ".tostring()"
     },
     {
@@ -13440,7 +13440,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_l_tostring",
-      "community": 77,
+      "community": 93,
       "norm_label": ".tostring()"
     },
     {
@@ -13570,7 +13570,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_q_adoptmatrix44f",
-      "community": 78,
+      "community": 77,
       "norm_label": ".adoptmatrix44f()"
     },
     {
@@ -13580,7 +13580,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_q_disownmatrix44f",
-      "community": 78,
+      "community": 77,
       "norm_label": ".disownmatrix44f()"
     },
     {
@@ -13590,7 +13590,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_q_getmatrix44f",
-      "community": 78,
+      "community": 77,
       "norm_label": ".getmatrix44f()"
     },
     {
@@ -13600,7 +13600,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_q_hasmatrix44f",
-      "community": 78,
+      "community": 77,
       "norm_label": ".hasmatrix44f()"
     },
     {
@@ -13610,7 +13610,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_q_initmatrix44f",
-      "community": 78,
+      "community": 77,
       "norm_label": ".initmatrix44f()"
     },
     {
@@ -13620,7 +13620,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_q_setmatrix44f",
-      "community": 78,
+      "community": 77,
       "norm_label": ".setmatrix44f()"
     },
     {
@@ -13630,7 +13630,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_q_tostring",
-      "community": 78,
+      "community": 77,
       "norm_label": ".tostring()"
     },
     {
@@ -13920,7 +13920,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_e_disowndata",
-      "community": 87,
+      "community": 147,
       "norm_label": ".disowndata()"
     },
     {
@@ -13930,7 +13930,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_e_getdata",
-      "community": 87,
+      "community": 147,
       "norm_label": ".getdata()"
     },
     {
@@ -13950,7 +13950,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_e_initdata",
-      "community": 74,
+      "community": 234,
       "norm_label": ".initdata()"
     },
     {
@@ -14390,7 +14390,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_f_getuint8pixeldata",
-      "community": 87,
+      "community": 147,
       "norm_label": ".getuint8pixeldata()"
     },
     {
@@ -14410,7 +14410,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_f_inituint8pixeldata",
-      "community": 74,
+      "community": 234,
       "norm_label": ".inituint8pixeldata()"
     },
     {
@@ -14530,7 +14530,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_n_inituint16pixeldata",
-      "community": 74,
+      "community": 234,
       "norm_label": ".inituint16pixeldata()"
     },
     {
@@ -14650,7 +14650,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_x_inituint8pixeldata",
-      "community": 74,
+      "community": 234,
       "norm_label": ".inituint8pixeldata()"
     },
     {
@@ -14730,7 +14730,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_o_disowndata",
-      "community": 87,
+      "community": 147,
       "norm_label": ".disowndata()"
     },
     {
@@ -14740,7 +14740,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_o_getdata",
-      "community": 87,
+      "community": 147,
       "norm_label": ".getdata()"
     },
     {
@@ -14760,7 +14760,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_o_initdata",
-      "community": 74,
+      "community": 234,
       "norm_label": ".initdata()"
     },
     {
@@ -17490,7 +17490,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_fa_tostring",
-      "community": 93,
+      "community": 18,
       "norm_label": ".tostring()"
     },
     {
@@ -17630,7 +17630,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_adoptuimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".adoptuimage()"
     },
     {
@@ -17640,7 +17640,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_disownuimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".disownuimage()"
     },
     {
@@ -17650,7 +17650,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_getuimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".getuimage()"
     },
     {
@@ -17660,7 +17660,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_hasuimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".hasuimage()"
     },
     {
@@ -17670,7 +17670,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_inituimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".inituimage()"
     },
     {
@@ -17680,7 +17680,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_setuimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".setuimage()"
     },
     {
@@ -17690,7 +17690,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_adoptvimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".adoptvimage()"
     },
     {
@@ -17700,7 +17700,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_disownvimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".disownvimage()"
     },
     {
@@ -17710,7 +17710,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_getvimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".getvimage()"
     },
     {
@@ -17720,7 +17720,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_hasvimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".hasvimage()"
     },
     {
@@ -17730,7 +17730,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_initvimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".initvimage()"
     },
     {
@@ -17740,7 +17740,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_setvimage",
-      "community": 15,
+      "community": 134,
       "norm_label": ".setvimage()"
     },
     {
@@ -17750,7 +17750,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_getpixelstride",
-      "community": 15,
+      "community": 134,
       "norm_label": ".getpixelstride()"
     },
     {
@@ -17760,7 +17760,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_setpixelstride",
-      "community": 15,
+      "community": 134,
       "norm_label": ".setpixelstride()"
     },
     {
@@ -17770,7 +17770,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_tostring",
-      "community": 15,
+      "community": 134,
       "norm_label": ".tostring()"
     },
     {
@@ -18620,7 +18620,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ya_disownanchorpose",
-      "community": 184,
+      "community": 35,
       "norm_label": ".disownanchorpose()"
     },
     {
@@ -18800,7 +18800,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ra_disownanchorpose",
-      "community": 184,
+      "community": 35,
       "norm_label": ".disownanchorpose()"
     },
     {
@@ -18810,7 +18810,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ra_getanchorpose",
-      "community": 184,
+      "community": 35,
       "norm_label": ".getanchorpose()"
     },
     {
@@ -19790,7 +19790,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ta_getpixelintensity",
-      "community": 93,
+      "community": 232,
       "norm_label": ".getpixelintensity()"
     },
     {
@@ -19800,7 +19800,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ta_setpixelintensity",
-      "community": 93,
+      "community": 232,
       "norm_label": ".setpixelintensity()"
     },
     {
@@ -19810,7 +19810,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ta_tostring",
-      "community": 93,
+      "community": 232,
       "norm_label": ".tostring()"
     },
     {
@@ -20860,7 +20860,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_pa_tostring",
-      "community": 93,
+      "community": 10,
       "norm_label": ".tostring()"
     },
     {
@@ -21130,7 +21130,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_fa_inituint8featuredata",
-      "community": 74,
+      "community": 234,
       "norm_label": ".inituint8featuredata()"
     },
     {
@@ -21150,7 +21150,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_na",
-      "community": 94,
+      "community": 193,
       "norm_label": "na"
     },
     {
@@ -21160,7 +21160,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_na_adopterror",
-      "community": 94,
+      "community": 193,
       "norm_label": ".adopterror()"
     },
     {
@@ -21170,7 +21170,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_na_disownerror",
-      "community": 94,
+      "community": 193,
       "norm_label": ".disownerror()"
     },
     {
@@ -21180,7 +21180,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_na_geterror",
-      "community": 94,
+      "community": 193,
       "norm_label": ".geterror()"
     },
     {
@@ -21190,7 +21190,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_na_haserror",
-      "community": 94,
+      "community": 193,
       "norm_label": ".haserror()"
     },
     {
@@ -21200,7 +21200,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_na_initerror",
-      "community": 94,
+      "community": 193,
       "norm_label": ".initerror()"
     },
     {
@@ -21210,7 +21210,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_na_seterror",
-      "community": 94,
+      "community": 193,
       "norm_label": ".seterror()"
     },
     {
@@ -21220,7 +21220,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_na_tostring",
-      "community": 94,
+      "community": 193,
       "norm_label": ".tostring()"
     },
     {
@@ -21230,7 +21230,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_oa_getfailed",
-      "community": 77,
+      "community": 231,
       "norm_label": ".getfailed()"
     },
     {
@@ -21240,7 +21240,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_oa_setfailed",
-      "community": 77,
+      "community": 231,
       "norm_label": ".setfailed()"
     },
     {
@@ -21250,7 +21250,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_oa_getcode",
-      "community": 77,
+      "community": 231,
       "norm_label": ".getcode()"
     },
     {
@@ -21260,7 +21260,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_oa_setcode",
-      "community": 77,
+      "community": 231,
       "norm_label": ".setcode()"
     },
     {
@@ -21270,7 +21270,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_oa_getmessage",
-      "community": 77,
+      "community": 231,
       "norm_label": ".getmessage()"
     },
     {
@@ -21280,7 +21280,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_oa_setmessage",
-      "community": 77,
+      "community": 231,
       "norm_label": ".setmessage()"
     },
     {
@@ -21290,7 +21290,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_oa_tostring",
-      "community": 77,
+      "community": 231,
       "norm_label": ".tostring()"
     },
     {
@@ -21300,7 +21300,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_adoptstatus",
-      "community": 106,
+      "community": 144,
       "norm_label": ".adoptstatus()"
     },
     {
@@ -21320,7 +21320,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_getstatus",
-      "community": 106,
+      "community": 144,
       "norm_label": ".getstatus()"
     },
     {
@@ -21330,7 +21330,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_hasstatus",
-      "community": 106,
+      "community": 144,
       "norm_label": ".hasstatus()"
     },
     {
@@ -21340,7 +21340,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_initstatus",
-      "community": 106,
+      "community": 144,
       "norm_label": ".initstatus()"
     },
     {
@@ -21350,7 +21350,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_setstatus",
-      "community": 106,
+      "community": 144,
       "norm_label": ".setstatus()"
     },
     {
@@ -21360,7 +21360,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_adoptpoints",
-      "community": 106,
+      "community": 144,
       "norm_label": ".adoptpoints()"
     },
     {
@@ -21380,7 +21380,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_getpoints",
-      "community": 106,
+      "community": 144,
       "norm_label": ".getpoints()"
     },
     {
@@ -21390,7 +21390,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_haspoints",
-      "community": 106,
+      "community": 144,
       "norm_label": ".haspoints()"
     },
     {
@@ -21400,7 +21400,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_initpoints",
-      "community": 106,
+      "community": 144,
       "norm_label": ".initpoints()"
     },
     {
@@ -21410,7 +21410,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_setpoints",
-      "community": 106,
+      "community": 144,
       "norm_label": ".setpoints()"
     },
     {
@@ -21420,7 +21420,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ba_tostring",
-      "community": 106,
+      "community": 144,
       "norm_label": ".tostring()"
     },
     {
@@ -21550,7 +21550,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_za_disownexperimental",
-      "community": 5,
+      "community": 236,
       "norm_label": ".disownexperimental()"
     },
     {
@@ -21850,7 +21850,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ta_getfeaturesindex",
-      "community": 93,
+      "community": 232,
       "norm_label": ".getfeaturesindex()"
     },
     {
@@ -21860,7 +21860,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ta_setfeaturesindex",
-      "community": 93,
+      "community": 232,
       "norm_label": ".setfeaturesindex()"
     },
     {
@@ -21870,7 +21870,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ta_getpreviousfeaturesindex",
-      "community": 93,
+      "community": 232,
       "norm_label": ".getpreviousfeaturesindex()"
     },
     {
@@ -21880,7 +21880,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ta_setpreviousfeaturesindex",
-      "community": 93,
+      "community": 232,
       "norm_label": ".setpreviousfeaturesindex()"
     },
     {
@@ -21890,7 +21890,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_adoptkeyframe",
-      "community": 15,
+      "community": 134,
       "norm_label": ".adoptkeyframe()"
     },
     {
@@ -21900,7 +21900,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_disownkeyframe",
-      "community": 15,
+      "community": 235,
       "norm_label": ".disownkeyframe()"
     },
     {
@@ -21910,7 +21910,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_getkeyframe",
-      "community": 15,
+      "community": 134,
       "norm_label": ".getkeyframe()"
     },
     {
@@ -21920,7 +21920,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_haskeyframe",
-      "community": 15,
+      "community": 134,
       "norm_label": ".haskeyframe()"
     },
     {
@@ -21930,7 +21930,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_initkeyframe",
-      "community": 15,
+      "community": 134,
       "norm_label": ".initkeyframe()"
     },
     {
@@ -21940,7 +21940,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ma_setkeyframe",
-      "community": 15,
+      "community": 134,
       "norm_label": ".setkeyframe()"
     },
     {
@@ -23650,7 +23650,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_gi_tostring",
-      "community": 93,
+      "community": 16,
       "norm_label": ".tostring()"
     },
     {
@@ -23660,7 +23660,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_getstatus",
-      "community": 97,
+      "community": 151,
       "norm_label": ".getstatus()"
     },
     {
@@ -23670,7 +23670,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_setstatus",
-      "community": 97,
+      "community": 151,
       "norm_label": ".setstatus()"
     },
     {
@@ -23680,7 +23680,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_getreason",
-      "community": 97,
+      "community": 151,
       "norm_label": ".getreason()"
     },
     {
@@ -23690,7 +23690,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_setreason",
-      "community": 97,
+      "community": 151,
       "norm_label": ".setreason()"
     },
     {
@@ -23700,7 +23700,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_getscale",
-      "community": 97,
+      "community": 151,
       "norm_label": ".getscale()"
     },
     {
@@ -23710,7 +23710,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_setscale",
-      "community": 97,
+      "community": 151,
       "norm_label": ".setscale()"
     },
     {
@@ -23720,7 +23720,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_tostring",
-      "community": 97,
+      "community": 151,
       "norm_label": ".tostring()"
     },
     {
@@ -23740,7 +23740,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ei_disownexperimental",
-      "community": 5,
+      "community": 236,
       "norm_label": ".disownexperimental()"
     },
     {
@@ -23750,7 +23750,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ei_getexperimental",
-      "community": 5,
+      "community": 236,
       "norm_label": ".getexperimental()"
     },
     {
@@ -24210,7 +24210,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ei_tostring",
-      "community": 93,
+      "community": 5,
       "norm_label": ".tostring()"
     },
     {
@@ -24240,7 +24240,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_di_disownkeyframe",
-      "community": 15,
+      "community": 235,
       "norm_label": ".disownkeyframe()"
     },
     {
@@ -24250,7 +24250,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_di_getkeyframe",
-      "community": 15,
+      "community": 235,
       "norm_label": ".getkeyframe()"
     },
     {
@@ -27520,7 +27520,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_getmode",
-      "community": 97,
+      "community": 151,
       "norm_label": ".getmode()"
     },
     {
@@ -27530,7 +27530,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_bi_setmode",
-      "community": 97,
+      "community": 151,
       "norm_label": ".setmode()"
     },
     {
@@ -28720,7 +28720,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ji",
-      "community": 94,
+      "community": 192,
       "norm_label": "ji"
     },
     {
@@ -28730,7 +28730,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ji_adopthits",
-      "community": 94,
+      "community": 192,
       "norm_label": ".adopthits()"
     },
     {
@@ -28740,7 +28740,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ji_disownhits",
-      "community": 94,
+      "community": 192,
       "norm_label": ".disownhits()"
     },
     {
@@ -28750,7 +28750,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ji_gethits",
-      "community": 94,
+      "community": 192,
       "norm_label": ".gethits()"
     },
     {
@@ -28760,7 +28760,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ji_hashits",
-      "community": 94,
+      "community": 192,
       "norm_label": ".hashits()"
     },
     {
@@ -28770,7 +28770,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ji_inithits",
-      "community": 94,
+      "community": 192,
       "norm_label": ".inithits()"
     },
     {
@@ -28780,7 +28780,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ji_sethits",
-      "community": 94,
+      "community": 192,
       "norm_label": ".sethits()"
     },
     {
@@ -28790,7 +28790,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ji_tostring",
-      "community": 94,
+      "community": 192,
       "norm_label": ".tostring()"
     },
     {
@@ -28900,7 +28900,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ui",
-      "community": 94,
+      "community": 233,
       "norm_label": "ui"
     },
     {
@@ -28910,7 +28910,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ui_adoptglobal",
-      "community": 94,
+      "community": 233,
       "norm_label": ".adoptglobal()"
     },
     {
@@ -28920,7 +28920,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ui_disownglobal",
-      "community": 94,
+      "community": 233,
       "norm_label": ".disownglobal()"
     },
     {
@@ -28930,7 +28930,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ui_getglobal",
-      "community": 94,
+      "community": 233,
       "norm_label": ".getglobal()"
     },
     {
@@ -28940,7 +28940,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ui_hasglobal",
-      "community": 94,
+      "community": 233,
       "norm_label": ".hasglobal()"
     },
     {
@@ -28950,7 +28950,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ui_initglobal",
-      "community": 94,
+      "community": 233,
       "norm_label": ".initglobal()"
     },
     {
@@ -28960,7 +28960,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ui_setglobal",
-      "community": 94,
+      "community": 233,
       "norm_label": ".setglobal()"
     },
     {
@@ -28970,7 +28970,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ui_tostring",
-      "community": 94,
+      "community": 233,
       "norm_label": ".tostring()"
     },
     {
@@ -36740,7 +36740,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "xr_xr_oc",
-      "community": 97,
+      "community": 77,
       "norm_label": "oc"
     },
     {
@@ -36750,7 +36750,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "xr_xr_oc_constructor",
-      "community": 97,
+      "community": 77,
       "norm_label": ".constructor()"
     },
     {
@@ -36760,7 +36760,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "xr_xr_oc_updatefromcomponent",
-      "community": 97,
+      "community": 77,
       "norm_label": ".updatefromcomponent()"
     },
     {
@@ -39707,7 +39707,7 @@
       "label": "R3FViewer",
       "file_type": "code",
       "source_file": "src/components/UploadSuccess.tsx",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "components_uploadsuccess_r3fviewer",
       "community": 54,
@@ -39717,7 +39717,7 @@
       "label": "UploadSuccessProps",
       "file_type": "code",
       "source_file": "src/components/UploadSuccess.tsx",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "components_uploadsuccess_uploadsuccessprops",
       "community": 54,
@@ -39727,7 +39727,7 @@
       "label": "ARUIOverlay()",
       "file_type": "code",
       "source_file": "src/components/UploadSuccess.tsx",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "components_uploadsuccess_aruioverlay",
       "community": 54,
@@ -39737,7 +39737,7 @@
       "label": "UploadSuccess()",
       "file_type": "code",
       "source_file": "src/components/UploadSuccess.tsx",
-      "source_location": "L185",
+      "source_location": "L186",
       "_origin": "ast",
       "id": "components_uploadsuccess_uploadsuccess",
       "community": 54,
@@ -39762,6 +39762,36 @@
       "id": "src_types_d_intrinsicelements",
       "community": 200,
       "norm_label": "intrinsicelements"
+    },
+    {
+      "label": "turntableRecorder.ts",
+      "file_type": "code",
+      "source_file": "src/utils/turntableRecorder.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "utils_turntablerecorder",
+      "community": 54,
+      "norm_label": "turntablerecorder.ts"
+    },
+    {
+      "label": "TurntableExportOptions",
+      "file_type": "code",
+      "source_file": "src/utils/turntableRecorder.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "utils_turntablerecorder_turntableexportoptions",
+      "community": 54,
+      "norm_label": "turntableexportoptions"
+    },
+    {
+      "label": "exportTurntableVideo()",
+      "file_type": "code",
+      "source_file": "src/utils/turntableRecorder.ts",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "utils_turntablerecorder_exportturntablevideo",
+      "community": 54,
+      "norm_label": "exportturntablevideo()"
     },
     {
       "label": "tailwind.config.js",
@@ -94798,6 +94828,28 @@
       "target": "components_uploadsuccess_uploadsuccessprops"
     },
     {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/UploadSuccess.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "components_uploadsuccess",
+      "target": "utils_turntablerecorder",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/UploadSuccess.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "components_uploadsuccess",
+      "target": "utils_turntablerecorder_exportturntablevideo",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/types.d.ts",
@@ -94806,6 +94858,26 @@
       "confidence_score": 1.0,
       "source": "src_types_d",
       "target": "src_types_d_intrinsicelements"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/turntableRecorder.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "utils_turntablerecorder",
+      "target": "utils_turntablerecorder_exportturntablevideo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/turntableRecorder.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "utils_turntablerecorder",
+      "target": "utils_turntablerecorder_turntableexportoptions",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -95329,5 +95401,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "6c60694bb627b27ceba58e85f3fbc8c40dfc86d1"
+  "built_at_commit": "e3d31f1c92bd399f9e3442909a0b9f5950a5282c"
 }
