@@ -203,5 +203,10 @@
     "mtime": 1784113671.3849263,
     "ast_hash": "d31a73c3a2a8d36a9a9704c95250bd90",
     "semantic_hash": ""
+  },
+  "docs/8thwall_webar_integration_guide.md": {
+    "mtime": 1787044647.9502783,
+    "ast_hash": "38c497bd5a7079bdae6cdd27bf71d6c8",
+    "semantic_hash": ""
   }
 }
