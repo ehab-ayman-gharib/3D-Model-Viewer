@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import React, { useState, Suspense, useMemo, useEffect, useRef } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import React, { useState, Suspense, useMemo, useEffect, useRef, useCallback } from 'react';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
 import { NativeARButtons } from './NativeARButtons';
 import ParticleLoader from './ParticleLoader';
 import { 
-  Loader2, Camera, Compass, AlertTriangle, ArrowLeft, RefreshCw 
+  Loader2, Camera, Compass, AlertTriangle, ArrowLeft, RefreshCw, Play, Pause, Film 
 } from 'lucide-react';
 import * as THREE from 'three';
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
@@ -39,13 +39,25 @@ function checkBrowserCompatibility(): { compatible: boolean; issues: string[] } 
 
 interface ModelMeshProps {
   url: string;
+  selectedAnimation: string;
+  isPlaying: boolean;
+  onAnimationsFound?: (names: string[]) => void;
 }
 
-// Model container component with synchronous centering and aspect-aware dynamic camera positioning
-function ModelContainer({ url }: ModelMeshProps) {
-  const { scene } = useGLTF(url);
+// Model container component with synchronous centering, aspect-aware dynamic camera positioning, and animation playback
+function ModelContainer({ url, selectedAnimation, isPlaying, onAnimationsFound }: ModelMeshProps) {
+  const { scene, animations } = useGLTF(url);
   const { camera, size: viewportSize } = useThree();
   const controlsRef = useRef<any>(null);
+
+  // Notify parent component of available animation clip names
+  useEffect(() => {
+    if (animations && animations.length > 0) {
+      onAnimationsFound?.(animations.map((a) => a.name));
+    } else {
+      onAnimationsFound?.([]);
+    }
+  }, [animations, onAnimationsFound]);
 
   const { centeredScene, cameraDist } = useMemo(() => {
     // Use SkeletonUtils to correctly clone skinned meshes, bones, and skeletons
@@ -75,6 +87,43 @@ function ModelContainer({ url }: ModelMeshProps) {
 
     return { centeredScene: group, cameraDist: dist };
   }, [scene, viewportSize.width, viewportSize.height]);
+
+  // Three.js Animation Mixer setup
+  const mixer = useMemo(() => {
+    if (!centeredScene) return null;
+    return new THREE.AnimationMixer(centeredScene);
+  }, [centeredScene]);
+
+  // Handle active animation clip and playback state
+  useEffect(() => {
+    if (!mixer || !animations || animations.length === 0) return;
+
+    if (!selectedAnimation) {
+      mixer.stopAllAction();
+      return;
+    }
+
+    const clip = animations.find((a) => a.name === selectedAnimation) || animations[0];
+    if (!clip) return;
+
+    const action = mixer.clipAction(clip);
+    if (isPlaying) {
+      action.reset().fadeIn(0.25).play();
+    } else {
+      action.paused = true;
+    }
+
+    return () => {
+      action.fadeOut(0.25);
+    };
+  }, [mixer, animations, selectedAnimation, isPlaying]);
+
+  // Update mixer on every animation frame
+  useFrame((_, delta) => {
+    if (mixer && isPlaying) {
+      mixer.update(delta);
+    }
+  });
 
   useEffect(() => {
     if (camera && cameraDist) {
@@ -261,6 +310,18 @@ export default function Ultimate3DViewer() {
   const [is8thWallActive, setIs8thWallActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  // 3D Model Animations State
+  const [animationNames, setAnimationNames] = useState<string[]>([]);
+  const [selectedAnimation, setSelectedAnimation] = useState<string>('');
+  const [isPlayingAnimation, setIsPlayingAnimation] = useState(true);
+
+  const handleAnimationsFound = useCallback((names: string[]) => {
+    setAnimationNames(names);
+    if (names.length > 0) {
+      setSelectedAnimation((prev) => (prev && names.includes(prev) ? prev : names[0]));
+    }
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -694,9 +755,47 @@ return (
                     <hemisphereLight args={['#e9d5ff', '#1e1035', 0.8]} />
                     <Environment preset="city" environmentIntensity={0.6} />
 
-                    <ModelContainer url={glbUrl} />
+                    <ModelContainer 
+                      url={glbUrl} 
+                      selectedAnimation={selectedAnimation}
+                      isPlaying={isPlayingAnimation}
+                      onAnimationsFound={handleAnimationsFound}
+                    />
                   </Canvas>
                 </Suspense>
+
+                {/* Glassmorphic Animation Controller (Bottom-Right) */}
+                {animationNames.length > 0 && (
+                  <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-[#1c1236]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-purple-800/40 shadow-lg text-xs font-semibold text-purple-200 animate-in fade-in zoom-in-95 duration-300">
+                    <button
+                      onClick={() => setIsPlayingAnimation(!isPlayingAnimation)}
+                      className="p-1 hover:bg-purple-800/40 rounded-lg transition-colors text-purple-300 hover:text-white cursor-pointer"
+                      title={isPlayingAnimation ? 'Pause Animation' : 'Play Animation'}
+                    >
+                      {isPlayingAnimation ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+                    </button>
+
+                    <div className="h-3.5 w-px bg-purple-800/50" />
+
+                    <div className="flex items-center gap-1.5">
+                      <Film className="w-3.5 h-3.5 text-purple-400" />
+                      <select
+                        value={selectedAnimation}
+                        onChange={(e) => {
+                          setSelectedAnimation(e.target.value);
+                          setIsPlayingAnimation(true);
+                        }}
+                        className="bg-transparent border-none text-xs text-purple-200 font-medium focus:outline-none cursor-pointer pr-1"
+                      >
+                        {animationNames.map((name) => (
+                          <option key={name} value={name} className="bg-[#1c1236] text-purple-200">
+                            {name || 'Animation'}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

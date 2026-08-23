@@ -23080,7 +23080,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ai_disownframepoints",
-      "community": 187,
+      "community": 34,
       "norm_label": ".disownframepoints()"
     },
     {
@@ -23090,7 +23090,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ai_getframepoints",
-      "community": 187,
+      "community": 34,
       "norm_label": ".getframepoints()"
     },
     {
@@ -23260,7 +23260,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ai_disownxrdevicepose",
-      "community": 34,
+      "community": 195,
       "norm_label": ".disownxrdevicepose()"
     },
     {
@@ -23270,7 +23270,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_slam_ai_getxrdevicepose",
-      "community": 34,
+      "community": 195,
       "norm_label": ".getxrdevicepose()"
     },
     {
@@ -33580,7 +33580,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "xr_xr_zi_disownid",
-      "community": 53,
+      "community": 187,
       "norm_label": ".disownid()"
     },
     {
@@ -34090,7 +34090,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "xr_xr_ic_disownid",
-      "community": 53,
+      "community": 187,
       "norm_label": ".disownid()"
     },
     {
@@ -34100,7 +34100,7 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "xr_xr_ic_getid",
-      "community": 53,
+      "community": 187,
       "norm_label": ".getid()"
     },
     {
@@ -39587,7 +39587,7 @@
       "label": "ModelContainerProps",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L11",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "components_r3fviewer_modelcontainerprops",
       "community": 54,
@@ -39597,7 +39597,7 @@
       "label": "ModelContainer()",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L15",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "components_r3fviewer_modelcontainer",
       "community": 54,
@@ -39607,7 +39607,7 @@
       "label": "R3FViewerProps",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L79",
+      "source_location": "L130",
       "_origin": "ast",
       "id": "components_r3fviewer_r3fviewerprops",
       "community": 54,
@@ -39617,7 +39617,7 @@
       "label": "R3FViewer()",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L83",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "components_r3fviewer_r3fviewer",
       "community": 54,
@@ -39627,7 +39627,7 @@
       "label": "preloadModel()",
       "file_type": "code",
       "source_file": "src/components/R3FViewer.tsx",
-      "source_location": "L107",
+      "source_location": "L207",
       "_origin": "ast",
       "id": "components_r3fviewer_preloadmodel",
       "community": 54,
@@ -39667,7 +39667,7 @@
       "label": "ModelContainer()",
       "file_type": "code",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L45",
+      "source_location": "L48",
       "_origin": "ast",
       "id": "components_ultimate3dviewer_modelcontainer",
       "community": 54,
@@ -39677,7 +39677,7 @@
       "label": "ARUIOverlay()",
       "file_type": "code",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L110",
+      "source_location": "L159",
       "_origin": "ast",
       "id": "components_ultimate3dviewer_aruioverlay",
       "community": 54,
@@ -39687,7 +39687,7 @@
       "label": "Ultimate3DViewer()",
       "file_type": "code",
       "source_file": "src/components/Ultimate3DViewer.tsx",
-      "source_location": "L253",
+      "source_location": "L302",
       "_origin": "ast",
       "id": "components_ultimate3dviewer_ultimate3dviewer",
       "community": 54,
@@ -95401,5 +95401,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "76a1e30ebbb21a0cdde6340f72f81dad5585104f"
+  "built_at_commit": "b33b5d45a1893a8ff50a14cc31f14eaf9c4fc477"
 }

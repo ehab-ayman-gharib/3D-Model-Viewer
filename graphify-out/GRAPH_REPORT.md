@@ -1,16 +1,16 @@
 # Graph Report - 3D-Model-Viewer  (2026-08-24)
 
 ## Corpus Check
-- 34 files · ~57,140 words
+- 34 files · ~57,775 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 4038 nodes · 5365 edges · 236 communities (115 shown, 121 thin omitted)
+- 4038 nodes · 5365 edges · 237 communities (116 shown, 121 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `76a1e30e`
+- Built from commit: `b33b5d45`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -204,7 +204,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (236 total, 121 thin omitted)
+## Communities (237 total, 121 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.02

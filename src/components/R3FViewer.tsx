@@ -1,21 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import React, { Suspense, useMemo, useEffect, useRef } from 'react';
-import { Canvas, useThree } from '@react-three/fiber';
+import React, { Suspense, useMemo, useEffect, useRef, useState, useCallback } from 'react';
+import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
+import { Play, Pause, Film } from 'lucide-react';
 import * as THREE from 'three';
 import * as SkeletonUtils from 'three/examples/jsm/utils/SkeletonUtils.js';
 import ParticleLoader from './ParticleLoader';
 
 interface ModelContainerProps {
   url: string;
+  selectedAnimation: string;
+  isPlaying: boolean;
+  onAnimationsFound?: (names: string[]) => void;
 }
 
-function ModelContainer({ url }: ModelContainerProps) {
-  const { scene } = useGLTF(url);
+function ModelContainer({ url, selectedAnimation, isPlaying, onAnimationsFound }: ModelContainerProps) {
+  const { scene, animations } = useGLTF(url);
   const { camera, size: viewportSize } = useThree();
   const controlsRef = useRef<any>(null);
+
+  // Notify parent component of available animation clip names
+  useEffect(() => {
+    if (animations && animations.length > 0) {
+      onAnimationsFound?.(animations.map((a) => a.name));
+    } else {
+      onAnimationsFound?.([]);
+    }
+  }, [animations, onAnimationsFound]);
 
   const { centeredScene, cameraDist } = useMemo(() => {
     // Use SkeletonUtils to correctly clone skinned meshes, bones, and skeletons
@@ -46,6 +59,44 @@ function ModelContainer({ url }: ModelContainerProps) {
     return { centeredScene: group, cameraDist: dist };
   }, [scene, viewportSize.width, viewportSize.height]);
 
+  // Three.js Animation Mixer setup
+  const mixer = useMemo(() => {
+    if (!centeredScene) return null;
+    return new THREE.AnimationMixer(centeredScene);
+  }, [centeredScene]);
+
+  // Handle active animation clip and playback state
+  useEffect(() => {
+    if (!mixer || !animations || animations.length === 0) return;
+
+    if (!selectedAnimation) {
+      mixer.stopAllAction();
+      return;
+    }
+
+    const clip = animations.find((a) => a.name === selectedAnimation) || animations[0];
+    if (!clip) return;
+
+    const action = mixer.clipAction(clip);
+    if (isPlaying) {
+      action.reset().fadeIn(0.25).play();
+    } else {
+      action.paused = true;
+    }
+
+    return () => {
+      action.fadeOut(0.25);
+    };
+  }, [mixer, animations, selectedAnimation, isPlaying]);
+
+  // Update mixer on every animation frame
+  useFrame((_, delta) => {
+    if (mixer && isPlaying) {
+      mixer.update(delta);
+    }
+  });
+
+  // Adjust camera and sync OrbitControls
   useEffect(() => {
     if (camera && cameraDist) {
       camera.position.set(0, 0, cameraDist);
@@ -81,6 +132,17 @@ interface R3FViewerProps {
 }
 
 export default function R3FViewer({ url }: R3FViewerProps) {
+  const [animationNames, setAnimationNames] = useState<string[]>([]);
+  const [selectedAnimation, setSelectedAnimation] = useState<string>('');
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const handleAnimationsFound = useCallback((names: string[]) => {
+    setAnimationNames(names);
+    if (names.length > 0) {
+      setSelectedAnimation((prev) => (prev && names.includes(prev) ? prev : names[0]));
+    }
+  }, []);
+
   return (
     <div className="absolute inset-0 bg-gradient-to-br from-slate-950 to-slate-900/60 border border-slate-800/80 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
       <Suspense fallback={<ParticleLoader text="Loading 3D Model..." />}>
@@ -96,9 +158,47 @@ export default function R3FViewer({ url }: R3FViewerProps) {
           <hemisphereLight args={['#e9d5ff', '#1e1035', 0.8]} />
           <Environment preset="city" environmentIntensity={0.6} />
 
-          <ModelContainer url={url} />
+          <ModelContainer 
+            url={url} 
+            selectedAnimation={selectedAnimation}
+            isPlaying={isPlaying}
+            onAnimationsFound={handleAnimationsFound}
+          />
         </Canvas>
       </Suspense>
+
+      {/* Glassmorphic Animation Controller (Bottom-Right) */}
+      {animationNames.length > 0 && (
+        <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-[#1c1236]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-purple-800/40 shadow-lg text-xs font-semibold text-purple-200 animate-in fade-in zoom-in-95 duration-300">
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="p-1 hover:bg-purple-800/40 rounded-lg transition-colors text-purple-300 hover:text-white cursor-pointer"
+            title={isPlaying ? 'Pause Animation' : 'Play Animation'}
+          >
+            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+          </button>
+
+          <div className="h-3.5 w-px bg-purple-800/50" />
+
+          <div className="flex items-center gap-1.5">
+            <Film className="w-3.5 h-3.5 text-purple-400" />
+            <select
+              value={selectedAnimation}
+              onChange={(e) => {
+                setSelectedAnimation(e.target.value);
+                setIsPlaying(true);
+              }}
+              className="bg-transparent border-none text-xs text-purple-200 font-medium focus:outline-none cursor-pointer pr-1"
+            >
+              {animationNames.map((name) => (
+                <option key={name} value={name} className="bg-[#1c1236] text-purple-200">
+                  {name || 'Animation'}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

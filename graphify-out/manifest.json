@@ -75,13 +75,13 @@
     "semantic_hash": ""
   },
   "src/components/R3FViewer.tsx": {
-    "mtime": 1787523851.2218409,
-    "ast_hash": "7321a8a6cfedf84934c294b69ddc8deb",
+    "mtime": 1787524678.3551092,
+    "ast_hash": "d7e7910057ec9f64cf306785817d9cdb",
     "semantic_hash": ""
   },
   "src/components/Ultimate3DViewer.tsx": {
-    "mtime": 1787523883.6176913,
-    "ast_hash": "80449e9f27a40fb3b83e906547a52420",
+    "mtime": 1787524766.119192,
+    "ast_hash": "d5afc179e91f02b8017163731e7f0cd7",
     "semantic_hash": ""
   },
   "src/components/UploadSuccess.tsx": {
