@@ -1,7 +1,7 @@
-# Graph Report - 3D-Model-Viewer  (2026-08-18)
+# Graph Report - 3D-Model-Viewer  (2026-08-23)
 
 ## Corpus Check
-- 33 files · ~55,887 words
+- 33 files · ~56,022 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `0fddff11`
+- Built from commit: `6c60694b`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 

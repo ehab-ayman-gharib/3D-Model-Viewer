@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "next.config.ts": {
-    "mtime": 1784115380.860925,
-    "ast_hash": "4c26502feb176cb5460dc6476842b8b2",
+    "mtime": 1787517365.888898,
+    "ast_hash": "5bc1da994a24ab968f17f22436bb4dfc",
     "semantic_hash": ""
   },
   "open-next.config.ts": {
@@ -80,13 +80,13 @@
     "semantic_hash": ""
   },
   "src/components/Ultimate3DViewer.tsx": {
-    "mtime": 1787042391.2158792,
-    "ast_hash": "ebee9db829cc86fa949916f3c48bd82b",
+    "mtime": 1787518734.0648997,
+    "ast_hash": "e8a00ca47b85f70a6e44da5f6be74455",
     "semantic_hash": ""
   },
   "src/components/UploadSuccess.tsx": {
-    "mtime": 1787042385.821859,
-    "ast_hash": "b2bfd7ba52d2b0a408d1aedbc1ed2a5c",
+    "mtime": 1787517096.2346556,
+    "ast_hash": "00fd408af4021365aea9a594c55e91be",
     "semantic_hash": ""
   },
   "src/types.d.ts": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "docs/8thwall_webar_integration_guide.md": {
-    "mtime": 1787044647.9502783,
-    "ast_hash": "38c497bd5a7079bdae6cdd27bf71d6c8",
+    "mtime": 1787044835.9391704,
+    "ast_hash": "6603bbcdd1c21d8104025d905e91518f",
     "semantic_hash": ""
   }
 }

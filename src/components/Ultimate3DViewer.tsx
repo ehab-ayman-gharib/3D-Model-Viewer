@@ -234,6 +234,16 @@ export default function Ultimate3DViewer() {
   });
   const [is8thWallActive, setIs8thWallActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera || '';
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent) ||
+        (navigator.maxTouchPoints > 1 && /Macintosh/i.test(userAgent));
+      setIsMobile(isMobileDevice);
+    }
+  }, []);
   const [browserCompat] = useState(() => {
     if (typeof window !== 'undefined') {
       const compat = checkBrowserCompatibility();
@@ -645,8 +655,8 @@ return (
 
           {/* Main Container */}
           <div className="flex-1 flex flex-col lg:flex-row z-10 w-full h-full">
-            {/* Left Side: interactive 3D WebGL Canvas */}
-            <div className="flex-1 lg:w-3/5 p-4 lg:p-6 flex flex-col relative h-[60vh] lg:h-full">
+            {/* Interactive 3D WebGL Canvas (Full screen on desktop, top on mobile) */}
+            <div className={`flex-1 p-4 lg:p-6 flex flex-col relative ${isMobile ? 'h-[60vh] lg:h-full lg:w-3/5' : 'w-full h-full'}`}>
               <div className="flex-1 relative rounded-[2rem] overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex items-center justify-center">
                 <Suspense fallback={<ParticleLoader text="Loading 3D Scene..." />}>
                   <Canvas camera={{ position: [0, 0, 4.5], fov: 45 }} className="w-full h-full">
@@ -666,49 +676,51 @@ return (
               </div>
             </div>
 
-            {/* Right Side: View Info & AR Launch Buttons */}
-            <div className="lg:w-2/5 p-6 lg:p-10 flex flex-col justify-between bg-slate-950/60 backdrop-blur-xl border-t lg:border-t-0 lg:border-l border-slate-900 h-[40vh] lg:h-full overflow-y-auto">
-              {/* Header */}
-              <div className="space-y-2 mt-2">
-                <h1 className="text-3xl font-extrabold tracking-tight text-white">AR Model Viewer</h1>
-              </div>
-
-              {/* Action Center */}
-              <div className="space-y-6 my-8">
-                {/* Native OS App QuickLook / SceneViewer */}
-                <NativeARButtons glbUrl={glbUrl} title={`Model ${modelId}`} />
-
-                <div className="relative flex py-2 items-center">
-                  <div className="flex-grow border-t border-slate-800"></div>
-                  <span className="flex-shrink mx-4 text-[10px] font-semibold text-slate-600 uppercase tracking-widest">or</span>
-                  <div className="flex-grow border-t border-slate-800"></div>
+            {/* Right Side: View Info & AR Launch Buttons (Mobile only) */}
+            {isMobile && (
+              <div className="lg:w-2/5 p-6 lg:p-10 flex flex-col justify-between bg-slate-950/60 backdrop-blur-xl border-t lg:border-t-0 lg:border-l border-slate-900 h-[40vh] lg:h-full overflow-y-auto">
+                {/* Header */}
+                <div className="space-y-2 mt-2">
+                  <h1 className="text-3xl font-extrabold tracking-tight text-white">AR Model Viewer</h1>
                 </div>
 
-                {/* 8th Wall WebAR Launcher */}
-                <div className="space-y-3">
-                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-widest text-center">
-                    In-Browser WebAR
+                {/* Action Center */}
+                <div className="space-y-6 my-8">
+                  {/* Native OS App QuickLook / SceneViewer */}
+                  <NativeARButtons glbUrl={glbUrl} title={`Model ${modelId}`} />
+
+                  <div className="relative flex py-2 items-center">
+                    <div className="flex-grow border-t border-slate-800"></div>
+                    <span className="flex-shrink mx-4 text-[10px] font-semibold text-slate-600 uppercase tracking-widest">or</span>
+                    <div className="flex-grow border-t border-slate-800"></div>
                   </div>
-                  <button
-                    onClick={() => {
-                      // Request device motion permission on iOS synchronously with the user tap
-                      if (
-                        typeof window !== 'undefined' &&
-                        (window as any).DeviceMotionEvent &&
-                        typeof (window as any).DeviceMotionEvent.requestPermission === 'function'
-                      ) {
-                        (window as any).DeviceMotionEvent.requestPermission().catch(() => {});
-                      }
-                      setIs8thWallActive(true);
-                    }}
-                    className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm rounded-xl transition-all shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_25px_rgba(37,99,235,0.55)] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <Compass className="w-5 h-5" />
-                    Launch WebAR (8th Wall Engine)
-                  </button>
+
+                  {/* 8th Wall WebAR Launcher */}
+                  <div className="space-y-3">
+                    <div className="text-xs font-semibold text-slate-500 uppercase tracking-widest text-center">
+                      In-Browser WebAR
+                    </div>
+                    <button
+                      onClick={() => {
+                        // Request device motion permission on iOS synchronously with the user tap
+                        if (
+                          typeof window !== 'undefined' &&
+                          (window as any).DeviceMotionEvent &&
+                          typeof (window as any).DeviceMotionEvent.requestPermission === 'function'
+                        ) {
+                          (window as any).DeviceMotionEvent.requestPermission().catch(() => {});
+                        }
+                        setIs8thWallActive(true);
+                      }}
+                      className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm rounded-xl transition-all shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_25px_rgba(37,99,235,0.55)] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <Compass className="w-5 h-5" />
+                      Launch WebAR (8th Wall Engine)
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </main>
       )}

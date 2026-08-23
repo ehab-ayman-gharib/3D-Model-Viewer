@@ -57,7 +57,7 @@
       "label": "nextConfig",
       "file_type": "code",
       "source_file": "next.config.ts",
-      "source_location": "L6",
+      "source_location": "L8",
       "_origin": "ast",
       "id": "next_config_nextconfig",
       "community": 160,
@@ -7210,7 +7210,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_face_z_disownextraoutput",
-      "community": 45,
+      "community": 142,
       "norm_label": ".disownextraoutput()"
     },
     {
@@ -7220,7 +7220,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_face_z_getextraoutput",
-      "community": 45,
+      "community": 142,
       "norm_label": ".getextraoutput()"
     },
     {
@@ -8380,7 +8380,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_face_z_disownears",
-      "community": 129,
+      "community": 45,
       "norm_label": ".disownears()"
     },
     {
@@ -8390,7 +8390,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_face_z_getears",
-      "community": 129,
+      "community": 45,
       "norm_label": ".getears()"
     },
     {
@@ -8440,7 +8440,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_face_z_disownearsinfaceroi",
-      "community": 192,
+      "community": 129,
       "norm_label": ".disownearsinfaceroi()"
     },
     {
@@ -8450,7 +8450,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "xr_xr_face_z_getearsinfaceroi",
-      "community": 192,
+      "community": 129,
       "norm_label": ".getearsinfaceroi()"
     },
     {
@@ -40247,7 +40247,7 @@
       "label": "2. Dependencies & Build Configuration",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L36",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_2_dependencies_build_configuration",
       "community": 61,
@@ -40257,7 +40257,7 @@
       "label": "1. `package.json` Dependencies",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L38",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_1_package_json_dependencies",
       "community": 61,
@@ -40267,7 +40267,7 @@
       "label": "3. Preloading SLAM Chunks in Root Layout",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L67",
+      "source_location": "L75",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_3_preloading_slam_chunks_in_root_layout",
       "community": 61,
@@ -40277,7 +40277,7 @@
       "label": "4. Canvas & Device Compatibility",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L103",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_4_canvas_device_compatibility",
       "community": 61,
@@ -40287,7 +40287,7 @@
       "label": "Canvas Styling Rule",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L133",
+      "source_location": "L141",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_canvas_styling_rule",
       "community": 61,
@@ -40297,7 +40297,7 @@
       "label": "5. Full Implementation: SLAM & Dynamic GLB Loading from URL",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L145",
+      "source_location": "L153",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_5_full_implementation_slam_dynamic_glb_loading_from_url",
       "community": 61,
@@ -40307,7 +40307,7 @@
       "label": "6. Touch Gestures (Pinch-to-Scale, Twist-to-Rotate, 1-Finger Slide)",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L384",
+      "source_location": "L392",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_6_touch_gestures_pinch_to_scale_twist_to_rotate_1_finger_slide",
       "community": 61,
@@ -40317,7 +40317,7 @@
       "label": "7. Critical Gotchas & Best Practices",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L414",
+      "source_location": "L422",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_7_critical_gotchas_best_practices",
       "community": 61,
@@ -40327,7 +40327,7 @@
       "label": "8. Minimal Usage Examples",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L423",
+      "source_location": "L431",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_8_minimal_usage_examples",
       "community": 61,
@@ -40337,7 +40337,7 @@
       "label": "A. Minimal React Component Example (`SimpleARViewer.tsx`)",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L425",
+      "source_location": "L433",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_a_minimal_react_component_example_simplearviewer_tsx",
       "community": 61,
@@ -40347,7 +40347,7 @@
       "label": "B. Minimal Vanilla JavaScript / HTML Example",
       "file_type": "document",
       "source_file": "docs/8thwall_webar_integration_guide.md",
-      "source_location": "L584",
+      "source_location": "L592",
       "_origin": "ast",
       "id": "docs_8thwall_webar_integration_guide_b_minimal_vanilla_javascript_html_example",
       "community": 61,
@@ -95203,9 +95203,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide",
-      "target": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js"
     },
     {
       "relation": "contains",
@@ -95213,9 +95213,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "target": "docs_8thwall_webar_integration_guide_1_architecture_overview",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_1_architecture_overview"
     },
     {
       "relation": "contains",
@@ -95223,9 +95223,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L36",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "target": "docs_8thwall_webar_integration_guide_2_dependencies_build_configuration",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_2_dependencies_build_configuration"
     },
     {
       "relation": "contains",
@@ -95233,9 +95233,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L67",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "target": "docs_8thwall_webar_integration_guide_3_preloading_slam_chunks_in_root_layout",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_3_preloading_slam_chunks_in_root_layout"
     },
     {
       "relation": "contains",
@@ -95243,9 +95243,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L103",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "target": "docs_8thwall_webar_integration_guide_4_canvas_device_compatibility",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_4_canvas_device_compatibility"
     },
     {
       "relation": "contains",
@@ -95253,9 +95253,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L145",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "target": "docs_8thwall_webar_integration_guide_5_full_implementation_slam_dynamic_glb_loading_from_url",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_5_full_implementation_slam_dynamic_glb_loading_from_url"
     },
     {
       "relation": "contains",
@@ -95263,9 +95263,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L384",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "target": "docs_8thwall_webar_integration_guide_6_touch_gestures_pinch_to_scale_twist_to_rotate_1_finger_slide",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_6_touch_gestures_pinch_to_scale_twist_to_rotate_1_finger_slide"
     },
     {
       "relation": "contains",
@@ -95273,9 +95273,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L414",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "target": "docs_8thwall_webar_integration_guide_7_critical_gotchas_best_practices",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_7_critical_gotchas_best_practices"
     },
     {
       "relation": "contains",
@@ -95283,9 +95283,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L423",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_complete_developer_guide_integrating_8th_wall_webar_slam_with_three_js",
-      "target": "docs_8thwall_webar_integration_guide_8_minimal_usage_examples",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_8_minimal_usage_examples"
     },
     {
       "relation": "contains",
@@ -95293,9 +95293,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_2_dependencies_build_configuration",
-      "target": "docs_8thwall_webar_integration_guide_1_package_json_dependencies",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_1_package_json_dependencies"
     },
     {
       "relation": "contains",
@@ -95303,9 +95303,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L133",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_4_canvas_device_compatibility",
-      "target": "docs_8thwall_webar_integration_guide_canvas_styling_rule",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_canvas_styling_rule"
     },
     {
       "relation": "contains",
@@ -95313,9 +95313,9 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L425",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_8_minimal_usage_examples",
-      "target": "docs_8thwall_webar_integration_guide_a_minimal_react_component_example_simplearviewer_tsx",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_a_minimal_react_component_example_simplearviewer_tsx"
     },
     {
       "relation": "contains",
@@ -95323,11 +95323,11 @@
       "source_file": "docs/8thwall_webar_integration_guide.md",
       "source_location": "L584",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "docs_8thwall_webar_integration_guide_8_minimal_usage_examples",
-      "target": "docs_8thwall_webar_integration_guide_b_minimal_vanilla_javascript_html_example",
-      "confidence_score": 1.0
+      "target": "docs_8thwall_webar_integration_guide_b_minimal_vanilla_javascript_html_example"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "0fddff11370b1519be364b9c06a3c991a07c617f"
+  "built_at_commit": "6c60694bb627b27ceba58e85f3fbc8c40dfc86d1"
 }

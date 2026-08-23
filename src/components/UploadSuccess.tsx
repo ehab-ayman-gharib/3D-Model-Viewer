@@ -188,6 +188,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
     const [viewerUrl, setViewerUrl] = useState<string>('');
     const [is8thWallActive, setIs8thWallActive] = useState(false);
     const [arError, setArError] = useState<string | null>(null);
+    const [isMobile, setIsMobile] = useState(false);
 
     // Model Placement & Control States for SLAM
     const [placed, setPlaced] = useState(false);
@@ -226,6 +227,14 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
     };
 
     useEffect(() => {
+        // Detect mobile devices (iOS, Android, etc.)
+        if (typeof window !== 'undefined') {
+            const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera || '';
+            const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent) ||
+                (navigator.maxTouchPoints > 1 && /Macintosh/i.test(userAgent));
+            setIsMobile(isMobileDevice);
+        }
+
         // Use localFileUrl if available to load instantly from memory, otherwise fall back to R2 CDN
         const vUrl = `${window.location.origin}/viewer?modelID=${modelId}`;
         setModelUrl(localFileUrl || `/api/models/${modelId}.glb`);
@@ -560,7 +569,9 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
 
                             <h2 className="text-3xl font-extrabold text-white mb-3 text-center">Upload Complete!</h2>
                             <p className="text-purple-300/70 text-center mb-8 font-medium text-sm">
-                                Your 3D model is ready. Scan the QR code or launch AR directly below.
+                                {isMobile
+                                    ? "Your 3D model is ready. Scan the QR code or launch AR directly below."
+                                    : "Your 3D model is ready. Scan the QR code with your phone to view in AR."}
                             </p>
 
                             <div className="bg-white p-5 rounded-2xl mb-8 border border-purple-900/20 shadow-[0_0_30px_rgba(168,85,247,0.1)] transform hover:scale-105 transition-transform duration-300">
@@ -610,17 +621,22 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                 )}
 
                                 <div className="flex flex-col gap-3 pt-2">
-                                    {/* Native AR Launchers (Uses local RAM on iOS, fallbacks to Cloudflare R2 on Android) */}
-                                    <NativeARButtons glbUrl={`/api/models/${modelId}.glb`} localFileUrl={localFileUrl} title="Z-Plane WebAR" />
+                                    {/* AR Launchers (Mobile only - irrelevant on desktop) */}
+                                    {isMobile && (
+                                        <>
+                                            {/* Native AR Launchers (Uses local RAM on iOS, fallbacks to Cloudflare R2 on Android) */}
+                                            <NativeARButtons glbUrl={`/api/models/${modelId}.glb`} localFileUrl={localFileUrl} title="Z-Plane WebAR" />
 
-                                    {/* Launch WebAR (8th Wall) directly on this page from local RAM! */}
-                                    <button
-                                        onClick={() => setIs8thWallActive(true)}
-                                        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white font-semibold py-3.5 rounded-xl transition-all active:scale-[0.98] border border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button shadow-lg cursor-pointer text-sm"
-                                    >
-                                        <Compass className="w-5 h-5 text-purple-200" />
-                                        Launch WebAR (8th Wall)
-                                    </button>
+                                            {/* Launch WebAR (8th Wall) directly on this page from local RAM! */}
+                                            <button
+                                                onClick={() => setIs8thWallActive(true)}
+                                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white font-semibold py-3.5 rounded-xl transition-all active:scale-[0.98] border border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button shadow-lg cursor-pointer text-sm"
+                                            >
+                                                <Compass className="w-5 h-5 text-purple-200" />
+                                                Launch WebAR (8th Wall)
+                                            </button>
+                                        </>
+                                    )}
 
                                     {/* Upload Another Model */}
                                     <button
