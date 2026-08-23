@@ -3,13 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #020408;
+  --foreground: #ffffff;
 }
 
 html,
@@ -20,8 +15,8 @@ body {
 
 body {
   color: var(--foreground);
-  background: transparent;
-  font-family: Arial, Helvetica, sans-serif;
+  background: #020408;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -37,26 +32,13 @@ a {
   text-decoration: none;
 }
 
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes border-glow {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(168, 85, 247, 0.45), 0 0 30px rgba(99, 102, 241, 0.25);
-    border-color: rgba(168, 85, 247, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 25px rgba(236, 72, 153, 0.65), 0 0 45px rgba(168, 85, 247, 0.45);
-    border-color: rgba(236, 72, 153, 0.7);
-  }
-}
-
+/* Hardware-accelerated GPU-friendly button styling */
 .animate-gradient-button {
   background-size: 200% auto;
-  animation: gradient-shift 3s ease infinite, border-glow 2.5s ease-in-out infinite;
+  transition: transform 0.2s ease, filter 0.2s ease, border-color 0.2s ease;
+  will-change: transform;
 }
 
-
+.animate-gradient-button:hover {
+  filter: brightness(1.1);
+}

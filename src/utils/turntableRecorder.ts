@@ -49,7 +49,7 @@ export async function exportTurntableVideo({
 
   // 3. Scene Setup
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0a0518); // Elegant deep purple-black background
+  scene.background = new THREE.Color(0x020408); // Studio deep obsidian black background
 
   // Lighting
   const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
@@ -59,15 +59,15 @@ export async function exportTurntableVideo({
   keyLight.position.set(5, 8, 5);
   scene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0xa5b4fc, 1.2);
+  const fillLight = new THREE.DirectionalLight(0x93c5fd, 1.2);
   fillLight.position.set(-5, 4, -4);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0xd8b4fe, 1.8);
+  const rimLight = new THREE.DirectionalLight(0xbfdbfe, 1.8);
   rimLight.position.set(0, 6, -6);
   scene.add(rimLight);
 
-  const hemiLight = new THREE.HemisphereLight(0xe9d5ff, 0x1e1035, 0.8);
+  const hemiLight = new THREE.HemisphereLight(0xffffff, 0x0a1128, 0.8);
   scene.add(hemiLight);
 
   // 4. Camera Setup

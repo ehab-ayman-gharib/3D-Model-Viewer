@@ -12,6 +12,37 @@ interface NativeARButtonsProps {
   title?: string;
 }
 
+// Memory cleanup utility to release mobile RAM and GPU after conversion
+function disposeHierarchy(obj: any) {
+  if (!obj) return;
+  obj.traverse((child: any) => {
+    if (child.isMesh) {
+      if (child.geometry) {
+        child.geometry.dispose();
+      }
+      if (child.material) {
+        if (Array.isArray(child.material)) {
+          child.material.forEach((mat: any) => {
+            disposeMaterial(mat);
+          });
+        } else {
+          disposeMaterial(child.material);
+        }
+      }
+    }
+  });
+}
+
+function disposeMaterial(mat: any) {
+  if (!mat) return;
+  Object.keys(mat).forEach((prop) => {
+    if (mat[prop] && typeof mat[prop].dispose === 'function') {
+      mat[prop].dispose();
+    }
+  });
+  mat.dispose();
+}
+
 export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: NativeARButtonsProps) {
   const [isConverting, setIsConverting] = useState(false);
   const [usdzBlobUrl, setUsdzBlobUrl] = useState<string | null>(null);
@@ -69,10 +100,17 @@ export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: Na
           });
         });
 
-        if (!active) return;
+        if (!active) {
+          disposeHierarchy(gltf.scene);
+          return;
+        }
 
         const exporter = new USDZExporter();
         const arrayBuffer = await exporter.parseAsync(gltf.scene);
+        
+        // Immediately release textures & mesh buffers from RAM/GPU memory
+        disposeHierarchy(gltf.scene);
+
         const blob = new Blob([arrayBuffer], { type: 'model/vnd.usdz+zip' });
         const blobUrl = URL.createObjectURL(blob);
 
@@ -92,7 +130,7 @@ export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: Na
       }
     };
 
-    const timer = setTimeout(preConvert, 500);
+    const timer = setTimeout(preConvert, 600);
     return () => {
       active = false;
       clearTimeout(timer);
@@ -121,6 +159,10 @@ export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: Na
 
       const exporter = new USDZExporter();
       const arrayBuffer = await exporter.parseAsync(gltf.scene);
+      
+      // Immediately release textures & mesh buffers from memory
+      disposeHierarchy(gltf.scene);
+
       const blob = new Blob([arrayBuffer], { type: 'model/vnd.usdz+zip' });
       const blobUrl = URL.createObjectURL(blob);
 
@@ -157,9 +199,9 @@ export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: Na
         /* Android Scene Viewer Button */
         <a
           href={androidLink}
-          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white border border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button font-semibold text-sm py-3.5 rounded-xl transition-all active:scale-[0.98] shadow-lg"
+          className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 text-white border border-blue-400/30 hover:-translate-y-0.5 animate-gradient-button font-semibold text-sm py-3.5 rounded-xl transition-all active:scale-[0.98] shadow-lg cursor-pointer"
         >
-          <Zap className="w-4 h-4 text-purple-200 animate-pulse" />
+          <Zap className="w-4 h-4 text-blue-200 animate-pulse" />
           <span>Launch Native AR (Scene Viewer)</span>
         </a>
       ) : (
@@ -170,15 +212,13 @@ export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: Na
           rel="ar"
           download={deviceOS === 'desktop' ? `${title.replace(/\s+/g, '_')}.usdz` : undefined}
           onClick={handleiOSClick}
-          className={`relative w-full flex items-center justify-center gap-2 font-semibold text-sm py-3.5 rounded-xl border transition-all active:scale-[0.98] ${
+          className={`relative w-full flex items-center justify-center gap-2 font-semibold text-sm py-3.5 rounded-xl border transition-all active:scale-[0.98] cursor-pointer ${
             isConverting
-              ? 'bg-[#180d2d]/40 border-purple-900/30 text-purple-500 cursor-not-allowed'
-              : 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button shadow-lg'
+              ? 'bg-[#0B132B] border-blue-900/40 text-blue-400 cursor-not-allowed'
+              : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 text-white border-blue-400/30 hover:-translate-y-0.5 animate-gradient-button shadow-lg'
           }`}
         >
-          {/* iOS Quick Look requires a visible <img> tag as the first child to trigger correctly. 
-              We make it cover the button but render with 0 opacity so Safari layout finds it,
-              while it remains completely invisible to the user. */}
+          {/* iOS Quick Look requires a visible <img> tag as the first child to trigger correctly. */}
           <img
             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E"
             alt="AR trigger"
@@ -195,12 +235,12 @@ export function NativeARButtons({ glbUrl, localFileUrl, title = '3D Model' }: Na
 
           {isConverting ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin text-purple-400" />
+              <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
               <span>Preparing USDZ Scene...</span>
             </>
           ) : (
             <>
-              <Zap className="w-4 h-4 text-purple-200 animate-pulse" />
+              <Zap className="w-4 h-4 text-blue-200 animate-pulse" />
               <span>
                 {deviceOS === 'desktop' 
                   ? 'Convert & Download USDZ (iOS AR)' 

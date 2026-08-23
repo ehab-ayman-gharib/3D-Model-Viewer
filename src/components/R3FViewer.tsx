@@ -144,18 +144,18 @@ export default function R3FViewer({ url }: R3FViewerProps) {
   }, []);
 
   return (
-    <div className="absolute inset-0 bg-gradient-to-br from-slate-950 to-slate-900/60 border border-slate-800/80 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
+    <div className="absolute inset-0 bg-gradient-to-br from-[#020408] to-[#0A1128]/80 border border-blue-900/30 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
       <Suspense fallback={<ParticleLoader text="Loading 3D Model..." />}>
         <Canvas 
           camera={{ position: [0, 0, 5], fov: 40 }} 
           style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
         >
-          {/* Studio Lighting Setup matching turntable quality */}
+          {/* Neutral / Ice-Blue Studio Lighting Setup */}
           <ambientLight intensity={1.2} />
           <directionalLight position={[5, 8, 5]} intensity={2.0} />
-          <directionalLight position={[-5, 4, -4]} intensity={1.0} color="#a5b4fc" />
-          <directionalLight position={[0, 6, -6]} intensity={1.5} color="#d8b4fe" />
-          <hemisphereLight args={['#e9d5ff', '#1e1035', 0.8]} />
+          <directionalLight position={[-5, 4, -4]} intensity={1.0} color="#93c5fd" />
+          <directionalLight position={[0, 6, -6]} intensity={1.5} color="#bfdbfe" />
+          <hemisphereLight args={['#ffffff', '#0a1128', 0.8]} />
           <Environment preset="city" environmentIntensity={0.6} />
 
           <ModelContainer 
@@ -169,29 +169,29 @@ export default function R3FViewer({ url }: R3FViewerProps) {
 
       {/* Glassmorphic Animation Controller (Bottom-Right) */}
       {animationNames.length > 0 && (
-        <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-[#1c1236]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-purple-800/40 shadow-lg text-xs font-semibold text-purple-200 animate-in fade-in zoom-in-95 duration-300">
+        <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-[#0A1128]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-blue-800/40 shadow-lg text-xs font-semibold text-blue-200 animate-in fade-in zoom-in-95 duration-300">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="p-1 hover:bg-purple-800/40 rounded-lg transition-colors text-purple-300 hover:text-white cursor-pointer"
+            className="p-1 hover:bg-blue-800/40 rounded-lg transition-colors text-blue-300 hover:text-white cursor-pointer"
             title={isPlaying ? 'Pause Animation' : 'Play Animation'}
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
           </button>
 
-          <div className="h-3.5 w-px bg-purple-800/50" />
+          <div className="h-3.5 w-px bg-blue-800/50" />
 
           <div className="flex items-center gap-1.5">
-            <Film className="w-3.5 h-3.5 text-purple-400" />
+            <Film className="w-3.5 h-3.5 text-blue-400" />
             <select
               value={selectedAnimation}
               onChange={(e) => {
                 setSelectedAnimation(e.target.value);
                 setIsPlaying(true);
               }}
-              className="bg-transparent border-none text-xs text-purple-200 font-medium focus:outline-none cursor-pointer pr-1"
+              className="bg-transparent border-none text-xs text-white font-medium focus:outline-none cursor-pointer pr-1"
             >
               {animationNames.map((name) => (
-                <option key={name} value={name} className="bg-[#1c1236] text-purple-200">
+                <option key={name} value={name} className="bg-[#0A1128] text-white">
                   {name || 'Animation'}
                 </option>
               ))}

@@ -100,7 +100,7 @@ function LoaderTextParticles({ text }: { text: string }) {
       pos.x += driftX;
       pos.y += driftY;
 
-      // Mouse interactive repulsion (repels particles when cursor is close)
+      // Mouse interactive repulsion
       vec3 target = vec3(uMouse.x * uViewportWidth * 0.5, uMouse.y * (uViewportWidth / 4.0), 0.0);
       float dist = distance(pos, target);
       if (dist < 1.8) {
@@ -125,7 +125,7 @@ function LoaderTextParticles({ text }: { text: string }) {
     varying vec3 vPosition;
 
     void main() {
-      // Circular particles with purple neon glow
+      // Circular particles with electric blue & white glow
       vec2 coord = gl_PointCoord - vec2(0.5);
       float dist = dot(coord, coord);
       if (dist > 0.25) {
@@ -133,11 +133,11 @@ function LoaderTextParticles({ text }: { text: string }) {
       }
       
       float alpha = smoothstep(0.25, 0.02, dist) * vAlpha;
-      vec3 color = vec3(0.62, 0.25, 0.98); // Neon purple
+      vec3 color = vec3(0.24, 0.55, 0.98); // Electric Ice Blue
       
-      // Central hot spot
+      // Central hot white core
       if (dist < 0.06) {
-        color = mix(color, vec3(1.0, 1.0, 1.0), 0.8);
+        color = mix(color, vec3(1.0, 1.0, 1.0), 0.85);
       }
       
       gl_FragColor = vec4(color, alpha * 0.95);
@@ -179,11 +179,11 @@ export default function ParticleLoader({ text = 'Uploading' }: ParticleLoaderPro
   const displayWord = text.split(' ')[0] || 'Uploading';
 
   return (
-    <div className="absolute inset-0 w-full h-full bg-[#070211] flex flex-col items-center justify-center z-50 animate-in fade-in duration-300">
-      {/* Deep Purple Glow Decor Elements in Background */}
+    <div className="absolute inset-0 w-full h-full bg-[#020408] flex flex-col items-center justify-center z-50 animate-in fade-in duration-300">
+      {/* Deep Navy Ambient Glow Decor Elements in Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-[#240A4B]/20 blur-[130px] mix-blend-screen" />
-        <div className="absolute bottom-[20%] right-[20%] w-[50%] h-[50%] rounded-full bg-[#6B1B8C]/10 blur-[130px] mix-blend-screen" />
+        <div className="absolute top-[20%] left-[20%] w-[50%] h-[50%] rounded-full bg-[#0A1128]/40 blur-[130px] mix-blend-screen" />
+        <div className="absolute bottom-[20%] right-[20%] w-[50%] h-[50%] rounded-full bg-[#131E3A]/30 blur-[130px] mix-blend-screen" />
       </div>
 
       <div className="w-full h-48 relative z-10">

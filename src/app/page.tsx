@@ -47,7 +47,6 @@ export default function Home() {
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     setIsHovering(false);
-
     const droppedFile = e.dataTransfer.files[0];
     if (droppedFile) {
       validateAndSetFile(droppedFile);
@@ -93,32 +92,40 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#070211] text-slate-100 font-sans flex flex-col items-center justify-center p-4 selection:bg-purple-500/30 overflow-hidden relative">
+    <main className="min-h-screen bg-[#020408] text-white font-sans flex flex-col items-center justify-center p-4 selection:bg-blue-600/30 overflow-hidden relative">
       {isUploading && <ParticleLoader text="Uploading" />}
-      {/* Deep Purple Glow Decor Elements */}
+      
+      {/* Deep Navy & Obsidian Ambient Glow Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[45%] h-[40%] rounded-full bg-[#240A4B]/20 blur-[130px] mix-blend-screen" />
-        <div className="absolute top-[30%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#6B1B8C]/10 blur-[130px] mix-blend-screen" />
-        <div className="absolute bottom-[-10%] left-[20%] w-[45%] h-[40%] rounded-full bg-[#0D0B34]/15 blur-[130px] mix-blend-screen" />
+        <div className="absolute top-[-15%] left-[-10%] w-[50%] h-[45%] rounded-full bg-[#0A1128]/40 blur-[140px] mix-blend-screen" />
+        <div className="absolute top-[30%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#131E3A]/30 blur-[140px] mix-blend-screen" />
+        <div className="absolute bottom-[-15%] left-[20%] w-[50%] h-[45%] rounded-full bg-[#0B132B]/35 blur-[140px] mix-blend-screen" />
       </div>
 
       <div className="z-10 flex flex-col items-center w-full max-w-5xl">
         <div className="mb-8 text-center relative w-full max-w-xl">
-          {/* Interactive Particle Morphing Title (Z-PLANE) */}
-          <ParticleText />
+          {/* Interactive Title (Z-PLANE) */}
+          <ParticleText onClick={() => {
+            if (localFileUrl) {
+              URL.revokeObjectURL(localFileUrl);
+            }
+            setSuccessModelId(null);
+            setLocalFileUrl(null);
+            setFile(null);
+          }} />
           
           {/* Feature Bubbles */}
-          <div className="flex flex-wrap gap-3 items-center justify-center -mt-2 animate-in fade-in slide-in-from-top-4 duration-550">
-            <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold border border-purple-500/20 bg-[#1a0b36]/60 backdrop-blur-md text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.03)] flex items-center gap-2 hover:border-purple-500/40 hover:bg-purple-900/30 transition-all cursor-default group">
-              <Box className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform" />
+          <div className="flex flex-wrap gap-3 items-center justify-center -mt-2 animate-in fade-in slide-in-from-top-4 duration-500">
+            <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold border border-blue-900/40 bg-[#0A1128]/70 backdrop-blur-md text-blue-200 shadow-[0_0_15px_rgba(30,58,138,0.15)] flex items-center gap-2 hover:border-blue-700/60 hover:bg-[#131E3A] transition-all cursor-default group">
+              <Box className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform" />
               View Model
             </span>
-            <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold border border-purple-500/20 bg-[#1a0b36]/60 backdrop-blur-md text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.03)] flex items-center gap-2 hover:border-purple-500/40 hover:bg-purple-900/30 transition-all cursor-default group">
-              <Smartphone className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform" />
+            <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold border border-blue-900/40 bg-[#0A1128]/70 backdrop-blur-md text-blue-200 shadow-[0_0_15px_rgba(30,58,138,0.15)] flex items-center gap-2 hover:border-blue-700/60 hover:bg-[#131E3A] transition-all cursor-default group">
+              <Smartphone className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform" />
               View in Native AR
             </span>
-            <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold border border-purple-500/20 bg-[#1a0b36]/60 backdrop-blur-md text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.03)] flex items-center gap-2 hover:border-purple-500/40 hover:bg-purple-900/30 transition-all cursor-default group">
-              <Globe className="w-3.5 h-3.5 text-purple-400 group-hover:scale-110 transition-transform" />
+            <span className="px-4 py-1.5 rounded-full text-xs md:text-sm font-semibold border border-blue-900/40 bg-[#0A1128]/70 backdrop-blur-md text-blue-200 shadow-[0_0_15px_rgba(30,58,138,0.15)] flex items-center gap-2 hover:border-blue-700/60 hover:bg-[#131E3A] transition-all cursor-default group">
+              <Globe className="w-3.5 h-3.5 text-blue-400 group-hover:scale-110 transition-transform" />
               View in WebAR
             </span>
           </div>
@@ -138,7 +145,7 @@ export default function Home() {
             }}
           />
         ) : (
-          <div className="w-full max-w-2xl bg-[#130B24]/40 backdrop-blur-xl border border-purple-900/30 rounded-[2rem] p-8 md:p-12 shadow-[0_0_50px_rgba(15,5,30,0.5)] transition-all">
+          <div className="w-full max-w-2xl bg-[#0A1128]/50 backdrop-blur-xl border border-blue-900/30 rounded-[2rem] p-8 md:p-12 shadow-[0_0_50px_rgba(2,6,23,0.7)] transition-all">
 
             <div
               onDragOver={handleDragOver}
@@ -147,10 +154,10 @@ export default function Home() {
               onClick={() => fileInputRef.current?.click()}
               className={`relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 ease-out flex flex-col items-center justify-center min-h-[300px] group
                 ${isHovering
-                  ? 'border-purple-500 bg-purple-950/20 shadow-[0_0_30px_rgba(168,85,247,0.15)]'
+                  ? 'border-blue-500 bg-[#131E3A]/40 shadow-[0_0_30px_rgba(59,130,246,0.2)]'
                   : file
-                    ? 'border-emerald-500/30 bg-emerald-950/10'
-                    : 'border-purple-900/20 bg-purple-950/10 hover:border-purple-500/30 hover:bg-purple-950/20'
+                    ? 'border-emerald-500/40 bg-emerald-950/20'
+                    : 'border-blue-900/30 bg-[#060D1F]/50 hover:border-blue-600/40 hover:bg-[#0B152E]/60'
                 }`}
             >
               <input
@@ -168,18 +175,18 @@ export default function Home() {
                   </div>
                   <p className="text-2xl font-bold text-white mb-2 tracking-tight">{file.name}</p>
                   <p className="text-sm text-slate-400 font-mono">{(file.size / (1024 * 1024)).toFixed(2)} MB</p>
-                  <p className="text-xs text-purple-400 mt-6 group-hover:underline font-bold uppercase tracking-wider">Click or drag to replace</p>
+                  <p className="text-xs text-blue-400 mt-6 group-hover:underline font-bold uppercase tracking-wider">Click or drag to replace</p>
                 </div>
               ) : (
                 <div className="flex flex-col items-center">
-                  <div className="w-20 h-20 rounded-full bg-purple-950 border border-purple-900/30 flex items-center justify-center mb-6 group-hover:scale-105 group-hover:border-purple-500/30 group-hover:shadow-[0_0_20px_rgba(168,85,247,0.1)] transition-all duration-300">
-                    <Upload className="w-10 h-10 text-purple-400" />
+                  <div className="w-20 h-20 rounded-full bg-[#0B132B] border border-blue-900/40 flex items-center justify-center mb-6 group-hover:scale-105 group-hover:border-blue-500/40 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.2)] transition-all duration-300">
+                    <Upload className="w-10 h-10 text-blue-400" />
                   </div>
-                  <p className="text-2xl font-bold text-slate-200 mb-3 tracking-tight">
-                    Drag & Drop your model
+                  <p className="text-2xl font-bold text-white mb-3 tracking-tight">
+                    Drag & Drop your 3D model
                   </p>
-                  <p className="text-sm text-slate-500 font-mono">
-                    We exclusively support <strong className="text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded border border-purple-900/40">.glb</strong> files
+                  <p className="text-sm text-slate-400 font-mono">
+                    We exclusively support <strong className="text-white bg-[#131E3A] px-2 py-0.5 rounded border border-blue-800/40">.glb</strong> files
                   </p>
                 </div>
               )}
@@ -196,10 +203,10 @@ export default function Home() {
               <button
                 onClick={handleUpload}
                 disabled={!file || isUploading}
-                className={`py-3.5 px-8 rounded-xl font-bold flex items-center gap-2 transition-all duration-300 border
+                className={`py-3.5 px-8 rounded-xl font-bold flex items-center gap-2 transition-all duration-300 border cursor-pointer
                   ${!file || isUploading
-                    ? 'bg-slate-800 text-slate-500 border-slate-700/50 cursor-not-allowed hidden'
-                    : 'bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button'
+                    ? 'bg-slate-900 text-slate-600 border-slate-800 cursor-not-allowed hidden'
+                    : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 hover:from-blue-500 hover:to-indigo-800 text-white border-blue-400/30 shadow-[0_0_20px_rgba(37,99,235,0.35)] hover:-translate-y-0.5 animate-gradient-button'
                   }`}
               >
                 Upload & Generate AR Link

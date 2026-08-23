@@ -733,26 +733,26 @@ return (
 
       {/* Standard Interactive View (OrbitControls + Native AR Links) */}
       {!is8thWallActive && (
-        <main className="absolute inset-0 w-screen h-screen bg-slate-950 text-white font-sans flex flex-col overflow-hidden z-10 pointer-events-auto">
+        <main className="absolute inset-0 w-screen h-screen bg-[#020408] text-white font-sans flex flex-col overflow-hidden z-10 pointer-events-auto">
           {/* Background Decor */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-            <div className="absolute top-[-10%] left-[-10%] w-[45%] h-[40%] rounded-full bg-blue-500/10 blur-[130px] mix-blend-screen" />
-            <div className="absolute bottom-[-10%] right-[10%] w-[45%] h-[40%] rounded-full bg-fuchsia-500/10 blur-[130px] mix-blend-screen" />
+            <div className="absolute top-[-10%] left-[-10%] w-[45%] h-[40%] rounded-full bg-[#0A1128]/40 blur-[130px] mix-blend-screen" />
+            <div className="absolute bottom-[-10%] right-[10%] w-[45%] h-[40%] rounded-full bg-[#131E3A]/30 blur-[130px] mix-blend-screen" />
           </div>
 
           {/* Main Container */}
           <div className="flex-1 flex flex-col lg:flex-row z-10 w-full h-full">
             {/* Interactive 3D WebGL Canvas (Full screen on desktop, top on mobile) */}
             <div className={`flex-1 p-4 lg:p-6 flex flex-col relative ${isMobile ? 'h-[60vh] lg:h-full lg:w-3/5' : 'w-full h-full'}`}>
-              <div className="flex-1 relative rounded-[2rem] overflow-hidden bg-slate-900 border border-slate-800 shadow-2xl flex items-center justify-center">
+              <div className="flex-1 relative rounded-[2rem] overflow-hidden bg-[#030712] border border-blue-900/30 shadow-2xl flex items-center justify-center">
                 <Suspense fallback={<ParticleLoader text="Loading 3D Scene..." />}>
                   <Canvas camera={{ position: [0, 0, 5], fov: 40 }} className="w-full h-full">
-                    {/* Studio Lighting Setup */}
+                    {/* Neutral / Ice-Blue Studio Lighting Setup */}
                     <ambientLight intensity={1.2} />
                     <directionalLight position={[5, 8, 5]} intensity={2.0} />
-                    <directionalLight position={[-5, 4, -4]} intensity={1.0} color="#a5b4fc" />
-                    <directionalLight position={[0, 6, -6]} intensity={1.5} color="#d8b4fe" />
-                    <hemisphereLight args={['#e9d5ff', '#1e1035', 0.8]} />
+                    <directionalLight position={[-5, 4, -4]} intensity={1.0} color="#93c5fd" />
+                    <directionalLight position={[0, 6, -6]} intensity={1.5} color="#bfdbfe" />
+                    <hemisphereLight args={['#ffffff', '#0a1128', 0.8]} />
                     <Environment preset="city" environmentIntensity={0.6} />
 
                     <ModelContainer 
@@ -766,29 +766,29 @@ return (
 
                 {/* Glassmorphic Animation Controller (Bottom-Right) */}
                 {animationNames.length > 0 && (
-                  <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-[#1c1236]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-purple-800/40 shadow-lg text-xs font-semibold text-purple-200 animate-in fade-in zoom-in-95 duration-300">
+                  <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 bg-[#0A1128]/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-blue-800/40 shadow-lg text-xs font-semibold text-blue-200 animate-in fade-in zoom-in-95 duration-300">
                     <button
                       onClick={() => setIsPlayingAnimation(!isPlayingAnimation)}
-                      className="p-1 hover:bg-purple-800/40 rounded-lg transition-colors text-purple-300 hover:text-white cursor-pointer"
+                      className="p-1 hover:bg-blue-800/40 rounded-lg transition-colors text-blue-300 hover:text-white cursor-pointer"
                       title={isPlayingAnimation ? 'Pause Animation' : 'Play Animation'}
                     >
                       {isPlayingAnimation ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
                     </button>
 
-                    <div className="h-3.5 w-px bg-purple-800/50" />
+                    <div className="h-3.5 w-px bg-blue-800/50" />
 
                     <div className="flex items-center gap-1.5">
-                      <Film className="w-3.5 h-3.5 text-purple-400" />
+                      <Film className="w-3.5 h-3.5 text-blue-400" />
                       <select
                         value={selectedAnimation}
                         onChange={(e) => {
                           setSelectedAnimation(e.target.value);
                           setIsPlayingAnimation(true);
                         }}
-                        className="bg-transparent border-none text-xs text-purple-200 font-medium focus:outline-none cursor-pointer pr-1"
+                        className="bg-transparent border-none text-xs text-white font-medium focus:outline-none cursor-pointer pr-1"
                       >
                         {animationNames.map((name) => (
-                          <option key={name} value={name} className="bg-[#1c1236] text-purple-200">
+                          <option key={name} value={name} className="bg-[#0A1128] text-white">
                             {name || 'Animation'}
                           </option>
                         ))}
@@ -801,7 +801,7 @@ return (
 
             {/* Right Side: View Info & AR Launch Buttons (Mobile only) */}
             {isMobile && (
-              <div className="lg:w-2/5 p-6 lg:p-10 flex flex-col justify-between bg-slate-950/60 backdrop-blur-xl border-t lg:border-t-0 lg:border-l border-slate-900 h-[40vh] lg:h-full overflow-y-auto">
+              <div className="lg:w-2/5 p-6 lg:p-10 flex flex-col justify-between bg-[#060D1F]/80 backdrop-blur-xl border-t lg:border-t-0 lg:border-l border-blue-950 h-[40vh] lg:h-full overflow-y-auto">
                 {/* Header */}
                 <div className="space-y-2 mt-2">
                   <h1 className="text-3xl font-extrabold tracking-tight text-white">AR Model Viewer</h1>

@@ -569,13 +569,13 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
 
             {/* Standard Success Screen (Unmount when AR active to release WebGL preview resources) */}
             {!is8thWallActive && (
-                <div className="w-full bg-[#130B24]/40 backdrop-blur-xl border border-purple-900/30 rounded-[2rem] shadow-[0_0_50px_rgba(15,5,30,0.5)] overflow-hidden animate-in fade-in zoom-in-95 duration-500">
+                <div className="w-full bg-[#0A1128]/50 backdrop-blur-xl border border-blue-900/30 rounded-[2rem] shadow-[0_0_50px_rgba(2,6,23,0.7)] overflow-hidden animate-in fade-in zoom-in-95 duration-500">
                     <div className="flex flex-col lg:flex-row">
 
                         {/* Left Side: 3D Model Viewer */}
-                        <div className="w-full lg:w-3/5 bg-[#0f071e]/50 border-b lg:border-b-0 lg:border-r border-purple-900/30 p-6 flex flex-col min-h-[400px] lg:min-h-[500px] relative group">
-                            <div className="absolute top-6 left-6 z-10 flex items-center gap-2 bg-[#1c1236]/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-purple-800/40 shadow-sm text-xs font-semibold text-purple-300">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <div className="w-full lg:w-3/5 bg-[#030712] border-b lg:border-b-0 lg:border-r border-blue-900/30 p-6 flex flex-col min-h-[400px] lg:min-h-[500px] relative group">
+                            <div className="absolute top-6 left-6 z-10 flex items-center gap-2 bg-[#0A1128]/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-blue-800/40 shadow-sm text-xs font-semibold text-blue-200">
+                                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                                 Live Preview
                             </div>
                             {modelUrl && (
@@ -586,24 +586,24 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                         </div>
 
                         {/* Right Side: Info & Actions */}
-                        <div className="w-full lg:w-2/5 p-8 lg:p-10 flex flex-col items-center justify-center bg-purple-950/10">
+                        <div className="w-full lg:w-2/5 p-8 lg:p-10 flex flex-col items-center justify-center bg-[#060D1F]/50">
                             <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6 shadow-sm border border-emerald-500/25">
                                 <CheckCircle2 className="w-8 h-8 text-emerald-400" />
                             </div>
 
-                            <h2 className="text-3xl font-extrabold text-white mb-3 text-center">Upload Complete!</h2>
-                            <p className="text-purple-300/70 text-center mb-8 font-medium text-sm">
+                            <h2 className="text-3xl font-extrabold text-white mb-3 text-center tracking-tight">Upload Complete!</h2>
+                            <p className="text-slate-300 text-center mb-8 font-medium text-sm">
                                 {isMobile
                                     ? "Your 3D model is ready. Scan the QR code or launch AR directly below."
                                     : "Your 3D model is ready. Scan the QR code with your phone to view in AR."}
                             </p>
 
-                            <div className="bg-white p-5 rounded-2xl mb-8 border border-purple-900/20 shadow-[0_0_30px_rgba(168,85,247,0.1)] transform hover:scale-105 transition-transform duration-300">
+                            <div className="bg-white p-5 rounded-2xl mb-8 border border-blue-900/20 shadow-[0_0_30px_rgba(59,130,246,0.1)] transform hover:scale-105 transition-transform duration-300">
                                 <QRCodeSVG
                                     value={viewerUrl || "https://dynamic-ar-viewer.app"}
                                     size={180}
                                     bgColor={"#ffffff"}
-                                    fgColor={"#070211"}
+                                    fgColor={"#020408"}
                                     level={"H"}
                                     includeMargin={false}
                                 />
@@ -616,12 +616,12 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                         type="text"
                                         readOnly
                                         value={viewerUrl}
-                                        className="w-full bg-purple-950/40 border border-purple-900/40 text-purple-200 rounded-xl py-3.5 pl-4 pr-24 text-sm font-medium focus:outline-none focus:border-purple-500 transition-all shadow-sm group-hover:border-purple-800"
+                                        className="w-full bg-[#0A1128]/80 border border-blue-900/40 text-blue-100 rounded-xl py-3.5 pl-4 pr-24 text-sm font-medium focus:outline-none focus:border-blue-500 transition-all shadow-sm group-hover:border-blue-700"
                                     />
                                     <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                                         <button
                                             onClick={handleCopy}
-                                            className="p-1.5 hover:bg-purple-900/40 rounded-lg transition-colors text-purple-400 hover:text-purple-200"
+                                            className="p-1.5 hover:bg-blue-900/40 rounded-lg transition-colors text-blue-400 hover:text-white"
                                             title="Copy to clipboard"
                                         >
                                             <Copy className="w-5 h-5" />
@@ -630,7 +630,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                             href={viewerUrl}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="p-1.5 hover:bg-purple-900/40 rounded-lg transition-colors text-purple-400 hover:text-purple-200"
+                                            className="p-1.5 hover:bg-blue-900/40 rounded-lg transition-colors text-blue-400 hover:text-white"
                                             title="Open Interactive Viewer"
                                         >
                                             <ExternalLink className="w-5 h-5" />
@@ -654,9 +654,9 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                             {/* Launch WebAR (8th Wall) directly on this page from local RAM! */}
                                             <button
                                                 onClick={() => setIs8thWallActive(true)}
-                                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 text-white font-semibold py-3.5 rounded-xl transition-all active:scale-[0.98] border border-purple-500/30 hover:-translate-y-0.5 animate-gradient-button shadow-lg cursor-pointer text-sm"
+                                                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-900 text-white font-semibold py-3.5 rounded-xl transition-all active:scale-[0.98] border border-blue-500/30 hover:-translate-y-0.5 animate-gradient-button shadow-lg cursor-pointer text-sm"
                                             >
-                                                <Compass className="w-5 h-5 text-purple-200" />
+                                                <Compass className="w-5 h-5 text-blue-200" />
                                                 Launch WebAR (8th Wall)
                                             </button>
                                         </>
@@ -668,18 +668,18 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                         disabled={isExportingTurntable}
                                         className={`w-full flex items-center justify-center gap-2 font-semibold py-3.5 rounded-xl transition-all active:scale-[0.98] border shadow-lg text-sm ${
                                             isExportingTurntable
-                                                ? 'bg-purple-950/60 border-purple-800/40 text-purple-300 cursor-wait'
-                                                : 'bg-gradient-to-r from-violet-600 via-purple-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white border-purple-400/30 hover:-translate-y-0.5 cursor-pointer shadow-[0_0_20px_rgba(168,85,247,0.25)]'
+                                                ? 'bg-[#0B132B] border-blue-800/40 text-blue-300 cursor-wait'
+                                                : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 hover:from-blue-500 hover:to-indigo-800 text-white border-blue-400/30 hover:-translate-y-0.5 cursor-pointer shadow-[0_0_20px_rgba(37,99,235,0.3)] animate-gradient-button'
                                         }`}
                                     >
                                         {isExportingTurntable ? (
                                             <>
-                                                <Loader2 className="w-4 h-4 animate-spin text-purple-300" />
+                                                <Loader2 className="w-4 h-4 animate-spin text-blue-300" />
                                                 <span>Rendering 360° Video ({turntableProgress}%)...</span>
                                             </>
                                         ) : (
                                             <>
-                                                <Video className="w-4 h-4 text-purple-200" />
+                                                <Video className="w-4 h-4 text-blue-200" />
                                                 <span>Download 360° Turntable Video</span>
                                             </>
                                         )}
@@ -688,7 +688,7 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                                     {/* Upload Another Model */}
                                     <button
                                         onClick={onReset}
-                                        className="w-full flex items-center justify-center gap-2 bg-purple-950/30 hover:bg-purple-900/20 border border-purple-900/40 text-purple-300 hover:text-purple-100 font-semibold py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.99] text-sm"
+                                        className="w-full flex items-center justify-center gap-2 bg-[#0A1128]/60 hover:bg-[#131E3A] border border-blue-900/40 text-slate-200 hover:text-white font-semibold py-3.5 rounded-xl transition-all shadow-sm hover:shadow-md active:scale-[0.99] text-sm cursor-pointer"
                                     >
                                         <RefreshCw className="w-4 h-4" />
                                         Upload Another Model
