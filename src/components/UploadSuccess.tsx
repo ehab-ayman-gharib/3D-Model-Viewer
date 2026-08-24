@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
-import { CheckCircle2, Copy, ExternalLink, RefreshCw, ArrowLeft, Camera, Compass, AlertTriangle, Loader2, Video } from 'lucide-react';
+import { CheckCircle2, Copy, ExternalLink, RefreshCw, ArrowLeft, Camera, Compass, AlertTriangle, Loader2, Video, Play, Pause, Film } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useState, useEffect, Suspense, useMemo, useRef } from 'react';
 import dynamic from 'next/dynamic';
@@ -21,17 +21,72 @@ interface UploadSuccessProps {
     onReset: () => void;
 }
 
+// Global memory cache for preloaded GLTF ArrayBuffers
+const modelBufferCache = new Map<string, ArrayBuffer>();
+
+export async function preloadModelBuffer(url: string): Promise<ArrayBuffer> {
+  const cached = modelBufferCache.get(url);
+  if (cached) return cached;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to load model: ${res.statusText}`);
+  const buffer = await res.arrayBuffer();
+  modelBufferCache.set(url, buffer);
+  return buffer;
+}
+
+// Procedural contact shadow for realistic floor grounding in WebAR
+function createContactShadow(): THREE.Mesh {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const context = canvas.getContext('2d');
+  if (context) {
+    const gradient = context.createRadialGradient(128, 128, 0, 128, 128, 128);
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.7)');
+    gradient.addColorStop(0.35, 'rgba(0, 0, 0, 0.45)');
+    gradient.addColorStop(0.7, 'rgba(0, 0, 0, 0.15)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 256, 256);
+  }
+
+  const shadowTexture = new THREE.CanvasTexture(canvas);
+  const shadowGeo = new THREE.PlaneGeometry(1.3, 1.3);
+  shadowGeo.rotateX(-Math.PI / 2);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    map: shadowTexture,
+    transparent: true,
+    opacity: 0.85,
+    depthWrite: false,
+  });
+  const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+  shadowMesh.position.y = 0.002;
+  return shadowMesh;
+}
+
 // Inner UI Overlay for 8th Wall that runs inside the EighthwallCanvas context
 function ARUIOverlay({
   onExit,
   placed,
   setPlaced,
-  startNativeAR
+  startNativeAR,
+  isModelReady = false,
+  arAnimations = [],
+  selectedArAnimation = '',
+  isArPlaying = true,
+  onSelectArAnimation,
+  onToggleArPlay,
 }: {
   onExit: () => void;
   placed: boolean;
   setPlaced: (p: boolean) => void;
   startNativeAR: () => Promise<void>;
+  isModelReady?: boolean;
+  arAnimations?: string[];
+  selectedArAnimation?: string;
+  isArPlaying?: boolean;
+  onSelectArAnimation?: (name: string) => void;
+  onToggleArPlay?: () => void;
 }) {
   const [hasStarted, setHasStarted] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
@@ -41,7 +96,6 @@ function ARUIOverlay({
     setIsStarting(true);
     setError(null);
     try {
-      // Request iOS Motion & Orientation permission (required for WebAR SLAM gyro tracking)
       if (
         typeof window !== 'undefined' &&
         (window as any).DeviceMotionEvent &&
@@ -67,27 +121,27 @@ function ARUIOverlay({
 
   if (!hasStarted) {
     return (
-      <div className="absolute inset-0 z-50 flex flex-col justify-between p-6 bg-slate-950/95 text-white select-none">
+      <div className="absolute inset-0 z-50 flex flex-col justify-between p-6 bg-[#020408]/95 text-white select-none">
         {/* Header */}
         <div className="flex items-center gap-3 text-left">
           <button
             onClick={onExit}
             className="p-2 hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
           >
-            <ArrowLeft className="w-5 h-5 text-purple-400" />
+            <ArrowLeft className="w-5 h-5 text-blue-400" />
           </button>
           <div>
-            <h1 className="text-sm font-bold uppercase tracking-wider">WebAR SLAM Viewer</h1>
+            <h1 className="text-sm font-bold uppercase tracking-wider text-white">WebAR SLAM Viewer</h1>
             <p className="text-[10px] text-slate-400">8th Wall World Tracking</p>
           </div>
         </div>
 
         {/* Center / Body */}
         <div className="flex-1 flex flex-col items-center justify-center text-center max-w-sm mx-auto space-y-4">
-          <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shadow-inner">
-            <Camera className="w-8 h-8 text-purple-400 animate-pulse" />
+          <div className="w-16 h-16 bg-blue-950/40 rounded-full flex items-center justify-center border border-blue-900/40 shadow-inner">
+            <Camera className="w-8 h-8 text-blue-400 animate-pulse" />
           </div>
-          <h2 className="text-xl font-extrabold tracking-tight">Camera Permission Required</h2>
+          <h2 className="text-xl font-extrabold tracking-tight text-white">Camera Permission Required</h2>
           <p className="text-sm text-slate-400 leading-relaxed">
             This AR experience uses 8th Wall SLAM to place the 3D model in your physical room. Please allow camera access when prompted.
           </p>
@@ -104,16 +158,16 @@ function ARUIOverlay({
           <button
             onClick={handleStart}
             disabled={isStarting}
-            className="w-full py-4 px-6 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-650 hover:from-purple-500 hover:to-indigo-600 disabled:bg-slate-800 disabled:text-slate-500 font-semibold text-sm rounded-2xl active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(168,85,247,0.3)] flex items-center justify-center gap-2"
+            className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 hover:from-blue-500 hover:to-indigo-800 disabled:bg-slate-900 disabled:text-slate-600 font-semibold text-sm rounded-2xl active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] flex items-center justify-center gap-2 cursor-pointer"
           >
             {isStarting ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin text-blue-300" />
                 <span>Starting Camera...</span>
               </>
             ) : (
               <>
-                <Compass className="w-4 h-4 text-purple-200" />
+                <Compass className="w-4 h-4 text-blue-200" />
                 <span>Start WebAR Session</span>
               </>
             )}
@@ -124,56 +178,100 @@ function ARUIOverlay({
   }
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-40 flex flex-col justify-between p-4 select-none">
-      {/* Top Bar */}
-      <div className="flex justify-between items-center pointer-events-auto">
-        <button
-          onClick={onExit}
-          className="flex items-center gap-2 px-4 py-2.5 bg-black/75 hover:bg-black/90 backdrop-blur-md rounded-xl text-white border border-white/10 text-xs font-semibold shadow transition-all cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Exit WebAR
-        </button>
-
-        {placed && (
+    <div className="absolute inset-0 pointer-events-none z-40 flex flex-col justify-between p-4 pb-28 md:p-6 select-none">
+      {/* Top Bar: Exit & Relocate + Animation Dropdown */}
+      <div className="flex flex-col gap-3 pointer-events-auto">
+        <div className="flex justify-between items-center w-full">
           <button
-            onClick={() => setPlaced(false)}
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-purple-600 hover:bg-purple-500 backdrop-blur-md rounded-xl text-white border border-purple-500/30 text-xs font-semibold shadow transition-all cursor-pointer"
+            onClick={onExit}
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#0A1128]/85 hover:bg-[#131E3A] backdrop-blur-md rounded-xl text-white border border-blue-800/40 text-xs font-semibold shadow-lg transition-all cursor-pointer"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            Relocate Model
+            <ArrowLeft className="w-4 h-4" />
+            Exit WebAR
           </button>
+
+          {placed && (
+            <button
+              onClick={() => setPlaced(false)}
+              className="flex items-center gap-1.5 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 backdrop-blur-md rounded-xl text-white border border-blue-400/30 text-xs font-semibold shadow-lg transition-all cursor-pointer"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              Relocate Model
+            </button>
+          )}
+        </div>
+
+        {/* Animation Dropdown on TOP when placed */}
+        {placed && arAnimations.length > 0 && (
+          <div className="self-center flex items-center gap-2 bg-[#0A1128]/90 backdrop-blur-md px-4 py-2 rounded-xl border border-blue-800/40 shadow-xl text-xs font-semibold text-blue-200 pointer-events-auto animate-in fade-in slide-in-from-top-3 duration-300">
+            <button
+              onClick={onToggleArPlay}
+              className="p-1 hover:bg-blue-800/40 rounded-lg transition-colors text-blue-300 hover:text-white cursor-pointer"
+              title={isArPlaying ? 'Pause Animation' : 'Play Animation'}
+            >
+              {isArPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            </button>
+
+            <div className="h-4 w-px bg-blue-800/50" />
+
+            <div className="flex items-center gap-1.5">
+              <Film className="w-4 h-4 text-blue-400" />
+              <select
+                value={selectedArAnimation}
+                onChange={(e) => onSelectArAnimation?.(e.target.value)}
+                className="bg-transparent border-none text-xs text-white font-medium focus:outline-none cursor-pointer pr-1 max-w-[160px] truncate"
+              >
+                {arAnimations.map((name) => (
+                  <option key={name} value={name} className="bg-[#0A1128] text-white">
+                    {name || 'Animation'}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         )}
       </div>
 
       {/* Surface Status */}
       {!placed && (
         <div className="w-full flex justify-center pb-6">
-          <div className="bg-black/75 text-white text-[11px] font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full border border-white/10 shadow-lg backdrop-blur-md flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-purple-500 animate-ping shrink-0" />
+          <div className="bg-[#0A1128]/85 text-white text-[11px] font-semibold tracking-wider uppercase px-5 py-2.5 rounded-full border border-blue-800/40 shadow-lg backdrop-blur-md flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shrink-0" />
             <span>Scanning Floor... Align reticle & tap Place Model</span>
           </div>
         </div>
       )}
 
-      {/* Controller (Glassmorphic) */}
-      <div className="w-full max-w-sm mx-auto pointer-events-auto bg-black/75 border border-white/10 rounded-2xl p-5 shadow-2xl backdrop-blur-md text-center">
+      {/* Controller (Glassmorphic - Positioned safely above mobile browser bar) */}
+      <div className="w-full max-w-sm mx-auto pointer-events-auto flex flex-col items-center text-center pb-6 sm:pb-2">
         {!placed ? (
-          <div className="space-y-3">
+          <div className="w-full bg-[#0A1128]/85 border border-blue-900/40 rounded-2xl p-5 shadow-2xl backdrop-blur-md text-center space-y-3">
             <p className="text-xs text-slate-300">
               Find a flat surface, align the target ring, and tap place.
             </p>
             <button
+              disabled={!isModelReady}
               onClick={() => setPlaced(true)}
-              className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-650 text-white font-bold text-sm rounded-xl active:scale-[0.98] transition-all shadow-[0_0_20px_rgba(168,85,247,0.35)] flex items-center justify-center gap-2 cursor-pointer"
+              className={`w-full py-4 font-bold text-sm rounded-xl active:scale-[0.98] transition-all flex items-center justify-center gap-2 ${
+                !isModelReady
+                  ? 'bg-slate-800/90 text-slate-400 border border-slate-700/50 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-900 text-white shadow-[0_0_20px_rgba(37,99,235,0.35)] cursor-pointer'
+              }`}
             >
-              📍 Place Model
+              {!isModelReady ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
+                  <span>Loading 3D Model...</span>
+                </>
+              ) : (
+                <span>📍 Place Model</span>
+              )}
             </button>
           </div>
         ) : (
-          <div className="space-y-1">
+          <div className="bg-[#0A1128]/85 border border-blue-900/40 rounded-full px-5 py-2.5 backdrop-blur-md shadow-lg flex flex-col items-center gap-1">
             <p className="text-xs font-semibold text-white">✨ Model Placed Successfully</p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[10px] text-slate-300">
               Drag left/right to rotate • Drag screen to slide position
             </p>
           </div>
@@ -190,6 +288,39 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
     const [is8thWallActive, setIs8thWallActive] = useState(false);
     const [arError, setArError] = useState<string | null>(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [isModelReady, setIsModelReady] = useState(false);
+
+    // 8th Wall AR Animation State & Refs
+    const [arAnimations, setArAnimations] = useState<string[]>([]);
+    const [selectedArAnimation, setSelectedArAnimation] = useState<string>('');
+    const [isArPlaying, setIsArPlaying] = useState<boolean>(true);
+    const isArPlayingRef = useRef<boolean>(true);
+    const arMixerRef = useRef<THREE.AnimationMixer | null>(null);
+    const arClipsRef = useRef<THREE.AnimationClip[]>([]);
+    const arClockRef = useRef<THREE.Clock>(new THREE.Clock());
+
+    const handleSelectArAnimation = (name: string) => {
+      setSelectedArAnimation(name);
+      if (arMixerRef.current && arClipsRef.current.length > 0) {
+        const clip = arClipsRef.current.find((a: any) => a.name === name);
+        if (clip) {
+          arMixerRef.current.stopAllAction();
+          const action = arMixerRef.current.clipAction(clip);
+          action.reset().fadeIn(0.2).play();
+          setIsArPlaying(true);
+          isArPlayingRef.current = true;
+        }
+      }
+    };
+
+    const handleToggleArPlay = () => {
+      const nextPlaying = !isArPlaying;
+      setIsArPlaying(nextPlaying);
+      isArPlayingRef.current = nextPlaying;
+      if (arMixerRef.current && nextPlaying) {
+        arClockRef.current.getDelta();
+      }
+    };
 
     // Model Placement & Control States for SLAM
     const [placed, setPlaced] = useState(false);
@@ -227,6 +358,34 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
       setTouchStart(null);
     };
 
+    // 8th Wall Native Object References
+    const reticleRef = useRef<THREE.Mesh | null>(null);
+    const wrapperRef = useRef<THREE.Group | null>(null);
+    const modelRef = useRef<THREE.Group | null>(null);
+
+    // Sync transforms
+    useEffect(() => {
+      const model = modelRef.current;
+      const wrapper = wrapperRef.current;
+      if (model) {
+        model.rotation.y = (rotation * Math.PI) / 180;
+        model.scale.setScalar(scaleMultiplier);
+      }
+      if (wrapper) {
+        wrapper.position.y = -1.0 + heightOffset;
+        wrapper.position.x = positionOffset[0];
+        wrapper.position.z = -2.5 + positionOffset[1];
+      }
+    }, [rotation, scaleMultiplier, heightOffset, positionOffset]);
+
+    // Hide/Show elements based on placement state
+    useEffect(() => {
+      const wrapper = wrapperRef.current;
+      const reticle = reticleRef.current;
+      if (wrapper) wrapper.visible = placed;
+      if (reticle) reticle.visible = !placed;
+    }, [placed]);
+
     useEffect(() => {
         // Detect mobile devices (iOS, Android, etc.)
         if (typeof window !== 'undefined') {
@@ -248,6 +407,17 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
             window.history.replaceState(null, '', '/');
         };
     }, [modelId, localFileUrl]);
+
+    // Eagerly preload GLTF ArrayBuffer into RAM as soon as modelUrl is established
+    useEffect(() => {
+      if (modelUrl) {
+        preloadModelBuffer(modelUrl).then(() => {
+          setIsModelReady(true);
+        }).catch((err) => {
+          console.warn('Preload model buffer error:', err);
+        });
+      }
+    }, [modelUrl]);
 
     const [isExportingTurntable, setIsExportingTurntable] = useState(false);
     const [turntableProgress, setTurntableProgress] = useState(0);
@@ -282,40 +452,12 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
         }
     };
 
-    const modelY = -1.0 + heightOffset;
-    const modelX = 0 + positionOffset[0];
-    const modelZ = -2.5 + positionOffset[1];
-
-    // --- NATIVE 8TH WALL SLAM INTEGRATION ---
-    const modelRef = useRef<THREE.Group | null>(null);
-    const wrapperRef = useRef<THREE.Group | null>(null);
-    const reticleRef = useRef<THREE.Mesh | null>(null);
-
-    // Sync React slider adjustments directly with the live Three.js scene instances
-    useEffect(() => {
-      const wrapper = wrapperRef.current;
-      if (wrapper) {
-        wrapper.rotation.y = (rotation * Math.PI) / 180;
-        wrapper.scale.setScalar(scaleMultiplier);
-        wrapper.position.set(positionOffset[0], -1.0 + heightOffset, -2.5 + positionOffset[1]);
-      }
-    }, [rotation, scaleMultiplier, heightOffset, positionOffset]);
-
-    // Hide/Show elements based on placement state
-    useEffect(() => {
-      const wrapper = wrapperRef.current;
-      const reticle = reticleRef.current;
-      if (wrapper) wrapper.visible = placed;
-      if (reticle) reticle.visible = !placed;
-    }, [placed]);
-
     const startNativeAR = async () => {
       return new Promise<void>((resolve, reject) => {
         if (typeof window === 'undefined') return reject('Window undefined');
 
         const onXrLoaded = () => {
           try {
-            // CRITICAL FIX: 8th Wall XR8.Threejs requires window.THREE to be globally defined
             (window as any).THREE = THREE;
             const XR8 = (window as any).XR8;
             const XRExtras = (window as any).XRExtras;
@@ -325,11 +467,10 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
 
             console.log('[8thwall-native] Configuring SLAM Modules...');
 
-            // Register camera pipeline modules exactly as the working template does
             const modules = [
-              XR8.GlTextureRenderer.pipelineModule(), // Camera feed renderer
-              XR8.Threejs.pipelineModule(),           // Natively created Three.js scene
-              XR8.XrController.pipelineModule(),      // Gyro/SLAM tracker
+              XR8.GlTextureRenderer.pipelineModule(),
+              XR8.Threejs.pipelineModule(),
+              XR8.XrController.pipelineModule(),
             ];
 
             if (LandingPage && LandingPage.pipelineModule) {
@@ -345,16 +486,13 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
               modules.push(XRExtras.RuntimeError.pipelineModule());
             }
 
-            // Add our custom scene initialization module (matches threejs-scene-init.js)
             modules.push({
               name: 'zplane-webar-init',
               onStart: ({ canvas }: { canvas: HTMLCanvasElement }) => {
                 const { scene, camera, renderer } = XR8.Threejs.xrScene();
 
-                // Enable shadows
                 renderer.shadowMap.enabled = true;
 
-                // Add lights
                 const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
                 scene.add(ambientLight);
 
@@ -363,39 +501,28 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                 dirLight.castShadow = true;
                 scene.add(dirLight);
 
-                // 1. Create Placement Reticle (ring)
                 const reticle = new THREE.Mesh(
                   new THREE.RingGeometry(0.3, 0.35, 32),
-                  new THREE.MeshBasicMaterial({ color: 0xa855f7, side: THREE.DoubleSide, transparent: true, opacity: 0.8 })
+                  new THREE.MeshBasicMaterial({ color: 0x3b82f6, side: THREE.DoubleSide, transparent: true, opacity: 0.8 })
                 );
                 reticle.rotation.x = -Math.PI / 2;
-                reticle.position.set(0, -1.0, -2.5); // Default spot in front of camera
+                reticle.position.set(0, -1.0, -2.5);
                 scene.add(reticle);
                 reticleRef.current = reticle;
 
-                // 2. Add a plane that can receive shadows
-                const planeGeometry = new THREE.PlaneGeometry(2000, 2000);
-                planeGeometry.rotateX(-Math.PI / 2);
-                const planeMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
-                const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-                plane.receiveShadow = true;
-                plane.position.y = -1.0;
-                scene.add(plane);
-
-                // 3. Create Wrapper group for placed model
                 const wrapper = new THREE.Group();
                 wrapper.name = 'model-wrapper';
                 wrapper.position.set(0, -1.0, -2.5);
                 wrapper.visible = false;
+                
+                wrapper.add(createContactShadow());
+                
                 scene.add(wrapper);
                 wrapperRef.current = wrapper;
 
-                // 4. Load Model
-                const loader = new GLTFLoader();
-                loader.load(modelUrl, (gltf) => {
+                const handleGltfLoaded = (gltf: any) => {
                   const model = gltf.scene;
 
-                  // Scale model to a normalized 1.0m bounding size
                   const box = new THREE.Box3().setFromObject(model);
                   const size = new THREE.Vector3();
                   box.getSize(size);
@@ -403,13 +530,24 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                   const scaleFactor = 1.0 / (maxDim || 1);
                   model.scale.setScalar(scaleFactor);
 
-                  // Ground model flat at y=0 inside its wrapper
                   const center = new THREE.Vector3();
                   box.getCenter(center);
                   model.position.set(-center.x * scaleFactor, -box.min.y * scaleFactor, -center.z * scaleFactor);
 
-                  model.traverse((child) => {
-                    if ((child as THREE.Mesh).isMesh) {
+                  if (gltf.animations && gltf.animations.length > 0) {
+                    arClipsRef.current = gltf.animations;
+                    const mixer = new THREE.AnimationMixer(model);
+                    arMixerRef.current = mixer;
+                    const names = gltf.animations.map((a: any) => a.name);
+                    setArAnimations(names);
+                    setSelectedArAnimation(names[0]);
+                    const clip = gltf.animations[0];
+                    const action = mixer.clipAction(clip);
+                    action.play();
+                  }
+
+                  model.traverse((child: any) => {
+                    if (child.isMesh) {
                       child.castShadow = true;
                       child.receiveShadow = true;
                     }
@@ -417,38 +555,54 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
 
                   wrapper.add(model);
                   modelRef.current = model;
-                  console.log('[8thwall-native] GLTF Loaded successfully.');
-                }, undefined, (err) => {
-                  console.error('[8thwall-native] GLTF Load failed:', err);
-                });
+                  setIsModelReady(true);
+                  console.log('[8thwall-native] GLTF Loaded, Grounded & Animated instantly.');
+                };
 
-                // Set the initial camera position relative to the scene
+                preloadModelBuffer(modelUrl)
+                  .then((buffer) => {
+                    const loader = new GLTFLoader();
+                    loader.parse(
+                      buffer,
+                      '',
+                      handleGltfLoaded,
+                      (err) => {
+                        console.warn('Buffer parse fallback to load:', err);
+                        loader.load(modelUrl, handleGltfLoaded);
+                      }
+                    );
+                  })
+                  .catch(() => {
+                    const loader = new GLTFLoader();
+                    loader.load(modelUrl, handleGltfLoaded);
+                  });
+
                 camera.position.set(0, 2, 2);
 
-                // Sync the xr controller's 6DoF position and camera paremeters with our scene
                 XR8.XrController.updateCameraProjectionMatrix({
                   origin: camera.position,
                   facing: camera.quaternion
                 });
 
-                // Prevent scroll/pinch gestures on canvas
                 canvas.addEventListener('touchmove', (event) => {
                   event.preventDefault();
                 }, { passive: false });
 
-                // Recenter content when the canvas is tapped
                 canvas.addEventListener('touchstart', (e) => {
                   if (e.touches.length === 1) XR8.XrController.recenter();
                 }, true);
 
                 resolve();
+              },
+              onUpdate: () => {
+                if (arMixerRef.current && isArPlayingRef.current) {
+                  const delta = arClockRef.current.getDelta();
+                  arMixerRef.current.update(delta);
+                }
               }
             });
 
-            // Initialize all modules at once
             XR8.addCameraPipelineModules(modules);
-
-            // Configure XrController to support world tracking
             XR8.XrController.configure({ disableWorldTracking: false });
 
             // Run XR session
@@ -563,6 +717,12 @@ export function UploadSuccess({ modelId, localFileUrl, onReset }: UploadSuccessP
                         placed={placed}
                         setPlaced={setPlaced}
                         startNativeAR={startNativeAR}
+                        isModelReady={isModelReady}
+                        arAnimations={arAnimations}
+                        selectedArAnimation={selectedArAnimation}
+                        isArPlaying={isArPlaying}
+                        onSelectArAnimation={handleSelectArAnimation}
+                        onToggleArPlay={handleToggleArPlay}
                     />
                 </div>
             )}

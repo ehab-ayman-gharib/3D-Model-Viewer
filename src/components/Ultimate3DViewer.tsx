@@ -155,17 +155,72 @@ function ModelContainer({ url, selectedAnimation, isPlaying, onAnimationsFound }
   );
 }
 
+// Global memory cache for preloaded GLTF ArrayBuffers
+const modelBufferCache = new Map<string, ArrayBuffer>();
+
+export async function preloadModelBuffer(url: string): Promise<ArrayBuffer> {
+  const cached = modelBufferCache.get(url);
+  if (cached) return cached;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to load model: ${res.statusText}`);
+  const buffer = await res.arrayBuffer();
+  modelBufferCache.set(url, buffer);
+  return buffer;
+}
+
+// Procedural contact shadow for realistic floor grounding in WebAR
+function createContactShadow(): THREE.Mesh {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const context = canvas.getContext('2d');
+  if (context) {
+    const gradient = context.createRadialGradient(128, 128, 0, 128, 128, 128);
+    gradient.addColorStop(0, 'rgba(0, 0, 0, 0.7)');
+    gradient.addColorStop(0.35, 'rgba(0, 0, 0, 0.45)');
+    gradient.addColorStop(0.7, 'rgba(0, 0, 0, 0.15)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, 256, 256);
+  }
+
+  const shadowTexture = new THREE.CanvasTexture(canvas);
+  const shadowGeo = new THREE.PlaneGeometry(1.3, 1.3);
+  shadowGeo.rotateX(-Math.PI / 2);
+  const shadowMat = new THREE.MeshBasicMaterial({
+    map: shadowTexture,
+    transparent: true,
+    opacity: 0.85,
+    depthWrite: false,
+  });
+  const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+  shadowMesh.position.y = 0.002;
+  return shadowMesh;
+}
+
 // Inner UI Overlay for 8th Wall that runs inside the EighthwallCanvas context
 function ARUIOverlay({
   onExit,
   placed,
   setPlaced,
-  startNativeAR
+  startNativeAR,
+  isModelReady = false,
+  arAnimations = [],
+  selectedArAnimation = '',
+  isArPlaying = true,
+  onSelectArAnimation,
+  onToggleArPlay,
 }: {
   onExit: () => void;
   placed: boolean;
   setPlaced: (p: boolean) => void;
   startNativeAR: () => Promise<void>;
+  isModelReady?: boolean;
+  arAnimations?: string[];
+  selectedArAnimation?: string;
+  isArPlaying?: boolean;
+  onSelectArAnimation?: (name: string) => void;
+  onToggleArPlay?: () => void;
 }) {
   const [hasStarted, setHasStarted] = useState(false);
   const [isStarting, setIsStarting] = useState(false);
@@ -175,10 +230,6 @@ function ARUIOverlay({
     setIsStarting(true);
     setError(null);
     try {
-      // Start AR immediately to preserve synchronous user gesture context in iOS Safari!
-      // If we await DeviceMotionEvent or anything else, iOS Safari blocks the camera request.
-      
-      // Request motion optionally in background if needed (8th Wall often auto-requests it now)
       if (
         typeof window !== 'undefined' &&
         (window as any).DeviceMotionEvent &&
@@ -214,7 +265,7 @@ function ARUIOverlay({
         <div className="flex items-center gap-3 pointer-events-auto">
           <button
             onClick={onExit}
-            className="p-3 bg-black/40 hover:bg-black/60 rounded-full backdrop-blur-md transition-colors cursor-pointer shadow-lg"
+            className="p-3 bg-black/60 hover:bg-black/80 rounded-full backdrop-blur-md transition-colors cursor-pointer shadow-lg border border-white/10"
           >
             <ArrowLeft className="w-5 h-5 text-white" />
           </button>
@@ -228,7 +279,7 @@ function ARUIOverlay({
               <p className="font-medium">{error}</p>
               <button
                 onClick={handleStart}
-                className="mt-2 px-6 py-2 bg-red-600 hover:bg-red-500 rounded-xl font-semibold transition-colors"
+                className="mt-2 px-6 py-2 bg-red-600 hover:bg-red-500 rounded-xl font-semibold transition-colors cursor-pointer"
               >
                 Retry
               </button>
@@ -240,25 +291,57 @@ function ARUIOverlay({
   }
 
   return (
-    <div className="absolute inset-0 pointer-events-none z-40 flex flex-col justify-between p-4 pb-32 md:p-6 select-none">
-      {/* Top Bar: Exit & Relocate */}
-      <div className="flex justify-between items-center pointer-events-auto">
-        <button
-          onClick={onExit}
-          className="flex items-center gap-2 px-4 py-2.5 bg-black/75 hover:bg-black/90 backdrop-blur-md rounded-xl text-white border border-white/10 text-xs font-semibold shadow transition-all cursor-pointer"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Exit WebAR
-        </button>
-
-        {placed && (
+    <div className="absolute inset-0 pointer-events-none z-40 flex flex-col justify-between p-4 pb-28 md:p-6 select-none">
+      {/* Top Bar: Exit & Relocate + Animation Dropdown */}
+      <div className="flex flex-col gap-3 pointer-events-auto">
+        <div className="flex justify-between items-center w-full">
           <button
-            onClick={() => setPlaced(false)}
-            className="flex items-center gap-1.5 px-4 py-2.5 bg-purple-600 hover:bg-purple-500 backdrop-blur-md rounded-xl text-white border border-purple-500/30 text-xs font-semibold shadow transition-all cursor-pointer"
+            onClick={onExit}
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#0A1128]/85 hover:bg-[#131E3A] backdrop-blur-md rounded-xl text-white border border-blue-800/40 text-xs font-semibold shadow-lg transition-all cursor-pointer"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
-            Relocate Model
+            <ArrowLeft className="w-4 h-4" />
+            Exit WebAR
           </button>
+
+          {placed && (
+            <button
+              onClick={() => setPlaced(false)}
+              className="flex items-center gap-1.5 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 backdrop-blur-md rounded-xl text-white border border-blue-400/30 text-xs font-semibold shadow-lg transition-all cursor-pointer"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              Relocate Model
+            </button>
+          )}
+        </div>
+
+        {/* Animation Dropdown on TOP when placed */}
+        {placed && arAnimations.length > 0 && (
+          <div className="self-center flex items-center gap-2 bg-[#0A1128]/90 backdrop-blur-md px-4 py-2 rounded-xl border border-blue-800/40 shadow-xl text-xs font-semibold text-blue-200 pointer-events-auto animate-in fade-in slide-in-from-top-3 duration-300">
+            <button
+              onClick={onToggleArPlay}
+              className="p-1 hover:bg-blue-800/40 rounded-lg transition-colors text-blue-300 hover:text-white cursor-pointer"
+              title={isArPlaying ? 'Pause Animation' : 'Play Animation'}
+            >
+              {isArPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            </button>
+
+            <div className="h-4 w-px bg-blue-800/50" />
+
+            <div className="flex items-center gap-1.5">
+              <Film className="w-4 h-4 text-blue-400" />
+              <select
+                value={selectedArAnimation}
+                onChange={(e) => onSelectArAnimation?.(e.target.value)}
+                className="bg-transparent border-none text-xs text-white font-medium focus:outline-none cursor-pointer pr-1 max-w-[160px] truncate"
+              >
+                {arAnimations.map((name) => (
+                  <option key={name} value={name} className="bg-[#0A1128] text-white">
+                    {name || 'Animation'}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         )}
       </div>
 
@@ -266,28 +349,40 @@ function ARUIOverlay({
       {!placed && (
         <div className="absolute top-20 left-0 w-full flex justify-center pointer-events-none z-0">
           <div className="text-white/90 text-[11px] font-bold tracking-widest uppercase flex items-center gap-2 drop-shadow-md">
-            <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse shrink-0 drop-shadow-md" />
+            <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse shrink-0 drop-shadow-md" />
             <span style={{ textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>Scanning Floor... Align reticle</span>
           </div>
         </div>
       )}
 
-      {/* Control Panel */}
-      <div className="w-full max-w-sm mx-auto pointer-events-auto flex flex-col items-center text-center">
+      {/* Bottom Controls Area (Positioned safely above mobile browser bar) */}
+      <div className="w-full max-w-sm mx-auto pointer-events-auto flex flex-col items-center text-center pb-6 sm:pb-2">
         {!placed ? (
           <div className="flex flex-col items-center gap-3">
             <p className="text-[11px] font-medium text-white/90 drop-shadow-md" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
               Find a flat surface, align the target ring, and tap place.
             </p>
             <button
+              disabled={!isModelReady}
               onClick={() => setPlaced(true)}
-              className="px-10 py-3.5 bg-white/95 hover:bg-white text-slate-900 font-bold text-[13px] rounded-full active:scale-[0.98] transition-all shadow-[0_4px_20px_rgba(0,0,0,0.4)] flex items-center justify-center gap-2 cursor-pointer backdrop-blur-md"
+              className={`px-10 py-3.5 font-bold text-[13px] rounded-full active:scale-[0.98] transition-all shadow-[0_4px_20px_rgba(0,0,0,0.4)] flex items-center justify-center gap-2 backdrop-blur-md ${
+                !isModelReady
+                  ? 'bg-slate-800/90 text-slate-400 border border-slate-700/50 cursor-not-allowed'
+                  : 'bg-white/95 hover:bg-white text-slate-900 cursor-pointer'
+              }`}
             >
-              📍 Place Model
+              {!isModelReady ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-blue-400" />
+                  <span>Loading 3D Model...</span>
+                </>
+              ) : (
+                <span>📍 Place Model</span>
+              )}
             </button>
           </div>
         ) : (
-          <div className="bg-black/60 border border-white/10 rounded-full px-5 py-2.5 backdrop-blur-md shadow-lg flex flex-col items-center gap-1">
+          <div className="bg-[#0A1128]/85 border border-blue-900/40 rounded-full px-5 py-2.5 backdrop-blur-md shadow-lg flex flex-col items-center gap-1">
             <p className="text-xs font-semibold text-white">✨ Model Placed</p>
             <p className="text-[10px] text-slate-300">
               1-Finger: Slide • 2-Finger: Pinch to Scale / Twist to Rotate
@@ -310,11 +405,44 @@ export default function Ultimate3DViewer() {
   const [is8thWallActive, setIs8thWallActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isModelReady, setIsModelReady] = useState(false);
 
-  // 3D Model Animations State
+  // Standard 3D Viewer Animation State
   const [animationNames, setAnimationNames] = useState<string[]>([]);
   const [selectedAnimation, setSelectedAnimation] = useState<string>('');
   const [isPlayingAnimation, setIsPlayingAnimation] = useState(true);
+
+  // 8th Wall AR Animation State & Refs
+  const [arAnimations, setArAnimations] = useState<string[]>([]);
+  const [selectedArAnimation, setSelectedArAnimation] = useState<string>('');
+  const [isArPlaying, setIsArPlaying] = useState<boolean>(true);
+  const isArPlayingRef = useRef<boolean>(true);
+  const arMixerRef = useRef<THREE.AnimationMixer | null>(null);
+  const arClipsRef = useRef<THREE.AnimationClip[]>([]);
+  const arClockRef = useRef<THREE.Clock>(new THREE.Clock());
+
+  const handleSelectArAnimation = (name: string) => {
+    setSelectedArAnimation(name);
+    if (arMixerRef.current && arClipsRef.current.length > 0) {
+      const clip = arClipsRef.current.find((a: any) => a.name === name);
+      if (clip) {
+        arMixerRef.current.stopAllAction();
+        const action = arMixerRef.current.clipAction(clip);
+        action.reset().fadeIn(0.2).play();
+        setIsArPlaying(true);
+        isArPlayingRef.current = true;
+      }
+    }
+  };
+
+  const handleToggleArPlay = () => {
+    const nextPlaying = !isArPlaying;
+    setIsArPlaying(nextPlaying);
+    isArPlayingRef.current = nextPlaying;
+    if (arMixerRef.current && nextPlaying) {
+      arClockRef.current.getDelta();
+    }
+  };
 
   const handleAnimationsFound = useCallback((names: string[]) => {
     setAnimationNames(names);
@@ -322,6 +450,22 @@ export default function Ultimate3DViewer() {
       setSelectedAnimation((prev) => (prev && names.includes(prev) ? prev : names[0]));
     }
   }, []);
+
+  const glbUrl = useMemo(() => {
+    if (!modelId) return '';
+    return `/api/models/${modelId}.glb`;
+  }, [modelId]);
+
+  // Eagerly preload GLTF ArrayBuffer into RAM as soon as the viewer mounts
+  useEffect(() => {
+    if (glbUrl) {
+      preloadModelBuffer(glbUrl).then(() => {
+        setIsModelReady(true);
+      }).catch((err) => {
+        console.warn('Preload model buffer error:', err);
+      });
+    }
+  }, [glbUrl]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -420,8 +564,6 @@ export default function Ultimate3DViewer() {
     setInitialPinchDist(null);
     setInitialTwistAngle(null);
   };
-
-  const glbUrl = `/api/models/${modelId}.glb`;
 
   // --- NATIVE 8TH WALL SLAM INTEGRATION ---
   const modelRef = useRef<THREE.Group | null>(null);
@@ -530,12 +672,15 @@ export default function Ultimate3DViewer() {
               wrapper.name = 'model-wrapper';
               wrapper.position.set(0, -1.0, -2.5);
               wrapper.visible = false;
+              
+              // Add procedural contact shadow underneath the placed model
+              wrapper.add(createContactShadow());
+              
               scene.add(wrapper);
               wrapperRef.current = wrapper;
 
-              // 3. Load Model using GLTFLoader natively
-              const loader = new GLTFLoader();
-              loader.load(glbUrl, (gltf) => {
+              // 3. Load Model instantly from memory buffer or GLTFLoader
+              const handleGltfLoaded = (gltf: any) => {
                 const model = gltf.scene;
 
                 // Scale model to a normalized 1.0m bounding size
@@ -551,12 +696,42 @@ export default function Ultimate3DViewer() {
                 box.getCenter(center);
                 model.position.set(-center.x * scaleFactor, -box.min.y * scaleFactor, -center.z * scaleFactor);
 
+                // Initialize 8th Wall Animation Mixer if animations exist
+                if (gltf.animations && gltf.animations.length > 0) {
+                  arClipsRef.current = gltf.animations;
+                  const mixer = new THREE.AnimationMixer(model);
+                  arMixerRef.current = mixer;
+                  const names = gltf.animations.map((a: any) => a.name);
+                  setArAnimations(names);
+                  setSelectedArAnimation(names[0]);
+                  const clip = gltf.animations[0];
+                  const action = mixer.clipAction(clip);
+                  action.play();
+                }
+
                 wrapper.add(model);
                 modelRef.current = model;
-                console.log('[8thwall-native] GLTF Loaded & Grounded successfully.');
-              }, undefined, (err) => {
-                console.error('[8thwall-native] GLTF Load failed:', err);
-              });
+                setIsModelReady(true);
+                console.log('[8thwall-native] GLTF Loaded, Grounded & Animated instantly.');
+              };
+
+              preloadModelBuffer(glbUrl)
+                .then((buffer) => {
+                  const loader = new GLTFLoader();
+                  loader.parse(
+                    buffer,
+                    '',
+                    handleGltfLoaded,
+                    (err) => {
+                      console.warn('Buffer parse fallback to load:', err);
+                      loader.load(glbUrl, handleGltfLoaded);
+                    }
+                  );
+                })
+                .catch(() => {
+                  const loader = new GLTFLoader();
+                  loader.load(glbUrl, handleGltfLoaded);
+                });
 
               // Recenter camera/projection Matrix
               camera.position.set(0, 2, 2);
@@ -574,6 +749,12 @@ export default function Ultimate3DViewer() {
             },
             onUpdate: () => {
               try {
+                // Update 8th Wall animation playback
+                if (arMixerRef.current && isArPlayingRef.current) {
+                  const delta = arClockRef.current.getDelta();
+                  arMixerRef.current.update(delta);
+                }
+
                 const reticle = reticleRef.current;
                 if (!reticle || !reticle.visible) return;
 
@@ -727,6 +908,12 @@ return (
             placed={placed}
             setPlaced={setPlaced}
             startNativeAR={startNativeAR}
+            isModelReady={isModelReady}
+            arAnimations={arAnimations}
+            selectedArAnimation={selectedArAnimation}
+            isArPlaying={isArPlaying}
+            onSelectArAnimation={handleSelectArAnimation}
+            onToggleArPlay={handleToggleArPlay}
           />
         </div>
       )}
